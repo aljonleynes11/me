@@ -1,0 +1,163 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url("https://fonts.googleapis.com/css?family=Lora");
+@import url("https://fonts.googleapis.com/css?family=Space+Mono");
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Roboto";
+  scroll-padding-top: 30px;
+  overflow: hidden;
+}
+
+.lora {
+  font-family: "Lora" !important;
+}
+
+.spaceMono {
+  font-family: "Space Mono" !important;
+}
+
+/* Create a container for the full-page layout */
+.scroll-snap-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+/* Style each section of the full-page layout */
+.section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  background-color: #131316;
+  color: #fff;
+  height: 100%; /* Each section takes up the full viewport height */
+  min-height: 100%; /* Ensure full viewport height on older browsers */
+}
+
+/* Customize section styles */
+/* .section:nth-child(odd) {
+   background-color: #131316f3
+} */
+
+/* Add some content to each section */
+.section-content {
+  text-align: center;
+  padding: 20px;
+}
+
+nav {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.p-30 {
+  padding: 30px 30px;
+}
+
+.px-30 {
+  padding: 30px 0px;
+}
+
+.py-30 {
+  padding: 0px 30px;
+}
+
+.bold {
+  font-weight: bold;
+}
+.bolder {
+  font-weight: bolder;
+}
+
+.text-secondary {
+  color: #f6e71d;
+}
+
+.text-align-start {
+  text-align: start;
+}
+
+.ml-15 {
+  margin-left: 15px;
+}
+
+.two-em {
+  font-size: 1em;
+}
+
+.header {
+  display: flex;
+  flex-direction: row; /* Change to row to align header and dp horizontally */
+  justify-content: flex-start; /* Align content to the left */
+  align-items: center; /* Vertically center content */
+}
+
+.dp {
+  flex: 1; /* Allow the dp to take up remaining space */
+  display: flex;
+  justify-content: flex-end; /* Align dp to the right */
+}
+.me {
+  margin-left: 10vw;
+  max-height: 500px;
+  border-radius: 50%;
+  box-shadow: rgba(246, 231, 29, 0.4) 5px 5px, rgba(246, 231, 29, 0.3) 10px 10px,
+    rgba(246, 231, 29, 0.2) 15px 15px, rgba(246, 231, 29, 0.1) 20px 20px,
+    rgba(246, 231, 29, 0.05) 25px 25px;
+}
+
+
+
+.button {
+  background-color: transparent;
+  border: 2px solid #f6e71d;
+  color: #f6e71d;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.5s;
+}
+
+.button:hover {
+  background-color: #f6e71d;
+  color: black;
+}
+
+.project {
+  border-radius: 50px;
+  height: 200px;
+  max-width: 500px;
+  transition: transform 5s;
+  margin: 30px 30px;
+  padding: 30px;
+}
+
+.img-shadow {
+  filter: drop-shadow(0 0 0.75rem #f6e71d);
+}
+@media only screen and (max-width: 600px) {
+  .dp {
+    display: none;
+  }
+  .project {
+    height: 100px;
+    width: 150px;
+    padding: 0px;
+    margin: 5px 10px;
+  }
+}
