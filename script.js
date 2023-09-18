@@ -48,7 +48,43 @@ function data() {
                 "path": "assets/images/projects/wheelcheck.png",
             },
         ],
- 
+        "techStack": [
+
+            {
+                "name": "Flutter",
+                "path": "assets/images/tech_stack/flutter.png",
+            },
+            {
+                "name": "Laravel",
+                "path": "assets/images/tech_stack/laravel.png",
+            },
+            {
+                "name": "VueJS",
+                "path": "assets/images/tech_stack/vuejs.png",
+            },
+            {
+                "name": "Firebase",
+                "path": "assets/images/tech_stack/firebase.png",
+            },
+            {
+                "name": "Linux",
+                "path": "assets/images/tech_stack/linux.jpg",
+            },
+            {
+                "name": "AWS",
+                "path": "assets/images/tech_stack/aws.png",
+            },
+            {
+                "name": "php",
+                "path": "assets/images/tech_stack/php.png",
+            },
+            {
+                "name": "livewire",
+                "path": "assets/images/tech_stack/livewire.png",
+            },
+            
+
+        ],
 
         clickEm() {
             window.location.href = "mailto:aljonleynes11@gmail.com?subject=Hi,%20Aljon&body=Let's%20connect.";

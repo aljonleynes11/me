@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto");
 @import url("https://fonts.googleapis.com/css?family=Lora");
 @import url("https://fonts.googleapis.com/css?family=Space+Mono");
+:root {
+  --mainColor: #f6e71d;
+}
+
 body,
 html {
   margin: 0;
@@ -53,12 +57,13 @@ html {
   scroll-snap-stop: always;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   font-size: 1.5em;
   background-color: #131316;
   color: #fff;
   height: 100%; /* Each section takes up the full viewport height */
   min-height: 100%;
+  
 }
 
 .section-content {
@@ -93,7 +98,7 @@ nav {
 }
 
 .text-secondary {
-  color: #f6e71d;
+  color: var(--mainColor);
 }
 
 .text-align-start {
@@ -153,28 +158,46 @@ nav {
   border-radius: 50px;
   height: 100px;
   max-width: 500px;
-  transition: transform 0.5s, filter 0.5s; 
+
+  transition: transform 0.2s, filter 0.4s;
   padding: 0px;
   /* border: solid 1px #f6e71d; */
- 
+
   filter: grayscale(100%);
 }
 
-.project:hover{
+.project:hover {
   transform: scale(1.1); /* Scale up on hover */
   filter: grayscale(0%);
 }
 
 .project-columns {
-  display: flex;
-  flex-wrap:wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 20px 50px; /* Adjust the gap between columns */
+  display: grid;
+  grid-template-areas: "left right";
 }
 
-.project-column {
+.tech-columns {
+  display: grid;
+ grid-template-areas: "auto auto auto auto";
+}
 
+.tech-column {
+  margin: 30px;
+}
+
+.tech {
+  border-radius: 50px;
+  height: 100px;
+  max-width: 500px;
+  transition: transform 0.2s, filter 0.4s;
+  padding: 0px;
+  filter: grayscale(100%);
+  object-fit: scale-down;
+}
+
+.tech:hover {
+  transform: scale(1.1); /* Scale up on hover */
+  filter: grayscale(0%);
 }
 
 .project-name {
@@ -192,13 +215,18 @@ nav {
     display: none;
   }
   .project {
-    height: 100px;
-    width: 150px;
+    height: 30px;
+    width: 50px;
     padding: 0px;
     margin: 5px 10px;
   }
-  .section {
-    height: 100% !important;
-    min-height: 100% !important;
+  .tech {
+    height: 50px;
+    width: 30px;
+    padding: 0px;
+    margin: 5px 10px;
+  }
+  .tech-column{
+    margin: 15px;
   }
 }

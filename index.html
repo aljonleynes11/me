@@ -17,13 +17,12 @@
     <div x-data="data()">
       <!-- <nav><h1 class="lora p-30" x-text="name"></h1></nav> -->
       <div class="scroll-snap-container">
-        <div class="section fade-in">
+        <div class="section fade-in section1">
           <div class="header">
             <div class="header-text slide-in-right">
               <div class="section-content text-align-start">
                 <h1>
                   <span class="wave" x-text="wave"></span>
-                  <span class="aboutme">About Me </span>
                 </h1>
                 <h4>
                   Hi, my name is
@@ -67,11 +66,10 @@
         <div class="section fade-in">
           <div class="section fade-in">
             <div class="section-content">
-              <h2 class="text-secondary lora">Projects</h2>
-              <br>    
+              <h5 class="text-secondary lora">Projects</h5>
               <div class="project-columns">
                 <template x-for="project in projects">
-                  <div class="project-column">
+                  <div class="p roject-column">
                     <img :src="project.path" class="project" alt="" srcset="" />
                     <!-- <h3 class="project-name spaceMono" x-text="project.name"></h3> -->
                   </div>
@@ -81,8 +79,21 @@
           </div>
         </div>
         <div class="section fade-in">
-          <div class="section-content">Section 3</div>
+          <div class="section fade-in">
+            <div class="section-content">
+              <h5 class="text-secondary lora">Tech Stack</h5>
+              <div class="tech-columns">
+                <template x-for="tech in techStack">
+                  <div class="tech-column">
+                    <img :src="tech.path" class="tech" alt="" srcset="" />
+                    <!-- <h3 class="project-name spaceMono" x-text="project.name"></h3> -->
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
         </div>
+
         <div class="section fade-in">
           <div class="section-content">Section 4</div>
         </div>
