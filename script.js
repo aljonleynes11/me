@@ -35,7 +35,7 @@ function data() {
         wave: "👋",
 
         clickEm() {
-            window.location.href = "mailto:aljonleynes11@gmail.com?subject=Hi,%20Aljon&body=Do%20you%20have%20a%20minute";
+            window.location.href = "mailto:aljonleynes11@gmail.com?subject=Hi,%20Aljon&body=Let's%20connect.";
         }
     }
 }

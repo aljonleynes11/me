@@ -57,8 +57,8 @@ html {
   font-size: 1.5em;
   background-color: #131316;
   color: #fff;
-  height: 100%; /* Each section takes up the full viewport height */
-  min-height: 100%; /* Ensure full viewport height on older browsers */
+  height: 80%; /* Each section takes up the full viewport height */
+  min-height: 80%; /* Ensure full viewport height on older browsers */
 }
 
 /* Customize section styles */
@@ -135,8 +135,6 @@ nav {
     rgba(246, 231, 29, 0.05) 25px 25px;
 }
 
-
-
 .button {
   background-color: transparent;
   border: 2px solid #f6e71d;
@@ -178,5 +176,9 @@ nav {
     width: 150px;
     padding: 0px;
     margin: 5px 10px;
+  }
+  .section {
+    height: 100% !important;
+    min-height: 100% !important;
   }
 }
