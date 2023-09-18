@@ -12,23 +12,23 @@ function data() {
         projects: [
             {
                 "name": "aiode",
-                "path": "/assets/images/projects/aiode.png",
+                "path": "assets/images/projects/aiode.png",
             },
             {
                 "name": "cloudmd",
-                "path": "/assets/images/projects/cloudmdlogo.png",
+                "path": "assets/images/projects/cloudmdlogo.png",
             },
             {
                 "name": "swamiji",
-                "path": "/assets/images/projects/swamiji.png",
+                "path": "assets/images/projects/swamiji.png",
             },
             {
                 "name": "wheelcheck",
-                "path": "/assets/images/projects/wheelcheck.png",
+                "path": "assets/images/projects/wheelcheck.png",
             },
             {
                 "name": "sigma",
-                "path": "/assets/images/projects/sigma.png",
+                "path": "assets/images/projects/sigma.png",
             },
           
         ],
