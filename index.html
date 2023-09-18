@@ -65,11 +65,19 @@
           </div>
         </div>
         <div class="section fade-in">
-          <div class="section-content">
-            <h1 class="text-secondary lora">Projects</h1>
-            <template x-for="project in projects">
-              <img :src="project.path" class="project" alt="" srcset="" />
-            </template>
+          <div class="section fade-in">
+            <div class="section-content">
+              <h2 class="text-secondary lora">Projects</h2>
+              <br>    
+              <div class="project-columns">
+                <template x-for="project in projects">
+                  <div class="project-column">
+                    <img :src="project.path" class="project" alt="" srcset="" />
+                    <!-- <h3 class="project-name spaceMono" x-text="project.name"></h3> -->
+                  </div>
+                </template>
+              </div>
+            </div>
           </div>
         </div>
         <div class="section fade-in">

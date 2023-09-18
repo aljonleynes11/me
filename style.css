@@ -57,16 +57,10 @@ html {
   font-size: 1.5em;
   background-color: #131316;
   color: #fff;
-  height: 80%; /* Each section takes up the full viewport height */
-  min-height: 80%; /* Ensure full viewport height on older browsers */
+  height: 100%; /* Each section takes up the full viewport height */
+  min-height: 100%;
 }
 
-/* Customize section styles */
-/* .section:nth-child(odd) {
-   background-color: #131316f3
-} */
-
-/* Add some content to each section */
 .section-content {
   text-align: center;
   padding: 20px;
@@ -157,11 +151,37 @@ nav {
 
 .project {
   border-radius: 50px;
-  height: 200px;
+  height: 100px;
   max-width: 500px;
-  transition: transform 5s;
-  margin: 30px 30px;
-  padding: 30px;
+  transition: transform 0.5s, filter 0.5s; 
+  padding: 0px;
+  /* border: solid 1px #f6e71d; */
+ 
+  filter: grayscale(100%);
+}
+
+.project:hover{
+  transform: scale(1.1); /* Scale up on hover */
+  filter: grayscale(0%);
+}
+
+.project-columns {
+  display: flex;
+  flex-wrap:wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px 50px; /* Adjust the gap between columns */
+}
+
+.project-column {
+
+}
+
+.project-name {
+  margin-top: 10px;
+  font-size: 1.2em;
+  color: #fff;
+  font-weight: bold;
 }
 
 .img-shadow {
