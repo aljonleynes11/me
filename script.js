@@ -1,4 +1,36 @@
 
+const element1 = document.querySelector('.section1');
+const element2 = document.querySelector('.section2');
+const element3 = document.querySelector('.section3');
+const els = [
+    element1, element2, element3,
+]
+
+function isElementInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+function checkElementVisibility() {
+    els.forEach((el) => {
+
+        if (isElementInViewport(el)) {
+            el.classList.add('visible'); // Add a class to trigger the fade-in animation
+        } else {
+            el.classList.remove('visible'); // Remove the class to hide the element
+        }
+    });
+}
+
+checkElementVisibility();
+
+const scrollContainer = document.querySelector('.scroll-snap-container'); // Replace with the appropriate scroll container selector
+scrollContainer.addEventListener('scroll', checkElementVisibility);
 
 
 function data() {
@@ -38,6 +70,10 @@ function data() {
             {
                 "name": "phreviewer",
                 "path": "assets/images/projects/phreviewer.png",
+            },
+            {
+                "name": "iwallet",
+                "path": "assets/images/projects/iwallet.png",
             },
             {
                 "name": "swamiji",
@@ -82,7 +118,28 @@ function data() {
                 "name": "livewire",
                 "path": "assets/images/tech_stack/livewire.png",
             },
-            
+            {
+                "name": "js",
+                "path": "assets/images/tech_stack/js.png",
+            },
+            {
+                "name": "html",
+                "path": "assets/images/tech_stack/html5.png",
+            },
+            {
+                "name": "css",
+                "path": "assets/images/tech_stack/css.webp",
+            },
+            {
+                "name": "bootstrap",
+                "path": "assets/images/tech_stack/bootstrap.jpg",
+            },
+            {
+                "name": "tailwind",
+                "path": "assets/images/tech_stack/tailwind.jpg",
+            },
+
+
 
         ],
 

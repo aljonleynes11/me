@@ -10,16 +10,16 @@
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
-    <script src="script.js"></script>
+    <script src="./node_modules/particles.js/particles.js"></script>
     <title>Aljon Leynes</title>
   </head>
   <body>
     <div x-data="data()">
       <!-- <nav><h1 class="lora p-30" x-text="name"></h1></nav> -->
       <div class="scroll-snap-container">
-        <div class="section fade-in section1">
-          <div class="header">
-            <div class="header-text slide-in-right">
+        <div class="section">
+          <div class="header section1">
+            <div class="header-text">
               <div class="section-content text-align-start">
                 <h1>
                   <span class="wave" x-text="wave"></span>
@@ -63,9 +63,9 @@
             </div>
           </div>
         </div>
-        <div class="section fade-in">
-          <div class="section fade-in">
-            <div class="section-content">
+        <div class="section">
+          <div class="section-content">
+            <div class="section2">
               <h5 class="text-secondary lora">Projects</h5>
               <div class="project-columns">
                 <template x-for="project in projects">
@@ -78,15 +78,15 @@
             </div>
           </div>
         </div>
-        <div class="section fade-in">
-          <div class="section fade-in">
-            <div class="section-content">
+        <div class="section">
+          <div class="section-content">
+            <div class="section3">
               <h5 class="text-secondary lora">Tech Stack</h5>
               <div class="tech-columns">
                 <template x-for="tech in techStack">
                   <div class="tech-column">
                     <img :src="tech.path" class="tech" alt="" srcset="" />
-                    <!-- <h3 class="project-name spaceMono" x-text="project.name"></h3> -->
+                    <!-- <h6 class="project-name text-secondary spaceMono" x-text="tech.name"></h6> -->
                   </div>
                 </template>
               </div>
@@ -94,13 +94,26 @@
           </div>
         </div>
 
-        <div class="section fade-in">
+        <!-- <div class="section fade-in">
           <div class="section-content">Section 4</div>
         </div>
         <div class="section fade-in">
           <div class="section-content">Section 5</div>
-        </div>
+        </div> -->
       </div>
     </div>
+    <div id="background-wrap">
+      <div class="bubble x1"></div>
+      <div class="bubble x2"></div>
+      <div class="bubble x3"></div>
+      <div class="bubble x4"></div>
+      <div class="bubble x5"></div>
+      <div class="bubble x6"></div>
+      <div class="bubble x7"></div>
+      <div class="bubble x8"></div>
+      <div class="bubble x9"></div>
+      <div class="bubble x10"></div>
+    </div>
+    <script src="script.js"></script>
   </body>
 </html>
