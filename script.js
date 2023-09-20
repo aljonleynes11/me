@@ -8,17 +8,18 @@ const els = [
 
 function isElementInViewport(element) {
     const rect = element.getBoundingClientRect();
+    const height = (window.innerHeight || document.documentElement.clientHeight);
+    const width = (window.innerWidth || document.documentElement.clientWidth);
     return (
         rect.top >= 0 &&
         rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        rect.bottom <= height &&
+        rect.right <= width
     );
 }
 
 function checkElementVisibility() {
     els.forEach((el) => {
-
         if (isElementInViewport(el)) {
             el.classList.add('visible'); // Add a class to trigger the fade-in animation
         } else {
@@ -32,12 +33,15 @@ checkElementVisibility();
 const scrollContainer = document.querySelector('.scroll-snap-container'); // Replace with the appropriate scroll container selector
 scrollContainer.addEventListener('scroll', checkElementVisibility);
 
+element1.addEventListener('mouseover', () => {
+    console.log('Mouse over .section1');
+});
 
 function data() {
     return {
         name: "Aljon Leynes",
         role: "Full Stack Mobile Developer",
-        wave: "👋",
+        wave: "",
         specialization: [
             "Flutter",
             "Laravel"
@@ -138,8 +142,20 @@ function data() {
                 "name": "tailwind",
                 "path": "assets/images/tech_stack/tailwind.jpg",
             },
-
-
+        ],
+        "socials": [
+            {
+                "name": "linkedin",
+                "path": "assets/images/socials/linkedin.png",
+            },
+            {
+                "name": "github",
+                "path": "assets/images/socials/github.jpg",
+            },
+            {
+                "name": "facebook",
+                "path": "assets/images/socials/facebook.png",
+            },
 
         ],
 

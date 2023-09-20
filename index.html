@@ -21,24 +21,25 @@
           <div class="header section1">
             <div class="header-text">
               <div class="section-content text-align-start">
-                <h1>
-                  <span class="wave" x-text="wave"></span>
+                <h1 class="wave">
+                  <span>👋</span>
                 </h1>
                 <h4>
                   Hi, my name is
                   <span
-                    class="bolder spaceMono text-secondary ml-15 two-em"
+                    class="bolder spaceMono text-secondary ml-7 two-em"
                     x-text="name"
                   ></span>
                 </h4>
                 <h4 class="">
                   a
                   <span
-                    class="spaceMono text-secondary ml-15 two-em"
+                    class="spaceMono text-secondary ml-7 two-em"
                     x-text="role"
                   ></span>
                 </h4>
 
+                
                 <h6>
                   I specialize in
                   <span
@@ -52,6 +53,14 @@
                   ></span>
                 </h6>
 
+                <div class="social-container">
+                  <template x-for="social in socials">
+                    <div class="project-column">
+                      <img :src="social.path" class="social" alt="" srcset="" />
+                    </div>
+                  </template>
+                </div>
+                
                 <button class="button spaceMono" @click="clickEm">
                   Contact Me
                 </button>
@@ -69,7 +78,7 @@
               <h5 class="text-secondary lora">Projects</h5>
               <div class="project-columns">
                 <template x-for="project in projects">
-                  <div class="p roject-column">
+                  <div class="project-column">
                     <img :src="project.path" class="project" alt="" srcset="" />
                     <!-- <h3 class="project-name spaceMono" x-text="project.name"></h3> -->
                   </div>
@@ -102,7 +111,6 @@
         </div> -->
       </div>
     </div>
-  
 
     <script src="script.js"></script>
   </body>
