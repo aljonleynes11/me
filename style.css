@@ -201,7 +201,7 @@ nav {
     rgba(246, 231, 29, 0.2) 6px 6px;
   border: solid 1px rgb(93, 92, 92);
   color: var(--mainColor);
-  font-family: "Press Start 2P" !important;
+  
 }
 
 .active {
@@ -210,6 +210,13 @@ nav {
   box-shadow: 2px 2px rgb(66, 66, 66), 4px 4px rgb(48, 48, 48),
     6px 6px rgb(0, 0, 0);
   border: solid 1px rgb(93, 92, 92);
+}
+
+.center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Press Start 2P" !important;
 }
 /* 
 
