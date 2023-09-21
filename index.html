@@ -15,100 +15,100 @@
   </head>
   <body>
     <div x-data="data()">
-      <!-- <nav><h1 class="lora p-30" x-text="name"></h1></nav> -->
       <div class="scroll-snap-container">
         <div class="section">
-          <div class="header section1">
-            <div class="header-text">
-              <div class="section-content text-align-start">
-                <h1 class="wave">
-                  <span>👋</span>
-                </h1>
+          <div class="bookmark">
+            <div
+              class="bookmark-item"
+              :class="{
+              'bookmark-item active': state === 'about',
+              'bookmark-item': state !== 'about'
+            }"
+            >
+              <span class="spaceMono" @click="setState('about')">About</span>
+            </div>
+            <div
+              class="bookmark-item"
+              :class="{
+              'bookmark-item active': state === 'project',
+              'bookmark-item': state !== 'project'
+            }"
+            >
+              <span class="spaceMono" @click="setState('project')">Projects</span>
+            </div>
+            <div
+            class="bookmark-item"
+            :class="{
+            'bookmark-item active': state === 'tech',
+            'bookmark-item': state !== 'tech'
+          }"
+          >
+              <span class="spaceMono" @click="setState('tech')">Tech</span>
+            </div>
+          </div>
+          <template x-if="state=='about'">
+            <div class="pageContainer">
+              <div class="section-content text-align-start slide-in-right">
+                <!-- <h1 class="wave">👋</h1> -->
                 <h4>
                   Hi, my name is
                   <span
-                    class="bolder spaceMono text-secondary ml-7 two-em"
+                    class="bolder spaceMono text-secondary ml-7"
                     x-text="name"
                   ></span>
                 </h4>
                 <h4 class="">
                   a
                   <span
-                    class="spaceMono text-secondary ml-7 two-em"
+                    class="spaceMono text-secondary ml-7"
                     x-text="role"
                   ></span>
                 </h4>
 
-                
                 <h6>
                   I specialize in
                   <span
-                    class="spaceMono text-secondary two-em"
+                    class="spaceMono text-secondary"
                     x-text="specialization[0]"
                   ></span>
                   and
                   <span
-                    class="spaceMono text-secondary two-em"
+                    class="spaceMono text-secondary"
                     x-text="specialization[1]"
                   ></span>
                 </h6>
 
                 <div class="social-container">
                   <template x-for="social in socials">
-                    <div class="project-column">
-                      <img :src="social.path" class="social" alt="" srcset="" />
-                    </div>
+                    <img :src="social.path" class="social" alt="" srcset="" />
                   </template>
                 </div>
-                
+
                 <button class="button spaceMono" @click="clickEm">
                   Contact Me
                 </button>
               </div>
-            </div>
-
-            <div class="dp slide-in-left">
-              <img src="assets/images/me.jpg" class="me" alt="" srcset="" />
-            </div>
-          </div>
-        </div>
-        <div class="section">
-          <div class="section-content">
-            <div class="section2">
-              <h5 class="text-secondary lora">Projects</h5>
-              <div class="project-columns">
-                <template x-for="project in projects">
-                  <div class="project-column">
-                    <img :src="project.path" class="project" alt="" srcset="" />
-                    <!-- <h3 class="project-name spaceMono" x-text="project.name"></h3> -->
-                  </div>
-                </template>
+              <div class="slide-in-left">
+                  <img src="assets/images/me.jpg" class="me" alt="" srcset="" />
               </div>
             </div>
-          </div>
-        </div>
-        <div class="section">
-          <div class="section-content">
-            <div class="section3">
-              <h5 class="text-secondary lora">Tech Stack</h5>
-              <div class="tech-columns">
-                <template x-for="tech in techStack">
-                  <div class="tech-column">
-                    <img :src="tech.path" class="tech" alt="" srcset="" />
-                    <!-- <h6 class="project-name text-secondary spaceMono" x-text="tech.name"></h6> -->
-                  </div>
-                </template>
-              </div>
-            </div>
-          </div>
-        </div>
+          </template>
 
-        <!-- <div class="section fade-in">
-          <div class="section-content">Section 4</div>
+          <template x-if="state=='project'">
+            <div class="pageContainer"></div>
+          </template>
+
+          <template x-if="state=='tech'">
+            <div class="pageContainer"></div>
+          </template>
+
+          <template x-if="state=='loading'">
+            <div class="pageContainer">
+              <h3 class="white">Loading</h3>
+            </div>
+          </template>
+
         </div>
-        <div class="section fade-in">
-          <div class="section-content">Section 5</div>
-        </div> -->
       </div>
     </div>
 
