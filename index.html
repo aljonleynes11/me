@@ -19,35 +19,38 @@
         <div class="section">
           <div class="bookmark">
             <div
-              class="bookmark-item"
+              class="bookmark-item fade-in"
               :class="{
-              'bookmark-item active': state === 'about',
-              'bookmark-item': state !== 'about'
+              'bookmark-item active fade-in': state === 'about',
+              'bookmark-item fade-in': state !== 'about'
             }"
+              @click="setState('about')"
             >
-              <span class="spaceMono" @click="setState('about')">About</span>
+              <span class="spaceMono">About</span>
             </div>
             <div
-              class="bookmark-item"
+              class="bookmark-item fade-in"
               :class="{
-              'bookmark-item active': state === 'project',
-              'bookmark-item': state !== 'project'
+              'bookmark-item active fade-in': state === 'project',
+              'bookmark-item fade-in': state !== 'project'
             }"
+              @click="setState('project')"
             >
-              <span class="spaceMono" @click="setState('project')">Projects</span>
+              <span class="spaceMono">Projects</span>
             </div>
             <div
-            class="bookmark-item"
-            :class="{
-            'bookmark-item active': state === 'tech',
-            'bookmark-item': state !== 'tech'
+              class="bookmark-item fade-in"
+              :class="{
+            'bookmark-item active fade-in': state === 'tech',
+            'bookmark-item fade-in': state !== 'tech'
           }"
-          >
-              <span class="spaceMono" @click="setState('tech')">Tech</span>
+              @click="setState('tech')"
+            >
+              <span class="spaceMono">Tech</span>
             </div>
           </div>
           <template x-if="state=='about'">
-            <div class="pageContainer">
+            <div class="pageContainer fade-in">
               <div class="section-content text-align-start slide-in-right">
                 <!-- <h1 class="wave">👋</h1> -->
                 <h4>
@@ -89,25 +92,50 @@
                 </button>
               </div>
               <div class="slide-in-left">
-                  <img src="assets/images/me.jpg" class="me" alt="" srcset="" />
+                <img src="assets/images/me.jpg" class="me" alt="" srcset="" />
               </div>
             </div>
           </template>
 
           <template x-if="state=='project'">
-            <div class="pageContainer"></div>
+            <div class="pageContainer fade-in x-around">
+              <div class="slide-in-right">
+                <h3 class="text-center">Mobile Apps</h3>
+                <div class="project">
+                  <template x-for="project in mobileProjects">
+                    <img :src="project.path" alt="" srcset="" />
+                  </template>
+                </div>
+              </div>
+              <div class="slide-in-left">
+                <h3 class="text-center">Web Apps</h3>
+                <div class="project">
+                  <template x-for="project in webProjects">
+                    <img
+                      :src="project.path"
+                      alt=""
+                      srcset=""
+                      style="object-fit: cover"
+                    />
+                  </template>
+                </div>
+              </div>
+            </div>
           </template>
 
           <template x-if="state=='tech'">
-            <div class="pageContainer"></div>
+            <div class="techContainer fade-in scale-in-center">
+              <template x-for="tech in techStack">
+                <img :src="tech.path" class="tech" />
+              </template>
+            </div>
           </template>
 
           <template x-if="state=='loading'">
             <div class="pageContainer center">
-              <h3 class="white">Loading . . </h3>
+              <h3 class="white">Loading . .</h3>
             </div>
           </template>
-
         </div>
       </div>
     </div>

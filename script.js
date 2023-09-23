@@ -9,7 +9,7 @@ function data() {
             "Flutter",
             "Laravel"
         ],
-        projects: [
+        mobileProjects: [
             {
                 "name": "aiode",
                 "path": "assets/images/projects/aiode.png",
@@ -17,14 +17,6 @@ function data() {
             {
                 "name": "cloudmd",
                 "path": "assets/images/projects/cloudmdlogo.png",
-            },
-            {
-                "name": "sigma",
-                "path": "assets/images/projects/sigma.png",
-            },
-            {
-                "name": "iamcare",
-                "path": "assets/images/projects/iamcare.png",
             },
             {
                 "name": "phreviewer",
@@ -38,9 +30,20 @@ function data() {
                 "name": "swamiji",
                 "path": "assets/images/projects/swamiji.png",
             },
+        ],
+        webProjects: [
+            {
+                "name": "sigma",
+                "path": "assets/images/projects/sigma.png",
+            },
+            {
+                "name": "iamcare",
+                "path": "assets/images/projects/iamcare.png",
+            },
             {
                 "name": "wheelcheck",
                 "path": "assets/images/projects/wheelcheck.png",
+                "class": "w-120",
             },
         ],
         techStack: [
@@ -48,54 +51,67 @@ function data() {
             {
                 "name": "Flutter",
                 "path": "assets/images/tech_stack/flutter.png",
+                "delay": '1s',
             },
             {
                 "name": "Laravel",
                 "path": "assets/images/tech_stack/laravel.png",
+                "delay": '1s',
             },
             {
                 "name": "VueJS",
                 "path": "assets/images/tech_stack/vuejs.png",
+                "delay": '1s',
             },
             {
                 "name": "Firebase",
                 "path": "assets/images/tech_stack/firebase.png",
+                "delay": '1s',
             },
             {
                 "name": "Linux",
                 "path": "assets/images/tech_stack/linux.jpg",
+                "delay": '1s',
             },
             {
                 "name": "AWS",
                 "path": "assets/images/tech_stack/aws.png",
+                "delay": '1s',
             },
             {
                 "name": "php",
                 "path": "assets/images/tech_stack/php.png",
+                "delay": '1s',
             },
             {
                 "name": "livewire",
                 "path": "assets/images/tech_stack/livewire.png",
+                "delay": '1s',
             },
             {
                 "name": "js",
                 "path": "assets/images/tech_stack/js.png",
+                "delay": '2s',
             },
             {
                 "name": "html",
                 "path": "assets/images/tech_stack/html5.png",
+                "delay": '3s',
             },
             {
                 "name": "css",
                 "path": "assets/images/tech_stack/css.webp",
+                "delay": '4s',
             },
             {
                 "name": "bootstrap",
                 "path": "assets/images/tech_stack/bootstrap.jpg",
+                "delay": '5s',
             },
             {
                 "name": "tailwind",
                 "path": "assets/images/tech_stack/tailwind.jpg",
+                "delay": '6s',
             },
         ],
         socials: [
@@ -116,11 +132,9 @@ function data() {
         clickEm() {
             window.location.href = "mailto:aljonleynes11@gmail.com?subject=Hi,%20Aljon&body=Let's%20connect.";
         },
-        setState(string) {
-            this.state = 'loading';
-            setTimeout(() => {
-                this.goState(string);
-            }, 500);
+        setState(string, el) {
+            this.goState(string);
+           
         },
         goState(string) {
             if (this.state != string) {
