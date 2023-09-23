@@ -43,7 +43,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-
+ 
   /* background-image: url('test.jpg'); */
 }
 
@@ -106,9 +106,6 @@ html {
 }
 .project{
   display: grid;
-  align-items: center;
-  justify-content: start;
-  
 }
 
 .w-600{
