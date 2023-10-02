@@ -328,6 +328,10 @@ nav {
   background-color: var(--cardBg) !important;
 }
 
+.works{
+  width: 900px;
+  height: 600px;
+}
 
 
 @media (hover: hover) {
@@ -396,6 +400,11 @@ nav {
   } 
   .pageContainer{
     min-width: 70vw;
+  }
+
+  .works{
+    height: 500px;
+    width: 350px;
   }
 
 }
