@@ -10,68 +10,21 @@
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
-
+    <script src="particles.min.js"></script>
+    <style>
+      /* Set the canvas to cover the entire screen */
+   
+    </style>
     <title>Aljon Leynes</title>
   </head>
   <body>
-    <div class="background">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+    <div id="particles-js"></div>
     <div x-data="data()">
       <div class="scroll-snap-container">
         <div class="section">
           <div class="bookmark">
             <div
-              class="bookmark-item fade-in"
+              class="bookmark-item"
               :class="{
               'bookmark-item active fade-in': state === 'about',
               'bookmark-item fade-in': state !== 'about'
@@ -137,13 +90,14 @@
 
                   <div class="social-container">
                     <template x-for="social in socials">
-                      <img :src="social.path" class="social" alt="" srcset="" />
+                      <img :src="social.path" class="social" alt="" srcset="" @click="clickSocials(social.link)" role="button"/>
                     </template>
                   </div>
 
                   <button class="button spaceMono" @click="clickEm">
                     Contact Me
                   </button>
+
                 </div>
                 <div class="slide-in-left">
                   <img src="assets/images/me.jpg" class="me" alt="" srcset="" />
@@ -196,5 +150,8 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+      
+    </script>
   </body>
 </html>
