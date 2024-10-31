@@ -1,157 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="assets/images/myico.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="animation.css" />
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script>
-    <script src="particles.min.js"></script>
-    <style>
-      /* Set the canvas to cover the entire screen */
-   
-    </style>
-    <title>Aljon Leynes</title>
-  </head>
-  <body>
-    <div id="particles-js"></div>
-    <div x-data="data()">
-      <div class="scroll-snap-container">
-        <div class="section">
-          <div class="bookmark">
-            <div
-              class="bookmark-item"
-              :class="{
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="assets/images/myico.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="animation.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="particles.min.js"></script>
+  <style>
+    /* Set the canvas to cover the entire screen */
+  </style>
+  <title>Aljon Leynes</title>
+</head>
+
+<body>
+  <div id="particles-js"></div>
+  <div x-data="data()">
+    <div class="scroll-snap-container">
+      <div class="section">
+        <div class="bookmark">
+          <div class="bookmark-item" :class="{
               'bookmark-item active fade-in': state === 'about',
               'bookmark-item fade-in': state !== 'about'
-            }"
-              @click="setState('about')"
-            >
-              <span class="spaceMono">About</span>
-            </div>
-            <div
-              class="bookmark-item fade-in"
-              :class="{
+            }" @click="setState('about')">
+            <span class="spaceMono">About</span>
+          </div>
+          <div class="bookmark-item fade-in" :class="{
               'bookmark-item active fade-in': state === 'project',
               'bookmark-item fade-in': state !== 'project'
-            }"
-              @click="setState('project')"
-            >
-              <span class="spaceMono">Projects</span>
-            </div>
-            <div
-              class="bookmark-item fade-in"
-              :class="{
+            }" @click="setState('project')">
+            <span class="spaceMono">Projects</span>
+          </div>
+          <div class="bookmark-item fade-in" :class="{
             'bookmark-item active fade-in': state === 'tech',
             'bookmark-item fade-in': state !== 'tech'
-          }"
-              @click="setState('tech')"
-            >
-              <span class="spaceMono">Tech</span>
+          }" @click="setState('tech')">
+            <span class="spaceMono">Tech</span>
+          </div>
+        </div>
+
+        <div class="works">
+          <template x-if="state=='about'">
+            <div class="pageContainer fade-in">
+              <div class="section-content text-align-start slide-in-right">
+                <!-- <h1 class="wave">👋</h1> -->
+                <h4>
+                  Hi, my name is
+                  <span class="bolder spaceMono text-secondary ml-7" x-text="name"></span>
+                </h4>
+                <h4 class="">
+                  a
+                  <span class="spaceMono text-secondary ml-7" x-text="role"></span>
+                </h4>
+
+                <h6>
+                  I specialize in
+                  <span class="spaceMono text-secondary" x-text="specialization[0]"></span>
+                  and
+                  <span class="spaceMono text-secondary" x-text="specialization[1]"></span>
+                </h6>
+
+                <div class="social-container">
+                  <template x-for="social in socials">
+                    <img :src="social.path" class="social" alt="" srcset="" @click="clickSocials(social.link)"
+                      role="button" />
+                  </template>
+                </div>
+
+                <button class="button spaceMono" @click="clickEm">
+                  Contact Me
+                </button>
+
+              </div>
+              <div class="slide-in-left">
+                <img src="assets/images/me.jpg" class="me" alt="" srcset="" />
+              </div>
             </div>
-          </div>
+          </template>
 
-          <div class="works">
-            <template x-if="state=='about'">
-              <div class="pageContainer fade-in">
-                <div class="section-content text-align-start slide-in-right">
-                  <!-- <h1 class="wave">👋</h1> -->
-                  <h4>
-                    Hi, my name is
-                    <span
-                      class="bolder spaceMono text-secondary ml-7"
-                      x-text="name"
-                    ></span>
-                  </h4>
-                  <h4 class="">
-                    a
-                    <span
-                      class="spaceMono text-secondary ml-7"
-                      x-text="role"
-                    ></span>
-                  </h4>
-
-                  <h6>
-                    I specialize in
-                    <span
-                      class="spaceMono text-secondary"
-                      x-text="specialization[0]"
-                    ></span>
-                    and
-                    <span
-                      class="spaceMono text-secondary"
-                      x-text="specialization[1]"
-                    ></span>
-                  </h6>
-
-                  <div class="social-container">
-                    <template x-for="social in socials">
-                      <img :src="social.path" class="social" alt="" srcset="" @click="clickSocials(social.link)" role="button"/>
-                    </template>
-                  </div>
-
-                  <button class="button spaceMono" @click="clickEm">
-                    Contact Me
-                  </button>
-
-                </div>
-                <div class="slide-in-left">
-                  <img src="assets/images/me.jpg" class="me" alt="" srcset="" />
+          <template x-if="state=='project'">
+            <div class="pageContainer fade-in x-around">
+              <div class="slide-in-right">
+                <h3 class="text-center">Mobile Apps</h3>
+                <div class="project">
+                  <template x-for="project in mobileProjects">
+                    <img :src="project.path" alt="" srcset="" />
+                  </template>
                 </div>
               </div>
-            </template>
-
-            <template x-if="state=='project'">
-              <div class="pageContainer fade-in x-around">
-                <div class="slide-in-right">
-                  <h3 class="text-center">Mobile Apps</h3>
-                  <div class="project">
-                    <template x-for="project in mobileProjects">
-                      <img :src="project.path" alt="" srcset="" />
-                    </template>
-                  </div>
-                </div>
-                <div class="slide-in-left">
-                  <h3 class="text-center">Web Apps</h3>
-                  <div class="project">
-                    <template x-for="project in webProjects">
-                      <img
-                        :src="project.path"
-                        alt=""
-                        srcset=""
-                        style="object-fit: cover"
-                      />
-                    </template>
-                  </div>
+              <div class="slide-in-left">
+                <h3 class="text-center">Web Apps</h3>
+                <div class="project">
+                  <template x-for="project in webProjects">
+                    <a :href="project.link" target="_blank">
+                      <img :src="project.path" alt="" srcset="" style="object-fit: cover" />
+                    </a>
+                  </template>
                 </div>
               </div>
-            </template>
+            </div>
+          </template>
 
-            <template x-if="state=='tech'">
-              <div class="techContainer fade-in scale-in-center">
-                <template x-for="tech in techStack">
-                  <img :src="tech.path" class="tech" />
-                </template>
-              </div>
-            </template>
+          <template x-if="state=='tech'">
+            <div class="techContainer fade-in scale-in-center">
+              <template x-for="tech in techStack">
+                <img :src="tech.path" class="tech" />
+              </template>
+            </div>
+          </template>
 
-            <template x-if="state=='loading'">
-              <div class="pageContainer center">
-                <h3 class="white">Loading . .</h3>
-              </div>
-            </template>
-          </div>
+          <template x-if="state=='loading'">
+            <div class="pageContainer center">
+              <h3 class="white">Loading . .</h3>
+            </div>
+          </template>
         </div>
       </div>
     </div>
+  </div>
 
-    <script src="script.js"></script>
-    <script>
-      
-    </script>
-  </body>
+  <script src="script.js"></script>
+  <script>
+
+  </script>
+</body>
+
 </html>

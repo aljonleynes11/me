@@ -99,7 +99,7 @@ html {
   grid-template-columns: auto auto auto auto;
   min-height: 400px;
   max-height: 500px;
-  min-width: 300px;
+  min-width: 150px;
   align-items: center;
   justify-content: center;
 

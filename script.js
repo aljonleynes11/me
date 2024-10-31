@@ -115,7 +115,7 @@ window.onload = function () {
 function data() {
     return {
         name: "Aljon Leynes",
-        role: "Full Stack Mobile Developer",
+        role: "Full Stack Web/Mobile Developer",
         state: "about",
         specialization: [
             "Flutter",
@@ -147,16 +147,25 @@ function data() {
             {
                 "name": "sigma",
                 "path": "assets/images/projects/sigma.png",
+                "link": "https://sigmasolutions.org.uk/",
             },
             {
                 "name": "iamcare",
                 "path": "assets/images/projects/iamcare.png",
+                "link": "https://iamcare.com.au/",
             },
             {
                 "name": "wheelcheck",
                 "path": "assets/images/projects/wheelcheck.png",
                 "class": "w-120",
+                "link": "https://wheelcheck.co.uk/",
             },
+            {
+                "name": "bukka",
+                "path": "assets/images/projects/bukkaservices.jpg",
+                "class": "w-120",
+                "link": "https://bukkaservices.com",
+            }
         ],
         techStack: [
 
@@ -244,7 +253,7 @@ function data() {
             },
 
         ],
-        clickSocials(uri){
+        clickSocials(uri) {
             window.open(uri, '_blank');
         },
         clickEm() {
