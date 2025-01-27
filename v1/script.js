@@ -167,6 +167,13 @@ function data() {
                 "link": "https://bukkaservices.com",
             }
         ],
+        aiProjects: [
+            {
+                "name": "sekkAI Bot",
+                "path": "assets/images/projects/sekkaiBot.jpg",
+                "link": "https://t.me/gamefi_sekai_bot",
+            },
+        ],
         techStack: [
 
             {
