@@ -120,6 +120,10 @@ body {
     /* Change link hover color to yellow for better contrast */
 }
 
+.business-card:hover body{
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
 
 
 .business-card img {
