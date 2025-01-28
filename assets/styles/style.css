@@ -328,48 +328,23 @@ body {
     max-height: 600px;
 }
 
-/* Adjust the projects section for mobile view */
+/* Adjust the project grid for mobile view */
 @media (max-width: 768px) {
-    .projects2 {
-        max-height: none;
-        /* Remove fixed height */
-        overflow-y: auto;
-        /* Add scroll if content overflows */
-        padding: 10px;
-        /* Add padding for better spacing */
-    }
-
     .project-grid {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-        /* Adjust column size */
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
         gap: 10px;
-        /* Increase gap for better spacing */
+        padding-bottom: 10px;
     }
 
     .project-item {
-        text-align: center;
-
-        /* Center align project items */
+        flex: 0 0 auto;
     }
 
     .project-image {
-        max-width: 64px;
-        /* Ensure images don't overflow */
-        height: 32px;
-        /* Maintain aspect ratio */
-    }
-}
-
-@media (max-width: 480px) {
-    .project-grid {
-        grid-template-columns: repeat(auto-fit, minmax(60px, 0.5fr));
-        gap: 2px;
-
-    }
-
-    .project-section h2 {
-        font-size: 14px;
-
+        max-width: 48px;
+        max-height: 48px;
     }
 }
 

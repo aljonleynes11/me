@@ -112,7 +112,7 @@
                     <h2>Mobile</h2>
                     <div class="project-grid">
                         <template x-for="project in mobileProjects" :key="project.name">
-                            <div class="project-item">
+                            <div >
                                 <img :src="project.path" :alt="project.name" class="project-image">
 
                             </div>
@@ -125,9 +125,9 @@
                     <h2>Web</h2>
                     <div class="project-grid">
                         <template x-for="project in webProjects" :key="project.name">
-                            <div class="project-item">
+                            <div >
                                 <a :href="project.link" target="_blank">
-                                    <img :src="project.path" :alt="project.name" class='project-image'>
+                                    <img :src="project.path" :alt="project.name" class="project-image">
 
                                 </a>
                             </div>
@@ -139,9 +139,9 @@
                     <h2>AI Automation </h2>
                     <div class="project-grid">
                         <template x-for="project in aiProjects" :key="project.name">
-                            <div class="project-item">
+                            <div >
                                 <a :href="project.link" target="_blank">
-                                    <img :src="project.path" :alt="project.name" class='project-image'>
+                                    <img :src="project.path" :alt="project.name" class="project-image">
 
                                 </a>
                             </div>
@@ -151,14 +151,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-      
-        // Add the event listeners to each nav item
-
-
-
-    </script>
 </body>
 
 </html>
