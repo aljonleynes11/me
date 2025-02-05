@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aljon Leynes</title>
-    <link rel="stylesheet" href="assets/styles/style.css">
+    <link rel="stylesheet" href="assets/styles/style.css" />
     <!-- Include Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <!-- Include Alpine.js -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-</head>
+    <script
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+      defer
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+  </head>
 
-<body>
+  <body>
     <!-- Alpine.js Data Scope -->
-    <div x-data="{
+    <div
+      x-data="{
         state: 'about',
         name: 'Aljon Leynes',
         jobTitle: 'Full Stack Developer',
         email: 'aljonleynes11@gmail.com',
         address: 'Sta Maria Bulacan Philippines',
-        phone: '(+63) 943 599 5248',
+        phone1: '+63 961 690 8206',
+        phone2: '+63 943 599 5248',
         aboutContent: 'I am a developer transitioning from full-stack to AI automation, focusing on creating intelligent and efficient solutions.',
         github: 'https://github.com/aljonleynes11',
         linkedin: 'https://www.linkedin.com/in/ajleynes11/',
@@ -51,106 +59,173 @@
         aiProjects : [
             { name: 'sekkAI', path: 'assets/images/projects/sekkai.jpg', link: 'https://t.me/gamefi_sekai_bot' },
         ]
-    }">
-        <div class="navbar">
-            <a href="#" id="nav" x-on:click="state = 'about'">Me</a>
-            <a href="#" id="nav" x-on:click="state = 'tech'">Tech Stack</a>
-            <a href="#" id="nav" x-on:click="state = 'projects'">Projects</a>
+    }"
+    >
+      <div class="navbar">
+        <a
+          href="#"
+          id="nav"
+          :class="state == 'about' ? 'active' : 'na'"
+          x-on:click="state = 'about'"
+          >Me</a
+        >
+        <a
+          href="#"
+          id="nav"
+          :class="state == 'tech' ? 'active' : 'na'"
+          x-on:click="state = 'tech'"
+          >Tech Stack</a
+        >
+        <a
+          href="#"
+          id="nav"
+          :class="state == 'projects' ? 'active' : 'na'"
+          x-on:click="state = 'projects'"
+          >Projects</a
+        >
+      </div>
+
+      <div class="business-card">
+        <img
+          src="assets/images/me.png"
+          class="flip-in-ver-right img"
+          alt="Aljon Leynes"
+          x-show="state=='about'"
+        />
+        <div class="details scale-in-center" x-show="state=='about'">
+          <h1 class="name" x-text="name"></h1>
+          <p x-text="jobTitle"></p>
+          <p><i x-text="aboutContent"></i></p>
+
+          <!-- Contact Info -->
+          <div class="contact-info">
+            <p>
+              <i class="fas fa-envelope icon"></i>
+              Email: <a :href="'mailto:' + email" x-text="email"></a>
+            </p>
+            <p>
+              <i class="fas fa-phone icon"></i>
+              Phone: <a :href="'tel:' + phone1" x-text="phone1"></a>
+              |
+              <a :href="'tel:' + phone2" x-text="phone2"></a>
+            </p>
+            <p>
+              <i class="fas fa-map-marker-alt icon"></i>
+              Address: <span x-text="address"></span>
+            </p>
+          </div>
+
+          <!-- Social Links -->
+          <div class="social-links">
+            <a :href="linkedin" target="_blank" class="slide-bck-center">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a :href="github" target="_blank" class="slide-bck-center">
+              <i class="fab fa-github"></i>
+            </a>
+            <a :href="telegram" target="_blank" class="slide-bck-center">
+              <i class="fab fa-telegram"></i>
+            </a>
+          </div>
         </div>
 
-        <div class="business-card">
-            <img src="assets/images/me.png" class="flip-in-ver-right" alt="Aljon Leynes" x-show="state=='about'">
-            <div class="details scale-in-center" x-show="state=='about'">
-                <h1 x-text="name"></h1>
-                <p x-text="jobTitle"></p>
-                <p><i x-text="aboutContent"></i></p>
-
-                <!-- Contact Info -->
-                <div class="contact-info">
-                    <p>
-                        <i class="fas fa-envelope icon"></i>
-                        Email: <a :href="'mailto:' + email" x-text="email"></a>
-                    </p>
-                    <p>
-                        <i class="fas fa-phone icon"></i>
-                        Phone: <a :href="'tel:' + phone" x-text="phone"></a>
-                    </p>
-                    <p>
-                        <i class="fas fa-map-marker-alt icon"></i>
-                        Address: <span x-text="address"></span>
-                    </p>
-                </div>
-
-                <!-- Social Links -->
-                <div class="social-links">
-                    <a :href="linkedin" target="_blank" class="slide-bck-center">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a :href="github" target="_blank" class="slide-bck-center">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a :href="telegram" target="_blank" class="slide-bck-center">
-                        <i class="fab fa-telegram"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="details scale-in-center tech-stack" x-show="state=='tech'">
-                <h1>Tech Stack</h1>
-                <ul>
-                    <template x-for="tech in techStack" :key="tech">
-                        <li x-text="tech"></li>
-                    </template>
-                </ul>
-            </div>
-
-            <div class="details projects2 scale-in-center" x-show="state=='projects'">
-                <h1>Projects</h1>
-
-                <!-- Mobile Projects -->
-                <div class="project-section">
-                    <h2>Mobile</h2>
-                    <div class="project-grid">
-                        <template x-for="project in mobileProjects" :key="project.name">
-                            <div >
-                                <img :src="project.path" :alt="project.name" class="project-image">
-
-                            </div>
-                        </template>
-                    </div>
-                </div>
-
-                <!-- Web Projects -->
-                <div class="project-section">
-                    <h2>Web</h2>
-                    <div class="project-grid">
-                        <template x-for="project in webProjects" :key="project.name">
-                            <div >
-                                <a :href="project.link" target="_blank">
-                                    <img :src="project.path" :alt="project.name" class="project-image">
-
-                                </a>
-                            </div>
-                        </template>
-                    </div>
-                </div>
-
-                <div class="project-section">
-                    <h2>AI Automation </h2>
-                    <div class="project-grid">
-                        <template x-for="project in aiProjects" :key="project.name">
-                            <div >
-                                <a :href="project.link" target="_blank">
-                                    <img :src="project.path" :alt="project.name" class="project-image">
-
-                                </a>
-                            </div>
-                        </template>
-                    </div>
-                </div>
-            </div>
+        <div class="details scale-in-center tech-stack" x-show="state=='tech'">
+          <h1>Tech Stack</h1>
+          <ul>
+            <template x-for="tech in techStack" :key="tech">
+              <li x-text="tech"></li>
+            </template>
+          </ul>
         </div>
+
+        <div
+          class="details projects2 scale-in-center"
+          x-show="state=='projects'"
+        >
+          <h1>Projects</h1>
+
+          <!-- Mobile Projects -->
+          <div class="project-section">
+            <h2>Mobile</h2>
+            <div class="project-grid">
+              <template x-for="project in mobileProjects" :key="project.name">
+                <div>
+                  <img
+                    :src="project.path"
+                    :alt="project.name"
+                    class="project-image"
+                  />
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <!-- Web Projects -->
+          <div class="project-section">
+            <h2>Web <small> </small></h2>
+            <div class="project-grid">
+              <template x-for="project in webProjects" :key="project.name">
+                <div>
+                  <a :href="project.link" target="_blank">
+                    <img
+                      :src="project.path"
+                      :alt="project.name"
+                      :link="project.link"
+                      class="project-image"
+                    />
+                  </a>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <div class="project-section">
+            <h2>AI Automation</h2>
+            <div class="project-grid">
+              <template x-for="project in aiProjects" :key="project.name">
+                <div>
+                  <a :href="project.link" target="_blank">
+                    <img
+                      :src="project.path"
+                      :alt="project.name"
+                      class="project-image"
+                    />
+                  </a>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll(".project-image").forEach((button) => {
+        let hoverTimer;
 
+        button.addEventListener("mouseover", function () {
+          console.log("here");
+
+          // Get the `src` attribute of the hovered image
+          let href = button.getAttribute("link");
+
+          hoverTimer = setTimeout(() => {
+            Swal.fire({
+              html: `<iframe src="${href}" width="100%" height="90%" style="border:none;"></iframe>`,
+              showCloseButton: false,
+              showConfirmButton: false,
+              customClass: {
+                popup: "swal-wide", // Apply custom class
+              },
+            });
+          }, 1000); // 2 seconds delay
+        });
+
+        button.addEventListener("mouseout", function () {
+          clearTimeout(hoverTimer); // Cancel if user moves away before 2 seconds
+        });
+      });
+    });
+  </script>
 </html>
