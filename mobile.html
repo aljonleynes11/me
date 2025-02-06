@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/styles/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Mobile HTML</title>
+</head>
+
+<body>
+    <div x-data="{
+        mobileProjects: [
+            { name: 'bukka', path: 'assets/images/projects/bukkaservices.jpg', images: [
+                'assets/images/projects/showcase/bukka1.png',
+                'assets/images/projects/showcase/bukka2.png',
+            ]},
+            { name: 'cloudmd', path: 'assets/images/projects/cloudmdlogo.png', images: [
+            'assets/images/projects/showcase/cld1.png',
+            'assets/images/projects/showcase/cld2.png',
+            'assets/images/projects/showcase/cld3.png',
+            ] },
+            { name: 'aiode', path: 'assets/images/projects/aiode.png', images: [
+            'assets/images/projects/showcase/aiode11.png',
+            'assets/images/projects/showcase/aiode12.png',
+            'assets/images/projects/showcase/aiode13.png',
+            'assets/images/projects/showcase/aiode14.png',
+            ] },
+           
+          
+        ]
+    }">
+        <div class="justify-content-center">
+            <template x-for="project in mobileProjects" :key="project.name">
+                <div class="my-5 pb-5">
+                    <a href="#">
+                        <img :src="project.path" :alt="project.name" class="mobile-header" />
+                    </a>
+
+                    <template x-if="project.images && project.images.length">
+                        <div class="row justify-content-center mx-auto">
+                            <template x-for="(image, index) in project.images" :key="index">
+                                <div class="col-md-auto col-12 mt-3">
+                                    <img :src="image" :alt="`${project.name} image ${index + 1}`"
+                                        class="project-showcase mt-3" />
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,4 +1,3 @@
-
 .scale-in-center {
     -webkit-animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
@@ -79,7 +78,7 @@ body {
     color: #ffdd57;
 }
 
-.active{
+.active {
     font-size: 22px !important;
     transition: color 0.5s ease !important;
     color: #ffdd57 !important;
@@ -109,9 +108,9 @@ body {
     /* White text */
 }
 
-.business-card:hover .project-section h2{
-    border-bottom: 2px solid  #ffdd57;
-    
+.business-card:hover .project-section h2 {
+    border-bottom: 2px solid #ffdd57;
+
 }
 
 .business-card:hover h1,
@@ -125,7 +124,7 @@ body {
     /* Ensure all text inside the card turns white */
 }
 
-.business-card:hover .img{
+.business-card:hover .img {
     box-shadow: 0 12px 20px rgba(121, 121, 121, 0.2);
     border: 4px solid #020a1c;
 }
@@ -133,10 +132,10 @@ body {
 .business-card:hover .contact-info a:hover,
 .business-card:hover .social-links a:hover {
     color: #ffdd57;
-    
+
 }
 
-.business-card:hover body{
+.business-card:hover body {
     background-color: rgba(255, 255, 255, 0.9);
 }
 
@@ -254,7 +253,7 @@ body {
         font-size: 24px;
     }
 
-    
+
 
     .business-card p {
         font-size: 14px;
@@ -331,8 +330,8 @@ body {
 }
 
 .project-image:hover {
+
     
-    transform: translateY(-5px);
 }
 
 .project-image {
@@ -459,7 +458,77 @@ body {
 }
 
 .swal-wide {
-    width: 80vw !important;  /* 80% of viewport width */
-    height: 80vh !important; /* 80% of viewport height */
+    width: 80vw !important;
+    /* 80% of viewport width */
+    height: 80vh !important;
+    /* 80% of viewport height */
     max-width: none !important;
+}
+
+.swal-full {
+    width: 90vw !important;
+    height: 90vh !important;
+    max-width: none !important;
+    background-color: #0f172a;
+    
+    
+
+
+}
+
+.project-showcase {
+    height: 600px;
+    border-radius: 24px;
+}
+
+.project-showcase:hover{
+    transform: translateY(-5px);
+}
+
+.mobile-header {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    max-height: 64px;
+    max-width: 64px;
+    border: 4px solid #fff;
+    transition: border 0.5s ease !important;
+    box-shadow: 0 12px 20px rgba(121, 121, 121, 0.2);
+    border: 2px solid #b9bbbd;
+}
+
+@media (max-width: 480px) {
+    .project-showcase {
+        height: 300px;
+        max-width: 250px;
+    
+    }
+
+    .swal-full {
+    
+        /* Remove negative margin */
+        width: 90vw;
+        /* Ensure full width of viewport */
+        height: 90vh !important;
+        /* Keep the height as is */
+        overflow-x: hidden;
+        /* Prevent horizontal scrolling */
+    }
+}
+
+/* Customize SweetAlert backdrop color */
+.swal2-backdrop {
+    background-color: #0f172a    !important;  /* Change the color and opacity */
+}
+
+.swal2-backdrop-show{
+    background-color: black    !important;  /* Change the color and opacity */
+}
+
+@media (min-width: 480px) {
+    .swal2-close{
+        margin-right: 30px;
+    }
 }
