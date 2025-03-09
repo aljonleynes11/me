@@ -118,14 +118,14 @@ async function loadModels() {
   await Promise.all([
     loadAnimation("./models/joe/standingup.fbx", "standingup"),
     loadAnimation("./models/joe/idle.fbx", "idle"),
-
-  ]);
-
-  loadAnimation("./models/joe/texting.fbx", "texting"),
+    loadAnimation("./models/joe/texting.fbx", "texting"),
     loadAnimation("./models/joe/talking.fbx", "talking"),
     loadAnimation("./models/joe/talking2.fbx", "talking2"),
     loadAnimation("./models/joe/jumping.fbx", "jumping"),
-    console.log("All animations loaded!");
+    
+  ]);
+
+  console.log("All animations loaded!");
 
   document.body.removeChild(loadingMessage);
   Alpine.store("appState").isModelLoaded = true;
