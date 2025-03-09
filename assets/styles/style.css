@@ -532,3 +532,8 @@ body {
         margin-right: 30px;
     }
 }
+
+
+.bottom-anchor {
+    transition: height 0.3s ease-in-out;
+}
