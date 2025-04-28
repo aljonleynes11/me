@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forex & Gold with Donchian Channel</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Alpine.js -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- TradingView Widget Library -->
+  <script src="https://s3.tradingview.com/tv.js"></script>
+  <style>
+    body {
+      @apply bg-gray-100;
+    }
+  </style>
+</head>
+<body class="p-4">
+  <div class="max-w-7xl mx-auto" x-data="chartsController()">
+    <h1 class="text-3xl font-bold text-center mb-4">Forex & Gold with Donchian Channels</h1>
+    
+    <div class="mb-4 bg-white p-4 rounded shadow-lg">
+      <h2 class="font-bold mb-2">Donchian Settings</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm mb-1">Channel Length</label>
+          <input type="number" x-model="donchianLength" @change="updateAllCharts()" class="w-full p-2 border border-gray-300 rounded" min="5" max="100" value="20">
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Time Interval</label>
+          <select x-model="interval" @change="updateAllCharts()" class="w-full p-2 border border-gray-300 rounded">
+            <option value="5">5 minutes</option>
+            <option value="15">15 minutes</option>
+            <option value="30">30 minutes</option>
+            <option value="60">1 hour</option>
+            <option value="240" selected>4 hours</option>
+            <option value="D">1 day</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Chart Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <template x-for="symbol in symbols" :key="symbol.value">
+        <div class="bg-white p-4 rounded shadow-lg">
+          <h2 class="font-bold mb-2" x-text="symbol.label"></h2>
+          <div :id="'chart_' + symbol.value" class="h-[350px] rounded"></div>
+        </div>
+      </template>
+    </div>
+  </div>
+
+  <script>
+    function chartsController() {
+      return {
+        widgets: {},
+        symbols: [
+          { value: 'OANDA:XAUUSD', label: 'XAUUSD (Gold)' },
+          { value: 'OANDA:EURUSD', label: 'EURUSD (Euro/USD)' },
+          { value: 'OANDA:GBPUSD', label: 'GBPUSD (Pound/USD)' },
+          { value: 'OANDA:USDJPY', label: 'USDJPY (USD/Yen)' },
+          { value: 'OANDA:USDCHF', label: 'USDCHF (USD/Swiss Franc)' },
+          { value: 'OANDA:AUDUSD', label: 'AUDUSD (Australian Dollar/USD)' },
+          { value: 'OANDA:USDCAD', label: 'USDCAD (USD/Canadian Dollar)' },
+          { value: 'OANDA:NZDUSD', label: 'NZDUSD (New Zealand Dollar/USD)' }
+        ],
+        donchianLength: 20,
+        interval: '240',
+        
+        init() {
+          this.$nextTick(() => {
+            this.initCharts();
+          });
+        },
+        
+        initCharts() {
+          this.symbols.forEach(symbol => {
+            this.createWidget(symbol.value);
+          });
+        },
+        
+        createWidget(symbolValue) {
+          const containerId = 'chart_' + symbolValue;
+          
+          // Clear previous widget if exists
+          if (this.widgets[symbolValue]) {
+            document.getElementById(containerId).innerHTML = '';
+          }
+          
+          this.widgets[symbolValue] = new TradingView.widget({
+            container_id: containerId,
+            autosize: true,
+            symbol: symbolValue,
+            interval: this.interval,
+            timezone: "Etc/UTC",
+            theme: "Dark",
+            toolbar_bg: "#f1f3f6",
+            hide_top_toolbar: true,
+            hide_side_toolbar: true,
+            hide_right_toolbar: true,
+            hidevolume: true,
+            hide_volume: true,
+            disabled_features: ["volume_force_overlay"],
+            hide_legend: true,
+            withdateranges: true,
+            allow_symbol_change: false,
+            save_image: false,
+            studies: [
+              "STD;Donchian_Channels"
+            ],
+            studies_overrides: {
+              "Donchian Channels.median.color": "#FF9800",
+              "Donchian Channels.upper.color": "#4CAF50",
+              "Donchian Channels.lower.color": "#F44336",
+              "Donchian Channels.median.visible": true,
+              "Donchian Channels.period": this.donchianLength
+            }
+          });
+        },
+        
+        updateAllCharts() {
+          this.symbols.forEach(symbol => {
+            this.createWidget(symbol.value);
+          });
+        }
+      }
+    }
+  </script>
+</body>
+</html>
