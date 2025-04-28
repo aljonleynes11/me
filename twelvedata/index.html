@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forex Donchian Channel Monitor</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <!-- CanvasJS Stock Charts -->
+    <script src="https://cdn.canvasjs.com/ga/canvasjs.stock.min.js"></script>
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8" x-data="forexApp()" x-init="init()">
+        <!-- API Key Modal -->
+        <div x-show="showApiKeyModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+                <h2 class="text-xl font-bold mb-4">Enter Your TwelveData API Key</h2>
+                <p class="mb-4 text-gray-600">Please enter your API key to access forex data. The key will be stored in your browser.</p>
+                <div class="mb-4">
+                    <input 
+                        type="text" 
+                        x-model="tempApiKey" 
+                        placeholder="API Key" 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button 
+                        @click="saveApiKey()" 
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                        Save API Key
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <h1 class="text-3xl font-bold mb-6">Forex Donchian Channel Monitor</h1>
+
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="mb-4 flex justify-between items-center">
+                <div>
+                    <p class="text-gray-600">Last Updated: <span x-text="lastUpdated"></span></p>
+                    <p x-show="error" class="text-red-500 mt-2" x-text="error"></p>
+                </div>
+                <div class="flex space-x-2">
+                    <button @click="showApiKeyModal = true" 
+                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                        Change API Key
+                    </button>
+                    <button @click="fetchNewData()"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" :disabled="loading">
+                        <span x-show="!loading">Refresh Data</span>
+                        <span x-show="loading">Loading...</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Table Toggle Button -->
+            <div class="mb-4">
+                <button @click="showTable = !showTable" 
+                    class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded">
+                    <span x-text="showTable ? 'Hide Table' : 'Show Table'"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" :class="showTable ? 'transform rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Collapsible Table -->
+            <div x-show="showTable" x-transition class="overflow-x-auto mb-6">
+                <table class="min-w-full table-auto">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Pair</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                20 Period High</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                20 Period Low</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Current Price</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <template x-for="pair in processedPairs" :key="pair.symbol">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                                    x-text="pair.symbol"></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" x-text="pair.high"></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" x-text="pair.low"></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <span x-text="pair.current"
+                                        :class="pair.hittingChannel ? 'text-red-600 font-bold' : 'text-gray-500'"></span>
+                                    <span x-show="pair.hittingChannel" class="ml-1 text-xs text-red-600">(HIT)</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span x-show="pair.breaksHigh"
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        Breaks High
+                                    </span>
+                                    <span x-show="pair.breaksLow"
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                        Breaks Low
+                                    </span>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+                <template x-for="pair in processedPairs" :key="pair.symbol">
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <a :href="getTradingViewUrl(pair.symbol)" target="_blank" class="cursor-pointer block">
+                            <h3 class="text-lg font-semibold mb-4 hover:underline" x-text="pair.symbol"
+                                :class="pair.hittingChannel ? 'text-red-600' : 'text-gray-900'"></h3>
+                        </a>
+                        <div :id="'chart-' + pair.symbol.replace('/', '')" style="height: 300px;"></div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function forexApp() {
+            return {
+                apiData: null,
+                lastUpdated: '',
+                apiKey: '',
+                tempApiKey: '',
+                showApiKeyModal: false,
+                showTable: false, // Table is hidden by default
+                storageKey: 'forexData',
+                apiKeyStorageKey: 'twelveDataApiKey',
+                updateInterval: 4 * 60 * 60 * 1000, // 4 hours in milliseconds
+                loading: false,
+                error: null,
+                charts: {},
+                
+                // Define forex pairs as a property of the Alpine instance
+                forexPairs: [
+                    'XAU/USD', 'EUR/USD', 'GBP/USD', 'USD/JPY', 'USD/CHF', 'AUD/USD', 'USD/CAD', 'NZD/USD'
+                ],
+                
+                // Generate TradingView URL for a given pair
+                getTradingViewUrl(pair) {
+                    // Replace / with : and add OANDA as broker
+                    const formattedPair = pair.replace('/', '');
+                    return `https://www.tradingview.com/chart/?symbol=OANDA%3A${formattedPair}`;
+                },
+
+                get processedPairs() {
+                    if (!this.apiData) return [];
+
+                    const results = [];
+
+                    this.forexPairs.forEach((pair, index) => {
+                        const reqKey = `req_${index + 1}`;
+                        const pairData = this.apiData.data[reqKey];
+
+                        if (pairData && pairData.status === 'success' && pairData.response.status === 'ok') {
+                            const values = pairData.response.values.map(v => parseFloat(v.close));
+                            const high = Math.max(...values);
+                            const low = Math.min(...values);
+                            const current = values[0];
+
+                            // Check if current price is hitting Donchian channel
+                            // Get the last 3 candles including OHLC (if available)
+                            const last3CandlesData = pairData.response.values.slice(0, Math.min(3, pairData.response.values.length));
+
+                            // Check if any of the last 3 candles actually touch the channel
+                            const highChannel = high;
+                            const lowChannel = low;
+                            const touchingHigh = last3CandlesData.some(candle => parseFloat(candle.high) >= highChannel);
+                            const touchingLow = last3CandlesData.some(candle => parseFloat(candle.low) <= lowChannel);
+                            const hittingChannel = touchingHigh || touchingLow;
+
+                            console.log(`${pair} - Channel high: ${highChannel}, Channel low: ${lowChannel}`);
+                            console.log(`${pair} - Last 3 candles:`, last3CandlesData.map(c => `High: ${c.high}, Low: ${c.low}`));
+                            console.log(`${pair} - touchingHigh: ${touchingHigh}, touchingLow: ${touchingLow}, hittingChannel: ${hittingChannel}`);
+
+                            results.push({
+                                symbol: pair,
+                                high: high.toFixed(5),
+                                low: low.toFixed(5),
+                                current: current.toFixed(5),
+                                breaksHigh: current > high,
+                                breaksLow: current < low,
+                                hittingChannel: hittingChannel, 
+                                touchingHigh: touchingHigh,
+                                touchingLow: touchingLow,
+                                rawData: pairData.response.values
+                            });
+                        }
+                    });
+
+                    return results;
+                },
+
+                async init() {
+                    // Load API key from localStorage
+                    const savedApiKey = localStorage.getItem(this.apiKeyStorageKey);
+                    if (savedApiKey) {
+                        this.apiKey = savedApiKey;
+                        await this.loadData();
+                    } else {
+                        this.showApiKeyModal = true;
+                    }
+                },
+
+                saveApiKey() {
+                    if (this.tempApiKey.trim() !== '') {
+                        this.apiKey = this.tempApiKey.trim();
+                        localStorage.setItem(this.apiKeyStorageKey, this.apiKey);
+                        this.showApiKeyModal = false;
+                        this.loadData();
+                    } else {
+                        this.error = "Please enter a valid API key";
+                    }
+                },
+
+                createChart(pair, data) {
+                    try {
+                        const containerId = 'chart-' + pair.symbol.replace('/', '');
+                        console.log('Creating chart for', pair.symbol, 'Container ID:', containerId);
+
+                        const container = document.getElementById(containerId);
+                        if (!container) {
+                            console.error('Container not found for', pair.symbol);
+                            return;
+                        }
+
+                        // Prepare data points
+                        const candleData = data.map(d => ({
+                            x: new Date(d.datetime),
+                            y: [
+                                parseFloat(d.open),
+                                parseFloat(d.high),
+                                parseFloat(d.low),
+                                parseFloat(d.close)
+                            ]
+                        }));
+
+                        // Create Donchian channel data
+                        const channelData = data.map(d => ({
+                            x: new Date(d.datetime),
+                            y: [parseFloat(pair.high), parseFloat(pair.low)]
+                        }));
+
+                        // Create the stock chart
+                        const chart = new CanvasJS.StockChart(containerId, {
+                            theme: (pair.hittingChannel ? 'dark2' : 'dark1'),
+
+                            charts: [{
+                                axisX: {
+                                    crosshair: {
+                                        enabled: true,
+                                        snapToDataPoint: true
+                                    }
+                                },
+                                axisY: {
+                                    prefix: "",
+                                    crosshair: {
+                                        enabled: true,
+                                        snapToDataPoint: true
+                                    }
+                                },
+                                toolTip: {
+                                    shared: true,
+                                    contentFormatter: function (e) {
+                                        let content = "<div style='text-align:center;padding:5px;'>";
+                                        content += "<span style='font-weight:bold;color:#333;'>" + moment(e.entries[0].dataPoint.x).format("DD MMM YYYY HH:mm") + "</span><br/>";
+
+                                        for (let i = 0; i < e.entries.length; i++) {
+                                            if (e.entries[i].dataSeries.type === "candlestick") {
+                                                content += "<div style='padding:3px;'>";
+                                                content += "<span style='color:" + e.entries[i].dataSeries.color + ";font-weight:bold;'>Price:</span><br/>";
+                                                content += "Open: <strong>" + e.entries[i].dataPoint.y[0].toFixed(5) + "</strong><br/>";
+                                                content += "High: <strong>" + e.entries[i].dataPoint.y[1].toFixed(5) + "</strong><br/>";
+                                                content += "Low: <strong>" + e.entries[i].dataPoint.y[2].toFixed(5) + "</strong><br/>";
+                                                content += "Close: <strong>" + e.entries[i].dataPoint.y[3].toFixed(5) + "</strong><br/>";
+                                                content += "</div>";
+                                            } else if (e.entries[i].dataSeries.type === "rangeArea") {
+                                                content += "<div style='padding:3px;'>";
+                                                content += "<span style='color:" + e.entries[i].dataSeries.color + ";font-weight:bold;'>Donchian Channel:</span><br/>";
+                                                content += "Upper: <strong>" + parseFloat(pair.high).toFixed(5) + "</strong><br/>";
+                                                content += "Lower: <strong>" + parseFloat(pair.low).toFixed(5) + "</strong><br/>";
+                                                content += "</div>";
+                                            }
+                                        }
+
+                                        content += "</div>";
+                                        return content;
+                                    }
+                                },
+                                data: [{
+                                    type: "candlestick",
+                                    name: "Price",
+                                    yValueFormatString: "#.#####",
+                                    dataPoints: candleData
+                                },
+                                {
+                                    type: "rangeArea",
+                                    name: "Donchian Channel",
+                                    fillOpacity: 0.1,
+                                    dataPoints: channelData
+                                }]
+                            }],
+                            rangeSelector: {
+                                enabled: false
+                            },
+                            navigator: {
+                                enabled: true,
+                                height: 30
+                            }
+                        });
+
+                        // Store chart reference
+                        this.charts[pair.symbol] = chart;
+                        chart.render();
+                        console.log('Chart created for', pair.symbol);
+                    } catch (error) {
+                        console.error('Error creating chart for', pair.symbol, error);
+                    }
+                },
+
+                async loadData() {
+                    try {
+                        this.loading = true;
+                        this.error = null;
+                        const storedData = localStorage.getItem(this.storageKey);
+                        const now = Date.now();
+
+                        if (storedData) {
+                            const data = JSON.parse(storedData);
+                            if (now - data.timestamp < this.updateInterval) {
+                                console.log('Loading from localStorage');
+                                this.apiData = data.apiData;
+                                this.lastUpdated = moment(data.timestamp).format('MMMM D, YYYY h:mm:ss A');
+                                console.log('API Data:', this.apiData);
+                                // Create charts
+                                await this.$nextTick();
+                                this.renderAllCharts();
+                                return;
+                            }
+                        }
+
+                        await this.fetchNewData();
+                    } catch (error) {
+                        console.error('Error loading data:', error);
+                        this.error = 'Error loading data. Please try refreshing.';
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+
+                renderAllCharts() {
+                    setTimeout(() => {
+                        const pairs = this.processedPairs;
+                        pairs.forEach(pair => {
+                            if (pair.rawData) {
+                                this.createChart(pair, pair.rawData);
+                            }
+                        });
+                    }, 100);
+                },
+
+                async fetchNewData() {
+                    // Check if API key is available
+                    if (!this.apiKey) {
+                        this.error = "No API key found. Please enter your API key.";
+                        this.showApiKeyModal = true;
+                        return;
+                    }
+
+                    try {
+                        this.loading = true;
+                        this.error = null;
+
+                        const batchRequests = {};
+                        this.forexPairs.forEach((pair, index) => {
+                            batchRequests[`req_${index + 1}`] = {
+                                url: `/time_series?symbol=${pair}&interval=4h&outputsize=20&apikey=${this.apiKey}`
+                            };
+                        });
+
+                        console.log('Sending batch request');
+
+                        const response = await fetch('https://api.twelvedata.com/batch', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(batchRequests)
+                        });
+
+                        const data = await response.json();
+                        console.log('API Response received');
+
+                        // Store the full API response
+                        this.apiData = data;
+                        this.lastUpdated = moment().format('MMMM D, YYYY h:mm:ss A');
+
+                        // Create charts after data update
+                        await this.$nextTick();
+                        this.renderAllCharts();
+
+                        // Save the raw API data to localStorage
+                        localStorage.setItem(this.storageKey, JSON.stringify({
+                            timestamp: Date.now(),
+                            apiData: data
+                        }));
+                    } catch (error) {
+                        console.error('Error fetching bulk data:', error);
+                        this.error = 'Error fetching data. Please try again.';
+                    } finally {
+                        this.loading = false;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
