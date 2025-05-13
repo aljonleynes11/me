@@ -58,16 +58,17 @@
         widgets: {},
         symbols: [
           { value: 'OANDA:XAUUSD', label: 'XAUUSD (Gold)' },
-          { value: 'OANDA:EURUSD', label: 'EURUSD (Euro/USD)' },
-          { value: 'OANDA:GBPUSD', label: 'GBPUSD (Pound/USD)' },
-          { value: 'OANDA:USDJPY', label: 'USDJPY (USD/Yen)' },
-          { value: 'OANDA:USDCHF', label: 'USDCHF (USD/Swiss Franc)' },
-          { value: 'OANDA:AUDUSD', label: 'AUDUSD (Australian Dollar/USD)' },
-          { value: 'OANDA:USDCAD', label: 'USDCAD (USD/Canadian Dollar)' },
-          { value: 'OANDA:NZDUSD', label: 'NZDUSD (New Zealand Dollar/USD)' }
+          { value: 'BINANCE:BTCUSDT', label: 'BTC (Bitcoin)' },
+          { value: 'BINANCE:ETHUSDT', label: 'ETH (Ethereum)' },
+          { value: 'BINANCE:SOLUSDT', label: 'SOL (Solana)' },
+          { value: 'BINANCE:XRPUSDT', label: 'XRP (Ripple)' },
+          { value: 'BINANCE:BNBUSDT', label: 'BNB (Binance Coin)' },
+          { value: 'FOREXCOM:SPXUSD', label: 'S&P 500 Index' },
+          { value: 'FOREXCOM:DJI', label: 'Dow Jones Index' },
+          
         ],
         donchianLength: 20,
-        interval: '240',
+        interval: 'D',
         
         init() {
           this.$nextTick(() => {
