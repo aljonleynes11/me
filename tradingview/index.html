@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Forex & Gold with Donchian Channel</title>
+  <title>Personal Trading</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Alpine.js -->
@@ -14,41 +15,101 @@
     body {
       @apply bg-gray-100;
     }
+
+    .collapse-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .collapse-content.expanded {
+      max-height: 1000px;
+    }
   </style>
 </head>
+
 <body class="p-4">
-  <div class="max-w-7xl mx-auto" x-data="chartsController()">
-    <h1 class="text-3xl font-bold text-center mb-4">Forex & Gold with Donchian Channels</h1>
-    
-    <div class="mb-4 bg-white p-4 rounded shadow-lg">
-      <h2 class="font-bold mb-2">Donchian Settings</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <label class="block text-sm mb-1">Channel Length</label>
-          <input type="number" x-model="donchianLength" @change="updateAllCharts()" class="w-full p-2 border border-gray-300 rounded" min="5" max="100" value="20">
-        </div>
-        <div>
-          <label class="block text-sm mb-1">Time Interval</label>
-          <select x-model="interval" @change="updateAllCharts()" class="w-full p-2 border border-gray-300 rounded">
-            <option value="5">5 minutes</option>
-            <option value="15">15 minutes</option>
-            <option value="30">30 minutes</option>
-            <option value="60">1 hour</option>
-            <option value="240" selected>4 hours</option>
-            <option value="D">1 day</option>
-          </select>
-        </div>
+  <div class="max-w-[1920px] mx-auto" x-data="chartsController()">
+    <div class="flex justify-between items-center mb-4">
+      <div class="flex items-center gap-4">
+        <button @click="toggleSidebar()"
+          class="flex items-center gap-2 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors">
+          <span x-text="isSidebarVisible ? 'Hide Tickers' : 'Show Tickers'" class="text-sm"></span>
+          <svg x-show="isSidebarVisible" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+          </svg>
+          <svg x-show="!isSidebarVisible" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+          </svg>
+        </button>
+        <h1 class="text-3xl font-bold">Personal Trading</h1>
       </div>
     </div>
-    
-    <!-- Chart Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <template x-for="symbol in symbols" :key="symbol.value">
-        <div class="bg-white p-4 rounded shadow-lg">
-          <h2 class="font-bold mb-2" x-text="symbol.label"></h2>
-          <div :id="'chart_' + symbol.value" class="h-[350px] rounded"></div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+      <!-- Ticker List -->
+      <div x-show="isSidebarVisible" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 transform -translate-x-4"
+        x-transition:enter-end="opacity-100 transform translate-x-0"
+        class="bg-white p-4 rounded border border-gray-200">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="font-bold">Ticker List</h2>
+
         </div>
-      </template>
+
+        <div class="relative">
+          <input type="text" x-model="tickerSearch" placeholder="Search tickers..."
+            class="w-full pl-8 pr-4 py-1 text-sm border border-gray-200 rounded focus:outline-none focus:border-blue-500">
+          <svg class="w-4 h-4 absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <div class="space-y-2 max-h-[calc(100vh-200px)] overflow-y-auto">
+          <template x-for="symbol in filteredSymbols" :key="symbol.value">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" :id="'ticker_' + symbol.value" :checked="isSymbolVisible(symbol.value)"
+                @change="toggleSymbol(symbol.value)" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+              <label :for="'ticker_' + symbol.value" class="text-sm" x-text="symbol.label"></label>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Charts Section -->
+      <div :class="isSidebarVisible ? 'lg:col-span-3' : 'lg:col-span-4'">
+        <div class="mb-4 bg-white p-4 rounded border border-gray-200">
+          <h2 class="font-bold mb-2">Donchian Settings</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm mb-1">Channel Length</label>
+              <input type="number" x-model="donchianLength" @change="updateAllCharts()"
+                class="w-full p-2 border border-gray-300 rounded" min="5" max="100" value="20">
+            </div>
+            <div>
+              <label class="block text-sm mb-1">Time Interval</label>
+              <select x-model="interval" @change="updateAllCharts()" class="w-full p-2 border border-gray-300 rounded">
+                <template x-for="tf in timeframes" :key="tf.value">
+                  <option :value="tf.value" x-text="tf.label"></option>
+                </template>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <template x-for="symbol in symbols" :key="symbol.value">
+            <div x-show="isSymbolVisible(symbol.value)" class="bg-white p-4 rounded border border-gray-200">
+              <h2 class="font-bold mb-2" x-text="symbol.label"></h2>
+              <div :id="'chart_' + symbol.value" class="h-[400px] rounded"></div>
+            </div>
+          </template>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -61,35 +122,95 @@
           { value: 'BINANCE:BTCUSDT', label: 'BTC (Bitcoin)' },
           { value: 'BINANCE:ETHUSDT', label: 'ETH (Ethereum)' },
           { value: 'BINANCE:SOLUSDT', label: 'SOL (Solana)' },
-          { value: 'BINANCE:XRPUSDT', label: 'XRP (Ripple)' },
           { value: 'BINANCE:BNBUSDT', label: 'BNB (Binance Coin)' },
-          { value: 'FOREXCOM:SPXUSD', label: 'S&P 500 Index' },
-          { value: 'FOREXCOM:DJI', label: 'Dow Jones Index' },
-          
+          { value: 'BINANCE:AXSUSDT', label: 'AXS (Axie Infinity)' },
+          { value: 'BINANCE:RONINUSDT', label: 'RON (Ronin Chain)' },
+          // { value: 'BINANCE:XRPUSDT', label: 'XRP (Ripple)' },
+          // { value: 'FOREXCOM:SPXUSD', label: 'S&P 500 Index' },
+          // { value: 'FOREXCOM:DJI', label: 'Dow Jones Index' },
+
+        ],
+        timeframes: [
+          { value: 'D', label: '1 day' },
+          { value: '240', label: '4 hours' },
+          { value: '60', label: '1 hour' },
+          { value: '30', label: '30 minutes' },
+          { value: '15', label: '15 minutes' },
+          { value: '5', label: '5 minutes' }
         ],
         donchianLength: 20,
         interval: 'D',
-        
+        visibleSymbols: new Set(),
+        isSidebarVisible: true,
+        tickerSearch: '',
+
+        get filteredSymbols() {
+          if (!this.tickerSearch) return this.symbols;
+          const search = this.tickerSearch.toLowerCase();
+          return this.symbols.filter(symbol =>
+            symbol.label.toLowerCase().includes(search) ||
+            symbol.value.toLowerCase().includes(search)
+          );
+        },
+
         init() {
+          // Load saved preferences from localStorage
+          const savedVisible = localStorage.getItem('visibleSymbols');
+          const savedSidebarState = localStorage.getItem('sidebarVisible');
+
+          if (savedVisible) {
+            this.visibleSymbols = new Set(JSON.parse(savedVisible));
+          } else {
+            // Default all symbols to visible
+            this.symbols.forEach(s => this.visibleSymbols.add(s.value));
+          }
+
+          if (savedSidebarState !== null) {
+            this.isSidebarVisible = JSON.parse(savedSidebarState);
+          }
+
           this.$nextTick(() => {
             this.initCharts();
           });
         },
-        
+
+        isSymbolVisible(symbolValue) {
+          return this.visibleSymbols.has(symbolValue);
+        },
+
+        toggleSymbol(symbolValue) {
+          if (this.visibleSymbols.has(symbolValue)) {
+            this.visibleSymbols.delete(symbolValue);
+          } else {
+            this.visibleSymbols.add(symbolValue);
+            this.$nextTick(() => {
+              this.createWidget(symbolValue);
+            });
+          }
+          localStorage.setItem('visibleSymbols', JSON.stringify([...this.visibleSymbols]));
+        },
+
+        toggleSidebar() {
+          this.isSidebarVisible = !this.isSidebarVisible;
+          localStorage.setItem('sidebarVisible', JSON.stringify(this.isSidebarVisible));
+        },
+
         initCharts() {
           this.symbols.forEach(symbol => {
-            this.createWidget(symbol.value);
+            if (this.isSymbolVisible(symbol.value)) {
+              this.createWidget(symbol.value);
+            }
           });
         },
-        
+
         createWidget(symbolValue) {
           const containerId = 'chart_' + symbolValue;
-          
+
           // Clear previous widget if exists
           if (this.widgets[symbolValue]) {
             document.getElementById(containerId).innerHTML = '';
           }
-          
+
           this.widgets[symbolValue] = new TradingView.widget({
             container_id: containerId,
             autosize: true,
@@ -120,14 +241,17 @@
             }
           });
         },
-        
+
         updateAllCharts() {
           this.symbols.forEach(symbol => {
-            this.createWidget(symbol.value);
+            if (this.isSymbolVisible(symbol.value)) {
+              this.createWidget(symbol.value);
+            }
           });
         }
       }
     }
   </script>
 </body>
+
 </html>
