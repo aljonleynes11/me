@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegancia - Premium Leather Footwear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="font-sans">
+    <header class="relative">
+        <nav class="bg-white shadow-md fixed top-0 w-full z-10">
+            <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-amber-800">ELEGANCIA</h1>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-amber-900 hover:text-amber-700 transition" data-en="Home"
+                        data-es="Inicio">Home</a>
+                    <a href="#collection" class="text-amber-900 hover:text-amber-700 transition" data-en="Collection"
+                        data-es="Colección">Collection</a>
+                    <a href="#about" class="text-amber-900 hover:text-amber-700 transition" data-en="About Us"
+                        data-es="Sobre Nosotros">About Us</a>
+                    <a href="#contact" class="text-amber-900 hover:text-amber-700 transition" data-en="Contact"
+                        data-es="Contacto">Contact</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div id="language-toggle"
+                        class="flex items-center text-amber-900 cursor-pointer hover:bg-amber-50 px-3 py-1 rounded-full">
+                        <span class="mr-3 text-sm font-medium">
+                            <span data-en="English" data-es="Español">English</span>
+                        </span>
+                        <div class="relative">
+                            <div class="w-12 h-6 bg-amber-200 rounded-full"></div>
+                            <div id="toggle-circle"
+                                class="absolute left-0 top-0 w-6 h-6 bg-amber-800 rounded-full shadow-md transform transition-transform duration-300">
+                            </div>
+                            <span id="current-lang"
+                                class="absolute left-1 top-1/2 transform -translate-y-1/2 text-xs text-white font-bold">EN</span>
+                            <span
+                                class="absolute right-1 top-1/2 transform -translate-y-1/2 text-xs text-amber-800 font-bold">ES</span>
+                        </div>
+                    </div>
+                    <a href="#shop"
+                        class="hidden md:block bg-amber-800 text-white px-4 py-2 rounded hover:bg-amber-700 transition"
+                        data-en="Shop Now" data-es="Comprar Ahora">Shop Now</a>
+                </div>
+
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-amber-900">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
+                    <a href="#home" class="text-amber-900 block px-3 py-2 hover:bg-amber-100 rounded" data-en="Home"
+                        data-es="Inicio">Home</a>
+                    <a href="#collection" class="text-amber-900 block px-3 py-2 hover:bg-amber-100 rounded"
+                        data-en="Collection" data-es="Colección">Collection</a>
+                    <a href="#about" class="text-amber-900 block px-3 py-2 hover:bg-amber-100 rounded"
+                        data-en="About Us" data-es="Sobre Nosotros">About Us</a>
+                    <a href="#contact" class="text-amber-900 block px-3 py-2 hover:bg-amber-100 rounded"
+                        data-en="Contact" data-es="Contacto">Contact</a>
+                    <a href="#shop"
+                        class="bg-amber-800 text-white block px-3 py-2 rounded hover:bg-amber-700 transition"
+                        data-en="Shop Now" data-es="Comprar Ahora">Shop Now</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="pt-24 pb-12 bg-amber-50">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <h2 class="text-4xl font-bold mb-6 text-amber-900"
+                        data-en="Handcrafted Leather Shoes for the Modern Woman"
+                        data-es="Zapatos de Cuero Artesanales para la Mujer Moderna">Handcrafted Leather Shoes for the
+                        Modern Woman</h2>
+                    <p class="text-lg mb-8 text-amber-800"
+                        data-en="Elegant designs with exceptional comfort. Experience the perfect blend of style and craftsmanship."
+                        data-es="Diseños elegantes con una comodidad excepcional. Experimenta la mezcla perfecta de estilo y artesanía.">
+                        Elegant designs with exceptional comfort. Experience the perfect blend of style and
+                        craftsmanship.</p>
+                    <a href="#collection"
+                        class="bg-amber-800 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition inline-block"
+                        data-en="Explore Collection" data-es="Explorar Colección">Explore Collection</a>
+                </div>
+                <div class="md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80"
+                        alt="Elegant leather shoes" class="rounded-lg shadow-xl">
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-12 bg-white">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl font-bold text-center text-amber-900 mb-12" data-en="Why Choose Our Leather Shoes"
+                    data-es="Por Qué Elegir Nuestros Zapatos de Cuero">Why Choose Our Leather Shoes</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center p-6 bg-amber-50 rounded-lg shadow-md">
+                        <div class="text-amber-800 text-3xl mb-4">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2 text-amber-900" data-en="Premium Quality"
+                            data-es="Calidad Premium">Premium Quality</h4>
+                        <p class="text-amber-800"
+                            data-en="Crafted from the finest leather materials for durability and style."
+                            data-es="Elaborado con los mejores materiales de cuero para mayor durabilidad y estilo.">
+                            Crafted from the finest leather materials for durability and style.</p>
+                    </div>
+
+                    <div class="text-center p-6 bg-amber-50 rounded-lg shadow-md">
+                        <div class="text-amber-800 text-3xl mb-4">
+                            <i class="fas fa-hand-sparkles"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2 text-amber-900" data-en="Handcrafted"
+                            data-es="Hecho a Mano">Handcrafted</h4>
+                        <p class="text-amber-800"
+                            data-en="Each pair is carefully handmade by skilled artisans with decades of experience."
+                            data-es="Cada par es cuidadosamente hecho a mano por artesanos expertos con décadas de experiencia.">
+                            Each pair is carefully handmade by skilled artisans with decades of experience.</p>
+                    </div>
+
+                    <div class="text-center p-6 bg-amber-50 rounded-lg shadow-md">
+                        <div class="text-amber-800 text-3xl mb-4">
+                            <i class="fas fa-feather-alt"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2 text-amber-900" data-en="Comfort First"
+                            data-es="Comodidad Primero">Comfort First</h4>
+                        <p class="text-amber-800"
+                            data-en="Designed with ergonomic footbeds and cushioned insoles for all-day comfort."
+                            data-es="Diseñado con plantillas ergonómicas y acolchadas para comodidad durante todo el día.">
+                            Designed with ergonomic footbeds and cushioned insoles for all-day comfort.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Collection Section -->
+        <section id="collection" class="py-12 bg-amber-50">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl font-bold text-center text-amber-900 mb-4" data-en="Featured Collection"
+                    data-es="Colección Destacada">Featured Collection</h3>
+                <p class="text-center text-amber-800 mb-12 max-w-3xl mx-auto"
+                    data-en="Discover our most popular handcrafted leather designs"
+                    data-es="Descubre nuestros diseños de cuero artesanal más populares">Discover our most popular
+                    handcrafted leather designs</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Product 1 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80"
+                            alt="Classic leather heels" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold mb-2 text-amber-900" data-en="Veronica Classic Heel"
+                                data-es="Tacón Clásico Verónica">Veronica Classic Heel</h4>
+                            <p class="text-amber-800 mb-4"
+                                data-en="Elegant heels perfect for any occasion, featuring premium Italian leather."
+                                data-es="Elegantes tacones perfectos para cualquier ocasión, con cuero italiano premium.">
+                                Elegant heels perfect for any occasion, featuring premium Italian leather.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xl font-bold text-amber-900">$189</span>
+                                <button class="bg-amber-800 text-white px-4 py-2 rounded hover:bg-amber-700 transition"
+                                    data-en="View Details" data-es="Ver Detalles">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1573100925118-870b8efc799d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
+                            alt="Leather boots" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold mb-2 text-amber-900" data-en="Sofia Ankle Boot"
+                                data-es="Botín Sofia">Sofia Ankle Boot</h4>
+                            <p class="text-amber-800 mb-4"
+                                data-en="Stylish yet comfortable ankle boots that combine elegance with practicality."
+                                data-es="Botines elegantes y cómodos que combinan elegancia con practicidad.">Stylish
+                                yet comfortable ankle boots that combine elegance with practicality.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xl font-bold text-amber-900">$249</span>
+                                <button class="bg-amber-800 text-white px-4 py-2 rounded hover:bg-amber-700 transition"
+                                    data-en="View Details" data-es="Ver Detalles">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
+                            alt="Leather flats" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold mb-2 text-amber-900" data-en="Isabella Comfort Flats"
+                                data-es="Bailarinas Comfort Isabella">Isabella Comfort Flats</h4>
+                            <p class="text-amber-800 mb-4"
+                                data-en="All-day comfort without sacrificing style, perfect for the modern woman on the go."
+                                data-es="Comodidad durante todo el día sin sacrificar el estilo, perfecto para la mujer moderna en movimiento.">
+                                All-day comfort without sacrificing style, perfect for the modern woman on the go.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xl font-bold text-amber-900">$159</span>
+                                <button class="bg-amber-800 text-white px-4 py-2 rounded hover:bg-amber-700 transition"
+                                    data-en="View Details" data-es="Ver Detalles">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="#shop"
+                        class="inline-block bg-amber-800 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition"
+                        data-en="View All Collection" data-es="Ver Toda La Colección">View All Collection</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-12 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-8 md:mb-0">
+                        <img src="https://images.unsplash.com/photo-1603808033192-082d6919d3e1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1015&q=80"
+                            alt="Artisan crafting leather shoes" class="rounded-lg shadow-lg mx-auto">
+                    </div>
+                    <div class="md:w-1/2 md:pl-12">
+                        <h3 class="text-3xl font-bold mb-6 text-amber-900" data-en="Our Craftsmanship Story"
+                            data-es="Nuestra Historia de Artesanía">Our Craftsmanship Story</h3>
+                        <p class="text-amber-800 mb-4"
+                            data-en="For over three generations, our family has been crafting premium leather footwear using traditional techniques passed down through generations."
+                            data-es="Durante más de tres generaciones, nuestra familia ha estado elaborando calzado de cuero premium utilizando técnicas tradicionales transmitidas de generación en generación.">
+                            For over three generations, our family has been crafting premium leather footwear using
+                            traditional techniques passed down through generations.</p>
+                        <p class="text-amber-800 mb-4"
+                            data-en="Each pair of Elegancia shoes is the result of more than 70 hours of meticulous handwork by our master craftspeople, using only ethically sourced, premium leather."
+                            data-es="Cada par de zapatos Elegancia es el resultado de más de 70 horas de meticuloso trabajo manual de nuestros maestros artesanos, utilizando solo cuero premium de origen ético.">
+                            Each pair of Elegancia shoes is the result of more than 70 hours of meticulous handwork by
+                            our master craftspeople, using only ethically sourced, premium leather.</p>
+                        <p class="text-amber-800 mb-6"
+                            data-en="We believe in creating shoes that not only look beautiful but feel wonderful to wear - pieces that will be treasured for years to come."
+                            data-es="Creemos en crear zapatos que no solo se vean hermosos sino que se sientan maravillosos al usar - piezas que serán atesoradas por muchos años.">
+                            We believe in creating shoes that not only look beautiful but feel wonderful to wear -
+                            pieces that will be treasured for years to come.</p>
+                        <a href="#contact"
+                            class="inline-block bg-amber-800 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition"
+                            data-en="Contact Us" data-es="Contáctanos">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="py-12 bg-amber-50">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl font-bold text-center text-amber-900 mb-12" data-en="What Our Customers Say"
+                    data-es="Lo Que Dicen Nuestras Clientes">What Our Customers Say</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="text-amber-500 flex mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-amber-800 mb-6"
+                            data-en="These are the most comfortable heels I've ever owned. I can wear them all day without discomfort, and they look absolutely stunning."
+                            data-es="Estos son los tacones más cómodos que he tenido. Puedo usarlos todo el día sin molestias, y se ven absolutamente impresionantes.">
+                            These are the most comfortable heels I've ever owned. I can wear them all day without
+                            discomfort, and they look absolutely stunning.</p>
+                        <div class="flex items-center">
+                            <div
+                                class="h-10 w-10 rounded-full bg-amber-200 flex items-center justify-center text-amber-800">
+                                <span>LA</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold text-amber-900" data-en="Laura A." data-es="Laura A.">Laura A.
+                                </h4>
+                                <p class="text-sm text-amber-700" data-en="Verified Customer"
+                                    data-es="Cliente Verificada">Verified Customer</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="text-amber-500 flex mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-amber-800 mb-6"
+                            data-en="The quality of the leather is exceptional. I've had my Sofia boots for over two years now, and they look better with age. Worth every penny!"
+                            data-es="La calidad del cuero es excepcional. He tenido mis botas Sofia por más de dos años, y se ven mejor con el tiempo. ¡Valen cada centavo!">
+                            The quality of the leather is exceptional. I've had my Sofia boots for over two years now,
+                            and they look better with age. Worth every penny!</p>
+                        <div class="flex items-center">
+                            <div
+                                class="h-10 w-10 rounded-full bg-amber-200 flex items-center justify-center text-amber-800">
+                                <span>MT</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold text-amber-900" data-en="Maria T." data-es="María T.">Maria T.
+                                </h4>
+                                <p class="text-sm text-amber-700" data-en="Verified Customer"
+                                    data-es="Cliente Verificada">Verified Customer</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="text-amber-500 flex mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="text-amber-800 mb-6"
+                            data-en="I receive compliments every time I wear my Elegancia shoes. The customer service is also exceptional - they helped me find the perfect fit."
+                            data-es="Recibo cumplidos cada vez que uso mis zapatos Elegancia. El servicio al cliente también es excepcional - me ayudaron a encontrar el ajuste perfecto.">
+                            I receive compliments every time I wear my Elegancia shoes. The customer service is also
+                            exceptional - they helped me find the perfect fit.</p>
+                        <div class="flex items-center">
+                            <div
+                                class="h-10 w-10 rounded-full bg-amber-200 flex items-center justify-center text-amber-800">
+                                <span>SJ</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold text-amber-900" data-en="Sofia J." data-es="Sofía J.">Sofia J.
+                                </h4>
+                                <p class="text-sm text-amber-700" data-en="Verified Customer"
+                                    data-es="Cliente Verificada">Verified Customer</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="py-12 bg-amber-800 text-white">
+            <div class="container mx-auto px-6 text-center">
+                <h3 class="text-3xl font-bold mb-6" data-en="Join Our Community" data-es="Únete a Nuestra Comunidad">
+                    Join Our Community</h3>
+                <p class="mb-8 max-w-2xl mx-auto"
+                    data-en="Subscribe to our newsletter for exclusive offers, new collection previews, and styling tips."
+                    data-es="Suscríbete a nuestro boletín para ofertas exclusivas, avances de nuevas colecciones y consejos de estilo.">
+                    Subscribe to our newsletter for exclusive offers, new collection previews, and styling tips.</p>
+
+                <form class="flex flex-col md:flex-row justify-center mb-6">
+                    <input type="email" placeholder="Your email address"
+                        class="px-4 py-3 mb-2 md:mb-0 md:mr-2 rounded-lg focus:outline-none text-amber-900 w-full md:w-auto"
+                        data-en-placeholder="Your email address" data-es-placeholder="Tu dirección de email">
+                    <button type="submit"
+                        class="bg-white text-amber-800 px-6 py-3 rounded-lg hover:bg-amber-100 transition"
+                        data-en="Subscribe" data-es="Suscribirse">Subscribe</button>
+                </form>
+
+                <p class="text-sm opacity-80"
+                    data-en="By subscribing, you agree to our Privacy Policy and consent to receive updates from our company."
+                    data-es="Al suscribirte, aceptas nuestra Política de Privacidad y consientes recibir actualizaciones de nuestra empresa.">
+                    By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.</p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-12 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2 mb-8 md:mb-0">
+                        <h3 class="text-3xl font-bold mb-6 text-amber-900" data-en="Get In Touch" data-es="Contáctanos">
+                            Get In Touch</h3>
+                        <p class="text-amber-800 mb-8"
+                            data-en="We'd love to hear from you. Whether you have a question about our products, need styling advice, or want to visit our showroom."
+                            data-es="Nos encantaría saber de ti. Ya sea que tengas una pregunta sobre nuestros productos, necesites consejos de estilo o quieras visitar nuestra sala de exposición.">
+                            We'd love to hear from you. Whether you have a question about our products, need styling
+                            advice, or want to visit our showroom.</p>
+
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-amber-900 mb-2" data-en="Visit Our Showroom"
+                                data-es="Visita Nuestra Sala de Exposición">Visit Our Showroom</h4>
+                            <p class="text-amber-800" data-en="123 Leather Lane, Fashion District"
+                                data-es="Calle Cuero 123, Distrito de Moda">123 Leather Lane, Fashion District</p>
+                            <p class="text-amber-800" data-en="New York, NY 10001" data-es="Nueva York, NY 10001">New
+                                York, NY 10001</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-amber-900 mb-2" data-en="Opening Hours"
+                                data-es="Horario de Apertura">Opening Hours</h4>
+                            <p class="text-amber-800" data-en="Monday - Friday: 10am - 7pm"
+                                data-es="Lunes - Viernes: 10am - 7pm">Monday - Friday: 10am - 7pm</p>
+                            <p class="text-amber-800" data-en="Saturday: 11am - 6pm" data-es="Sábado: 11am - 6pm">
+                                Saturday: 11am - 6pm</p>
+                            <p class="text-amber-800" data-en="Sunday: Closed" data-es="Domingo: Cerrado">Sunday: Closed
+                            </p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-amber-900 mb-2" data-en="Contact Information"
+                                data-es="Información de Contacto">Contact Information</h4>
+                            <p class="text-amber-800" data-en="Email: hello@elegancia.com"
+                                data-es="Email: hola@elegancia.com">Email: hello@elegancia.com</p>
+                            <p class="text-amber-800" data-en="Phone: +1 (555) 123-4567"
+                                data-es="Teléfono: +1 (555) 123-4567">Phone: +1 (555) 123-4567</p>
+                        </div>
+
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-amber-800 hover:text-amber-600 transition"><i
+                                    class="fab fa-instagram text-2xl"></i></a>
+                            <a href="#" class="text-amber-800 hover:text-amber-600 transition"><i
+                                    class="fab fa-facebook text-2xl"></i></a>
+                            <a href="#" class="text-amber-800 hover:text-amber-600 transition"><i
+                                    class="fab fa-pinterest text-2xl"></i></a>
+                        </div>
+                    </div>
+
+<!--                     <div class="md:w-1/2 md:pl-12">
+                        <form class="bg-amber-50 p-6 rounded-lg shadow-md">
+                            <h4 class="text-xl font-semibold mb-6 text-amber-900" data-en="Send Us a Message"
+                                data-es="Envíanos un Mensaje">Send Us a Message</h4>
+
+                            <div class="mb-4">
+                                <label for="name" class="block text-amber-800 mb-2" data-en="Your Name"
+                                    data-es="Tu Nombre">Your Name</label>
+                                <input type="text" id="name"
+                                    class="w-full px-4 py-2 rounded-lg border border-amber-300 focus:outline-none focus:border-amber-500">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="email" class="block text-amber-800 mb-2" data-en="Your Email"
+                                    data-es="Tu Email">Your Email</label>
+                                <input type="email" id="email"
+                                    class="w-full px-4 py-2 rounded-lg border border-amber-300 focus:outline-none focus:border-amber-500">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="subject" class="block text-amber-800 mb-2" data-en="Subject"
+                                    data-es="Asunto">Subject</label>
+                                <input type="text" id="subject"
+                                    class="w-full px-4 py-2 rounded-lg border border-amber-300 focus:outline-none focus:border-amber-500">
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="message" class="block text-amber-800 mb-2" data-en="Your Message"
+                                    data-es="Tu Mensaje">Your Message</label>
+                                <textarea id="message" rows="5"
+                                    class="w-full px-4 py-2 rounded-lg border border-amber-300 focus:outline-none focus:border-amber-500"></textarea>
+                            </div>
+
+                            <button type="submit"
+                                class="w-full bg-amber-800 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition"
+                                data-en="Send Message" data-es="Enviar Mensaje">Send Message</button>
+                        </form>
+                    </div> -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-amber-900 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between mb-8">
+                <div class="mb-6 md:mb-0">
+                    <h2 class="text-2xl font-bold mb-4">ELEGANCIA</h2>
+                    <p class="max-w-xs opacity-80"
+                        data-en="Handcrafted leather shoes that combine tradition with modern elegance."
+                        data-es="Zapatos de cuero hechos a mano que combinan la tradición con la elegancia moderna.">
+                        Handcrafted leather shoes that combine tradition with modern elegance.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h5 class="font-semibold mb-4" data-en="Shop" data-es="Tienda">Shop</h5>
+                        <ul class="space-y-2 opacity-80">
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="New Arrivals"
+                                    data-es="Nuevas Llegadas">New Arrivals</a></li>
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="Bestsellers"
+                                    data-es="Más Vendidos">Bestsellers</a></li>
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="Heels"
+                                    data-es="Tacones">Heels</a></li>
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="Boots"
+                                    data-es="Botas">Boots</a></li>
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="Flats"
+                                    data-es="Planos">Flats</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h5 class="font-semibold mb-4" data-en="Company" data-es="Empresa">Company</h5>
+                        <ul class="space-y-2 opacity-80">
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="Our Story"
+                                    data-es="Nuestra Historia">Our Story</a></li>
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="Sustainability"
+                                    data-es="Sostenibilidad">Sustainability</a></li>
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="Craftsmanship"
+                                    data-es="Artesanía">Craftsmanship</a></li>
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="Press"
+                                    data-es="Prensa">Press</a></li>
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="Careers"
+                                    data-es="Carreras">Careers</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h5 class="font-semibold mb-4" data-en="Help" data-es="Ayuda">Help</h5>
+                        <ul class="space-y-2 opacity-80">
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="Contact Us"
+                                    data-es="Contáctanos">Contact Us</a></li>
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="Shipping & Returns"
+                                    data-es="Envíos y Devoluciones">Shipping & Returns</a></li>
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="Size Guide"
+                                    data-es="Guía de Tallas">Size Guide</a></li>
+                            <li><a href="#" class="hover:text-amber-300 transition" data-en="FAQs"
+                                    data-es="Preguntas Frecuentes">FAQs</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-amber-800 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm opacity-80 mb-4 md:mb-0" data-en="© 2023 Elegancia. All rights reserved."
+                    data-es="© 2023 Elegancia. Todos los derechos reservados.">© 2025 Elegancia. All rights reserved.
+                </p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-sm opacity-80 hover:text-amber-300 transition" data-en="Privacy Policy"
+                        data-es="Política de Privacidad">Privacy Policy</a>
+                    <a href="#" class="text-sm opacity-80 hover:text-amber-300 transition" data-en="Terms of Service"
+                        data-es="Términos de Servicio">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+<script>
+    window.ChatWidgetConfig = {
+        webhook: {
+            url: 'https://primary-production-b673.up.railway.app/webhook/5e957f2c-d592-4499-a9c2-476588606239/chat',
+            route: 'general'
+        },
+        branding: {
+            logo: 'https://raw.githubusercontent.com/aljon-agentgenius/showcase/main/shoeware/high-heels.png',
+            name: 'Elegencia', // Your company name
+            welcomeText: 'Hi 👋, how can we help?', //Welcome message
+            responseTimeText: 'We typically respond right away',
+            poweredBy: {
+                text: '',
+                link: ''
+            }
+        },
+        style: {
+            primaryColor: '#92400E', //Primary color
+            secondaryColor: '#000', //Secondary color
+            position: 'right', //Position of the widget (left or right)
+            backgroundColor: '#ffffff', //Background color of the chat widget
+            fontColor: '#333333' //Text color for messages and interface
+        }
+    };
+</script>
+<script src="https://cdn.jsdelivr.net/gh/WayneSimpson/n8n-chatbot-template@ba944c3/chat-widget.js"></script>
+<!-- Widget Script -->
+
+</html>

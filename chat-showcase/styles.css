@@ -1,0 +1,132 @@
+/* Custom Styles for Elegancia Landing Page */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom font styles */
+body {
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Fade-in animation for page elements */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.container > * {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Hover effects for product cards */
+.bg-white.rounded-lg.overflow-hidden.shadow-lg {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bg-white.rounded-lg.overflow-hidden.shadow-lg:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Button hover effects */
+.bg-amber-800:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(169, 91, 0, 0.2);
+}
+
+/* Nav link underline effect */
+.hidden.md\:flex.items-center.space-x-8 a {
+  position: relative;
+}
+
+.hidden.md\:flex.items-center.space-x-8 a:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #92400e;
+  transition: width 0.3s ease;
+}
+
+.hidden.md\:flex.items-center.space-x-8 a:hover:after {
+  width: 100%;
+}
+
+/* Custom styling for language toggle */
+#language-toggle {
+  position: relative;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+#language-toggle:hover {
+  background-color: #fff3e0;
+}
+
+/* Enhanced language toggle switch */
+#language-toggle .relative {
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+#toggle-circle {
+  transition: transform 0.3s ease;
+  z-index: 1;
+}
+
+#language-toggle:hover #toggle-circle {
+  box-shadow: 0 0 8px rgba(146, 64, 14, 0.4);
+}
+
+/* Image hover zoom effect */
+.w-full.h-64.object-cover {
+  transition: transform 0.5s ease;
+}
+
+.bg-white.rounded-lg.overflow-hidden.shadow-lg:hover .w-full.h-64.object-cover {
+  transform: scale(1.05);
+}
+
+/* Mobile menu animation */
+#mobile-menu {
+  transition: height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+#mobile-menu.active {
+  opacity: 1;
+  height: auto;
+}
+
+/* Newsletter form focus effects */
+input:focus {
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.3);
+}
+
+/* Testimonial card hover effect */
+.bg-white.p-6.rounded-lg.shadow-md {
+  transition: transform 0.3s ease;
+}
+
+.bg-white.p-6.rounded-lg.shadow-md:hover {
+  transform: translateY(-5px);
+} 
+
+.chat-footer {
+  display: none !important;
+}
+
+
+@media (max-width: 600px) {
+  .chat-container {
+    width: 90% !important;
+  }
+}
