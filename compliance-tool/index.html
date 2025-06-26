@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nitro Compliance Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="js/tailwind-config.js"></script>
+  <script src="js/main.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+ 
+</head>
+
+<body class="bg-white min-h-screen flex items-center justify-center p-4 font-sans">
+  <div x-data="compliance" x-cloak class="max-w-md w-full">
+    <!-- Question State -->
+    <div x-show="!showAnswer"
+      class="bg-nitro-blue rounded-lg px-6 pt-3 pb-6 space-y-4 border-4 animate-borderPulse animate-backgroundFade transition-border duration-300">
+      
+      <!-- Header -->
+      <div class="space-y-1">
+        <h2 class="text-white text-2xl font-bold tracking-wider underline mt-2 pb-3">
+          AvaRx
+        </h2>
+      </div>
+
+      <span class="text-white/90 font-bold">
+        Ask AvaRx direct compliance questions.
+      </span>
+      <br>
+      <span class="text-white/80 italic">
+        They will reply with:
+      </span>
+      <br>
+      <span class="text-white/80 italic">
+        The Code; Case examples; and, Clear advice.
+      </span>
+
+      <div class="mt-8 space-y-4">
+        <div class="relative">
+          <textarea x-model="question" @focus="onFocus" @blur="onBlur"
+            class="w-full bg-white/10 text-white text-xl font-normal placeholder-white/80 p-4 rounded-md resize-none no-scrollbar focus:outline-none focus:ring-2 focus:ring-white/50 border border-white"
+            rows="3" placeholder="Enter your question here" @keydown.enter.prevent="submitQuestion"
+            @keydown="error = null" :disabled="loading" :class="{'animate-pulse': isDefaultQuestion()}"></textarea>
+        </div>
+        
+        <!-- Error Message Display -->
+        <div x-show="error" class="text-white text-sm font-medium mb-2" x-text="error"></div>
+        
+        <button @click="submitQuestion"
+          class="w-full bg-nitro-teal font-bold py-3 px-6 rounded-md hover:bg-opacity-90 transition-colors relative"
+          :disabled="loading" :class="currentMessageIndex % 2 === 1 ? '!text-dark ' : 'text-gray-700 !bg-white'">
+          <span x-show="!loading">Ask Question</span>
+          <span x-show="loading" class="flex items-center justify-center space-x-2">
+            <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            <span x-text="currentLoadingMessage()"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Answer State -->
+    <div x-show="showAnswer" class="bg-nitro-teal rounded-lg px-6 pt-3 pb-6 space-y-2">
+      <!-- Header with back button -->
+      <div class="flex justify-between items-start pt-5">
+        <div class="space-y-1 text-2xl text-white font-bold tracking-wider underline">
+          <h2 class="pb-5">AvaRx</h2>
+        </div>
+        <button @click="reset"
+          class="p-2 rounded-full bg-white text-purple-900 shadow-md hover:bg-purple-900 hover:text-white transition duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Loading State -->
+      <div x-show="loading" class="text-white text-center py-4 rounded-md">
+        Loading...
+      </div>
+
+      <!-- Error State -->
+      <div x-show="error" class="text-red-600 text-center py-4" x-text="error"></div>
+
+      <!-- Content (shown when data is loaded) -->
+      <template x-if="response && !loading">
+        <div class="space-y-4 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar pb-4">
+          <!-- Question Section -->
+          <div class="mt-2">
+            <p class="text-purple-900 font-bold">You asked,</p>
+            <p class="text-purple-900/80 mt-1 font-normal" x-text="question"></p>
+          </div>
+
+          <!-- Response Box -->
+          <div class="space-y-4 mt-4">
+            <div>
+              <h4 class="text-purple-900 font-bold">The Code:</h4>
+              <p class="text-purple-900/80 mt-1 font-normal" x-text="response.answer.abpi_code_says"></p>
+            </div>
+
+            <div>
+              <h4 class="text-purple-900 font-bold">Case Examples:</h4>
+              <p class="text-purple-900/80 mt-1 font-normal" x-text="response.answer.relevant_cases"></p>
+            </div>
+
+            <div>
+              <h4 class="text-purple-900 font-bold">AvaRx's Advice:</h4>
+              <p class="text-purple-900/80 mt-1 font-normal" x-text="response.answer.our_take"></p>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <!-- Star Rating -->
+      <div class="mt-5 pt-4 flex justify-center">
+        <template x-for="i in 5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-colors mx-2" :class="[
+                            i <= (hoveredStar || rating) ? 'text-yellow-400' : 'text-white',
+                            rating ? '' : 'cursor-pointer'
+                        ]" fill="currentColor" viewBox="0 0 24 24" @mouseenter="rating ? null : hoveredStar = i"
+            @mouseleave="rating ? null : hoveredStar = 0" @click="rating ? null : submitRating(i)">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+          </svg>
+        </template>
+      </div>
+
+      <br>
+      <button @click="reset"
+        class="w-full bg-white text-purple-900 font-bold py-3 px-6 rounded-md hover:bg-opacity-90 hover:shadow-2xl hover:shadow-white/50 transition-colors relative">
+        <span class="inline-block shine-text">Ask Another Question</span>
+      </button>
+      
+      <!-- Disclaimer -->
+      <p class="text-purple-900 text-sm mt-6 font-normal text-center italic">
+        This tool offers general guidance only and is not a substitute for
+        formal compliance advice.
+      </p>
+    </div>
+  </div>
+</body>
+
+</html>
