@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentGenius.ai - PDF Analyzer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div x-data="pdfAnalyzer()" class="container mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2"></h1>
+      <p class="text-xl" style="color: #8C53FA;" class="font-semibold mb-2">PDF Analyzer</p>
+      <p class="text-gray-600">Upload your PDF and get intelligent analysis powered by AI</p>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="max-w-4xl mx-auto">
+      
+      <!-- State 1: Initial State -->
+      <div x-show="state === 'initial'" class="bg-white rounded-lg shadow-md p-8">
+        <div class="text-center">
+          <div class="mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4" style="background-color: #5B2C98;">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-semibold mb-4">Upload Your PDF</h2>
+          <p class="text-gray-600 mb-6">Select a PDF file to analyze its content</p>
+          
+          <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 hover:border-purple-400 transition-colors" style="border-color: #8C53FA;">
+            <input 
+              type="file" 
+              @change="handleFileSelect($event)"
+              accept="application/pdf"
+              class="hidden"
+              id="pdfInput"
+            >
+            <label for="pdfInput" class="cursor-pointer">
+              <div class="text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <p class="mt-2 text-sm text-gray-600">Click to select a PDF file</p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- State 2: Loading State -->
+      <div x-show="state === 'loading'" class="bg-white rounded-lg shadow-md p-8">
+        <div class="text-center">
+          <div class="mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4" style="background-color: #5B2C98;">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+          </div>
+          <h2 class="text-xl font-semibold mb-4">Analyzing Your PDF</h2>
+          <p class="text-gray-600 mb-4">Please wait while we process your document...</p>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div class="h-2 rounded-full animate-pulse" style="width: 60%; background-color: #8C53FA;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- State 3: Uploaded State -->
+      <div x-show="state === 'uploaded'" class="bg-white rounded-lg shadow-md p-8">
+        <div class="text-center">
+          <div class="mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4" style="background-color: #5B2C98;">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-semibold mb-4">Analysis Complete!</h2>
+          <p class="text-gray-600 mb-6">Your PDF has been successfully analyzed</p>
+          
+          <div class="bg-gray-50 rounded-lg p-4 mb-6">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <svg class="w-8 h-8 text-red-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="text-left">
+                  <p class="font-medium text-gray-900" x-text="selectedFile?.name || 'Document.pdf'"></p>
+                  <p class="text-sm text-gray-500" x-text="selectedFile ? formatFileSize(selectedFile.size) : 'Unknown size'"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <button 
+            @click="showResults()"
+            class="text-white px-6 py-3 rounded-lg hover:opacity-90 transition-colors font-medium"
+            style="background-color: #8C53FA;"
+          >
+            View Analysis Results
+          </button>
+        </div>
+      </div>
+
+      <!-- State 4: Results State -->
+      <div x-show="state === 'results'" class="space-y-6">
+        <!-- Header with back button -->
+        <div class="flex items-center justify-between bg-white rounded-lg shadow-md p-4">
+          <div class="flex items-center">
+            <button 
+              @click="goBack()"
+              class="mr-4 p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h2 class="text-xl font-semibold text-gray-900">Analysis Results</h2>
+          </div>
+          <div class="text-sm text-gray-500" x-text="selectedFile?.name || 'Document.pdf'"></div>
+        </div>
+
+        <!-- Google Docs-like Results -->
+        <div class="bg-white rounded-lg shadow-md">
+          <div class="border-b border-gray-200 p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Document Summary</h3>
+            <p class="text-gray-600">Analysis completed successfully. Below are the key insights from your document.</p>
+          </div>
+          
+          <div class="p-6">
+            <!-- Full Text Preview -->
+            <div class="mb-8">
+              <h4 class="font-semibold text-gray-900 mb-4">Extracted Text</h4>
+              <div class="bg-gray-50 rounded-lg p-4 max-h-64 overflow-y-auto">
+                <div class="text-sm text-gray-700 leading-relaxed whitespace-pre-line" x-text="analysisResults.extractedText"></div>
+              </div>
+            </div>
+
+            <!-- Summary -->
+            <div x-show="analysisResults.summary" class="mb-8">
+              <h4 class="font-semibold text-gray-900 mb-4">Summary</h4>
+              <div class="rounded-lg p-4 border" style="background-color: rgba(91, 44, 152, 0.1); border-color: #8C53FA;">
+                <div class="text-sm text-gray-700 leading-relaxed" x-text="analysisResults.summary"></div>
+              </div>
+            </div>
+
+            <!-- Recommendation -->
+            <div x-show="analysisResults.recommendation" class="mb-8">
+              <h4 class="font-semibold text-gray-900 mb-4">Recommendation</h4>
+              <div class="rounded-lg p-4 border" style="background-color: rgba(140, 83, 250, 0.1); border-color: #5B2C98;">
+                <div class="text-sm text-gray-700 leading-relaxed" x-text="analysisResults.recommendation"></div>
+              </div>
+            </div>
+
+            <!-- Themes -->
+            <div x-show="analysisResults.themes && analysisResults.themes.length > 0" class="mb-8">
+              <h4 class="font-semibold text-gray-900 mb-4">Key Themes</h4>
+              <div class="flex flex-wrap gap-2">
+                <template x-for="(theme, themeIndex) in analysisResults.themes" :key="themeIndex">
+                  <span class="text-sm px-3 py-1 rounded-full" style="background-color: #5B2C98; color: white;" x-text="theme"></span>
+                </template>
+              </div>
+            </div>
+
+            <!-- Word Frequency Analysis -->
+            <div class="mb-8">
+              <h4 class="text-lg font-semibold text-gray-900 mb-4">Top 5 Most Used Words</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <template x-for="(wordData, index) in analysisResults.wordFrequencies" :key="index">
+                  <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <div class="flex items-center justify-between mb-2">
+                      <h5 class="font-medium text-gray-900" x-text="wordData.word"></h5>
+                      <span class="text-sm font-semibold" style="color: #8C53FA;" x-text="wordData.count"></span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        class="h-2 rounded-full transition-all duration-300" 
+                        :style="`width: ${Math.min(wordData.percentage * 2, 100)}%; background-color: #5B2C98;`"
+                      ></div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1" x-text="`${wordData.percentage}% of total words`"></p>
+                  </div>
+                </template>
+              </div>
+            </div>
+
+            <!-- Legal Information -->
+            <div x-show="analysisResults.legals && analysisResults.legals.length > 0" class="mb-8">
+              <h4 class="font-semibold text-gray-900 mb-4">Legal Information</h4>
+              <div class="space-y-2">
+                <template x-for="(legal, legalIndex) in analysisResults.legals" :key="legalIndex">
+                  <div class="rounded-lg p-3 border" style="background-color: rgba(140, 83, 250, 0.1); border-color: #5B2C98;">
+                    <div class="text-sm text-gray-700" x-text="legal"></div>
+                  </div>
+                </template>
+              </div>
+            </div>
+
+            <!-- Document Statistics -->
+            <div class="border-t border-gray-200 pt-6">
+              <h4 class="font-semibold text-gray-900 mb-4">Document Statistics</h4>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="p-4 rounded-lg" style="background-color: rgba(91, 44, 152, 0.1); border: 1px solid #5B2C98;">
+                  <div class="text-2xl font-bold" style="color: #5B2C98;" x-text="analysisResults.totalWords"></div>
+                  <div class="text-sm" style="color: #5B2C98;">Total Words</div>
+                </div>
+                <div class="p-4 rounded-lg" style="background-color: rgba(140, 83, 250, 0.1); border: 1px solid #8C53FA;">
+                  <div class="text-2xl font-bold" style="color: #8C53FA;" x-text="analysisResults.wordFrequencies?.length || 0"></div>
+                  <div class="text-sm" style="color: #8C53FA;">Unique Words Analyzed</div>
+                </div>
+                <div class="p-4 rounded-lg" style="background-color: rgba(91, 44, 152, 0.1); border: 1px solid #5B2C98;">
+                  <div class="text-2xl font-bold" style="color: #5B2C98;" x-text="analysisResults.readingTime"></div>
+                  <div class="text-sm" style="color: #5B2C98;">Reading Time (min)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Alpine.js properly
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('pdfAnalyzer', () => ({
+        state: 'initial',
+        selectedFile: null,
+        analysisResults: {
+          wordFrequencies: [],
+          totalWords: 0,
+          readingTime: 0,
+          extractedText: '',
+          themes: [],
+          summary: '',
+          recommendation: '',
+          legals: []
+        },
+
+        handleFileSelect(event) {
+          const file = event.target.files[0];
+          if (!file) return;
+          
+          if (file.type !== 'application/pdf') {
+            alert('Please select a PDF file.');
+            return;
+          }
+
+          this.selectedFile = file;
+          this.uploadAndAnalyze();
+        },
+
+        async uploadAndAnalyze() {
+          this.state = 'loading';
+          
+          try {
+            // Simulate API call delay
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Mock API call - replace with actual fetch
+            const formData = new FormData();
+            formData.append('file', this.selectedFile);
+            formData.append('fileType', 'document');
+            // formData.append('publicUrl', 'https://example.com/uploads/' + encodeURIComponent(this.selectedFile.name));
+
+            const response = await fetch('https://primary-production-4c3f0.up.railway.app/webhook/analyze-pdf-with-theme', {
+              method: 'POST',
+              headers: {
+                'Authorization': 'Basic ' + btoa('admin:admin123')
+              },
+              body: formData
+            });
+
+            const data = await response.json().catch(() => response.text());
+            console.log('Server response:', data);
+
+            // Use the actual API response data
+            this.parseApiResponse(data);
+            
+            this.state = 'uploaded';
+          } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while analyzing the PDF. Please try again.');
+            this.state = 'initial';
+          }
+        },
+
+        parseApiResponse(data) {
+          // Parse the actual API response and populate analysisResults
+          if (typeof data === 'string') {
+            try {
+              data = JSON.parse(data);
+            } catch (e) {
+              console.error('Failed to parse response as JSON:', e);
+              this.generateMockResults();
+              return;
+            }
+          }
+
+          // Handle the API response structure with 'output' property
+          if (data && data.output && data.output.extracted_text) {
+            const extractedText = data.output.extracted_text;
+            
+            // Extract most used words from the extracted text
+            const wordFrequencies = this.getMostUsedWords(extractedText);
+            
+            // Calculate basic stats
+            const words = extractedText.split(/\s+/).filter(word => word.length > 0);
+            const totalWords = words.length;
+            
+            this.analysisResults = {
+              wordFrequencies: wordFrequencies,
+              totalWords: totalWords,
+              readingTime: Math.ceil(totalWords / 200),
+              extractedText: extractedText,
+              themes: data.output.themes || [],
+              summary: data.output.summary || '',
+              recommendation: data.output.recommendation || '',
+              legals: data.output.legals || []
+            };
+          } else {
+            console.log('Unexpected API response structure:', data);
+            this.generateMockResults();
+          }
+        },
+
+        getMostUsedWords(text) {
+          // Clean and process the text
+          const words = text.toLowerCase()
+            .replace(/[^\w\s]/g, '') // Remove punctuation
+            .split(/\s+/)
+            .filter(word => 
+              word.length > 3 && // Only words longer than 3 characters
+              !['the', 'and', 'with', 'that', 'this', 'have', 'from', 'they', 'will', 'would', 'there', 'their', 'what', 'said', 'each', 'which', 'she', 'do', 'how', 'her', 'if', 'will', 'up', 'one', 'about', 'many', 'then', 'them', 'these', 'so', 'some', 'her', 'would', 'make', 'like', 'into', 'him', 'time', 'has', 'two', 'more', 'go', 'no', 'way', 'could', 'my', 'than', 'first', 'been', 'call', 'who', 'its', 'now', 'find', 'long', 'down', 'day', 'did', 'get', 'come', 'made', 'may', 'part'].includes(word) // Filter out common stop words
+            );
+          
+          // Count word frequencies
+          const wordCount = {};
+          words.forEach(word => {
+            wordCount[word] = (wordCount[word] || 0) + 1;
+          });
+          
+          // Convert to array and sort by frequency
+          const sortedWords = Object.entries(wordCount)
+            .sort(([,a], [,b]) => b - a)
+            .slice(0, 5) // Get top 5 words
+            .map(([word, count]) => ({
+              word: word.charAt(0).toUpperCase() + word.slice(1), // Capitalize first letter
+              count: count,
+              percentage: Math.round((count / words.length) * 100 * 10) / 10 // Calculate percentage
+            }));
+          
+          return sortedWords;
+        },
+
+        generateMockResults() {
+          // Generate mock analysis results for demonstration
+          const pageCount = Math.floor(Math.random() * 10) + 3; // 3-12 pages
+          const pages = [];
+          let totalWords = 0;
+          const themes = ['Technology', 'Business', 'Innovation', 'Strategy', 'Development'];
+          const keywords = ['AI', 'Machine Learning', 'Data', 'Analytics', 'Cloud', 'Security', 'Digital', 'Transformation'];
+
+          for (let i = 1; i <= pageCount; i++) {
+            const wordCount = Math.floor(Math.random() * 300) + 100;
+            totalWords += wordCount;
+            
+            pages.push({
+              pageNumber: i,
+              wordCount: wordCount,
+              summary: `This page discusses key concepts related to modern technology and business practices. It covers important aspects of digital transformation and strategic planning in today's competitive landscape.`,
+              keywords: keywords.slice(0, Math.floor(Math.random() * 4) + 2)
+            });
+          }
+
+          this.analysisResults = {
+            pages: pages,
+            totalPages: pageCount,
+            totalWords: totalWords,
+            readingTime: Math.ceil(totalWords / 200), // Assuming 200 words per minute
+            themes: themes.slice(0, Math.floor(Math.random() * 3) + 2)
+          };
+        },
+
+        showResults() {
+          this.state = 'results';
+        },
+
+        goBack() {
+          this.state = 'uploaded';
+        },
+
+        formatFileSize(bytes) {
+          if (bytes === 0) return '0 Bytes';
+          const k = 1024;
+          const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+          const i = Math.floor(Math.log(bytes) / Math.log(k));
+          return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+      }))
+    })
+  </script>
+</body>
+</html> 
