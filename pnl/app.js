@@ -6,27 +6,31 @@ function calendarApp() {
         selectedTimezone: 'Asia/Manila',
         eventForm: {
             date: '',
+            time: '',
             pnl: '',
-            note: ''
+            note: '',
+            image: ''
         },
         events: [],
+        offcanvasMode: 'add', // 'add' or 'list'
+        selectedDate: null,
 
         // Computed properties for summary
-        get totalWins() {
+        get totalEarnings() {
             return this.events
                 .filter(event => parseFloat(event.pnl) > 0)
                 .reduce((sum, event) => sum + parseFloat(event.pnl), 0)
                 .toFixed(2);
         },
 
-        get totalLosses() {
+        get totalExpenses() {
             return this.events
                 .filter(event => parseFloat(event.pnl) < 0)
                 .reduce((sum, event) => sum + Math.abs(parseFloat(event.pnl)), 0)
                 .toFixed(2);
         },
 
-        get netPnL() {
+        get netIncome() {
             return this.events
                 .reduce((sum, event) => sum + parseFloat(event.pnl), 0)
                 .toFixed(2);
@@ -35,6 +39,14 @@ function calendarApp() {
         init() {
             this.loadEvents();
             this.initCalendar();
+            
+            // Handle window resize for responsive calendar height
+            window.addEventListener('resize', () => {
+                if (this.calendar) {
+                    const newHeight = window.innerWidth < 768 ? 600 : 800;
+                    this.calendar.setOption('height', newHeight);
+                }
+            });
         },
 
         initCalendar() {
@@ -43,9 +55,9 @@ function calendarApp() {
             this.calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 headerToolbar: {
-                    left: 'prev,next today',
+                    left: 'prev,next',
                     center: 'title',
-                    right: 'dayGridMonth,listWeek'
+                    right: window.innerWidth < 768 ? 'today dayGridMonth' : 'today dayGridMonth,listMonth'
                 },
                 timeZone: 'Asia/Manila',
                 locale: 'en',
@@ -55,45 +67,66 @@ function calendarApp() {
                 dayMaxEvents: true,
                 weekends: true,
                 fixedWeekCount: false,
-                height: 800,
+                height: window.innerWidth < 768 ? 600 : 800,
                 events: this.events.map(event => ({
                     id: event.id,
-                    title: event.note,
+                    title: (event.time || '') + ' - ' + event.note,
                     date: event.date,
-                    backgroundColor: this.getEventColor(event.pnl),
-                    borderColor: this.getEventColor(event.pnl),
+                    backgroundColor: 'transparent',
+                    borderColor: 'transparent',
+                    textColor: 'transparent',
                     extendedProps: {
                         pnl: event.pnl,
-                        note: event.note
+                        note: event.note,
+                        time: event.time
                     }
                 })),
                 
-                // Add (+) button to each day cell
-                dayCellDidMount: (arg) => {
-                    const addButton = document.createElement('button');
-                    addButton.innerHTML = '+';
-                    addButton.className = 'add-event-btn w-6 h-6 bg-blue-500 hover:bg-blue-600 text-white rounded-full text-xs font-bold flex items-center justify-center transition-colors';
-                    addButton.style.fontSize = '12px';
-                    addButton.style.lineHeight = '1';
-                    addButton.title = 'Add event';
-                    
-                    addButton.addEventListener('click', (e) => {
-                        e.stopPropagation(); // Prevent day selection
-                        this.eventForm.date = arg.date.toISOString().split('T')[0];
+                // Add day cell click handler and item count display
+               dayCellDidMount: (arg) => {
+                    // Add click handler to the entire day cell
+                    arg.el.addEventListener('click', (e) => {
+                        // Don't trigger if clicking on PnL items or add button
+                        if (e.target.closest('.item-count-display') || e.target.closest('.add-event-btn')) {
+                            return;
+                        }
+                        
+                        this.selectedDate = arg.date.toISOString().split('T')[0];
+                        const dayEvents = this.events.filter(event => event.date === this.selectedDate);
+                        
+                        // Always show add mode by default
+                        this.offcanvasMode = 'add';
+                        // Pre-fill the date field
+                        this.eventForm.date = this.selectedDate;
+                        this.eventForm.time = new Date().toTimeString().slice(0, 5); // HH:MM format
+                        this.eventForm.pnl = '';
+                        this.eventForm.note = '';
+                        this.eventForm.image = '';
                         this.editingEvent = null;
+                        
                         this.showOffcanvas = true;
                     });
-                    
-                    arg.el.appendChild(addButton);
-                    
-                    // Display PnL values on the day cell
-                    this.displayPnLOnDay(arg);
+
+                    // Display item count on the day cell
+                    this.displayItemCountOnDay(arg);
                 },
+
                 
                 // Handle date selection
                 select: (info) => {
-                    this.eventForm.date = info.startStr;
+                    this.selectedDate = info.startStr;
+                    const dayEvents = this.events.filter(event => event.date === this.selectedDate);
+                    
+                    // Always show add mode by default
+                    this.offcanvasMode = 'add';
+                    // Pre-fill the date field
+                    this.eventForm.date = this.selectedDate;
+                    this.eventForm.time = new Date().toTimeString().slice(0, 5); // HH:MM format
+                    this.eventForm.pnl = '';
+                    this.eventForm.note = '';
+                    this.eventForm.image = '';
                     this.editingEvent = null;
+                    
                     this.showOffcanvas = true;
                 },
 
@@ -140,26 +173,28 @@ function calendarApp() {
                 this.calendar.removeAllEvents();
                 this.calendar.addEventSource(this.events.map(event => ({
                     id: event.id,
-                    title: event.note,
+                    title: (event.time || '') + ' - ' + event.note,
                     date: event.date,
-                    backgroundColor: this.getEventColor(event.pnl),
-                    borderColor: this.getEventColor(event.pnl),
+                    backgroundColor: 'transparent',
+                    borderColor: 'transparent',
+                    textColor: 'transparent',
                     extendedProps: {
                         pnl: event.pnl,
-                        note: event.note
+                        note: event.note,
+                        time: event.time
                     }
                 })));
                 
-                // Refresh PnL display on all day cells
+                // Refresh item count display on all day cells
                 this.refreshPnLDisplay();
             }
         },
 
         refreshPnLDisplay() {
-            // Clear existing PnL displays
-            document.querySelectorAll('.pnl-display').forEach(el => el.remove());
+            // Clear existing item count displays
+            document.querySelectorAll('.item-count-display').forEach(el => el.remove());
             
-            // Re-add PnL displays for all day cells
+            // Re-add item count displays for all day cells
             const dayCells = document.querySelectorAll('.fc-daygrid-day');
             dayCells.forEach(dayCell => {
                 const dateAttr = dayCell.getAttribute('data-date');
@@ -169,23 +204,20 @@ function calendarApp() {
                         date: date,
                         el: dayCell
                     };
-                    this.displayPnLOnDay(arg);
+                    this.displayItemCountOnDay(arg);
                 }
             });
         },
 
-        getEventColor(pnl) {
-            const value = parseFloat(pnl);
-            if (value > 0) return '#10B981'; // Green for positive
-            if (value < 0) return '#EF4444'; // Red for negative
-            return '#6B7280'; // Gray for zero
-        },
+
 
         addEvent() {
             this.eventForm = {
                 date: new Date().toISOString().split('T')[0],
+                time: new Date().toTimeString().slice(0, 5), // HH:MM format
                 pnl: '',
-                note: ''
+                note: '',
+                image: ''
             };
             this.editingEvent = null;
             this.showOffcanvas = true;
@@ -196,31 +228,42 @@ function calendarApp() {
             if (this.editingEvent) {
                 this.eventForm = {
                     date: this.editingEvent.date,
+                    time: this.editingEvent.time || new Date().toTimeString().slice(0, 5),
                     pnl: this.editingEvent.pnl,
-                    note: this.editingEvent.note
+                    note: this.editingEvent.note,
+                    image: this.editingEvent.image || ''
                 };
                 this.showOffcanvas = true;
             }
         },
 
         saveEvent() {
-            if (!this.eventForm.date || !this.eventForm.pnl || !this.eventForm.note) {
-                alert('Please fill in all fields');
+            if (!this.eventForm.date || !this.eventForm.time || !this.eventForm.pnl || !this.eventForm.note) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Missing Information',
+                    text: 'Please fill in all fields',
+                    confirmButtonColor: '#3B82F6'
+                });
                 return;
             }
 
             if (this.editingEvent) {
                 // Update existing event
                 this.editingEvent.date = this.eventForm.date;
+                this.editingEvent.time = this.eventForm.time;
                 this.editingEvent.pnl = this.eventForm.pnl;
                 this.editingEvent.note = this.eventForm.note;
+                this.editingEvent.image = this.eventForm.image;
             } else {
                 // Create new event
                 const newEvent = {
                     id: Date.now().toString(),
                     date: this.eventForm.date,
+                    time: this.eventForm.time,
                     pnl: this.eventForm.pnl,
-                    note: this.eventForm.note
+                    note: this.eventForm.note,
+                    image: this.eventForm.image
                 };
                 this.events.push(newEvent);
             }
@@ -228,24 +271,67 @@ function calendarApp() {
             this.saveEventsToStorage();
             this.refreshCalendar();
             this.closeOffcanvas();
+            
+            Swal.fire({
+                icon: 'success',
+                title: this.editingEvent ? 'Updated!' : 'Saved!',
+                text: this.editingEvent ? 'Event has been updated successfully.' : 'Event has been saved successfully.',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                background: '#10B981',
+                color: '#ffffff'
+            });
         },
 
         deleteEvent() {
-            if (this.editingEvent && confirm('Are you sure you want to delete this event?')) {
-                this.events = this.events.filter(e => e.id !== this.editingEvent.id);
-                this.saveEventsToStorage();
-                this.refreshCalendar();
-                this.closeOffcanvas();
+            if (this.editingEvent) {
+                Swal.fire({
+                    title: 'Delete Event',
+                    text: 'Are you sure you want to delete this event?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#EF4444',
+                    cancelButtonColor: '#6B7280',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.events = this.events.filter(e => e.id !== this.editingEvent.id);
+                        this.saveEventsToStorage();
+                        this.refreshCalendar();
+                        this.closeOffcanvas();
+                        
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: 'Event has been deleted successfully.',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            background: '#10B981',
+                            color: '#ffffff'
+                        });
+                    }
+                });
             }
         },
 
         closeOffcanvas() {
             this.showOffcanvas = false;
             this.editingEvent = null;
+            this.selectedDate = null;
+            this.offcanvasMode = 'add';
             this.eventForm = {
                 date: '',
+                time: '',
                 pnl: '',
-                note: ''
+                note: '',
+                image: ''
             };
         },
 
@@ -255,47 +341,55 @@ function calendarApp() {
             }
         },
 
-        displayPnLOnDay(arg) {
+        displayItemCountOnDay(arg) {
             const dateStr = arg.date.toISOString().split('T')[0];
             const dayEvents = this.events.filter(event => event.date === dateStr);
             
             if (dayEvents.length > 0) {
-                // Create a container for PnL display
-                const pnlContainer = document.createElement('div');
-                pnlContainer.className = 'pnl-display absolute left-1 top-1 z-5';
-                pnlContainer.style.fontSize = '10px';
-                pnlContainer.style.fontWeight = 'bold';
+                // Calculate total PnL for the day
+                const totalPnL = dayEvents.reduce((sum, event) => sum + parseFloat(event.pnl), 0);
                 
-                dayEvents.forEach((event, index) => {
-                    const pnlValue = parseFloat(event.pnl);
-                    const pnlElement = document.createElement('div');
-                    pnlElement.className = 'mb-1 px-1 py-0.5 rounded text-xs font-bold cursor-pointer hover:opacity-80 transition-opacity';
-                    pnlElement.textContent = `${event.pnl}`;
-                    pnlElement.title = `Click to edit: ${event.note}`;
-                    
-                    // Apply color-coded opacity based on PnL value
-                    if (pnlValue > 0) {
-                        pnlElement.style.backgroundColor = 'rgba(16, 185, 129, 0.8)'; // Green with opacity
-                        pnlElement.style.color = 'white';
-                    } else if (pnlValue < 0) {
-                        pnlElement.style.backgroundColor = 'rgba(239, 68, 68, 0.8)'; // Red with opacity
-                        pnlElement.style.color = 'white';
-                    } else {
-                        pnlElement.style.backgroundColor = 'rgba(107, 114, 128, 0.8)'; // Gray with opacity
-                        pnlElement.style.color = 'white';
-                    }
-                    
-                    // Add click event to edit the event
-                    pnlElement.addEventListener('click', (e) => {
-                        e.stopPropagation(); // Prevent day selection
-                        this.editEventById(event.id);
-                    });
-                    
-                    pnlContainer.appendChild(pnlElement);
-                });
+                // Determine background color based on PnL
+                let bgColor = 'bg-gray-500';
+                if (totalPnL > 0) {
+                    bgColor = 'bg-green-400';
+                } else if (totalPnL < 0) {
+                    bgColor = 'bg-red-400';
+                }
                 
-                arg.el.appendChild(pnlContainer);
+                // Create a container for item count display
+                const countContainer = document.createElement('div');
+                countContainer.className = 'item-count-display absolute left-1 top-1 z-5';
+                
+                const countElement = document.createElement('div');
+                countElement.className = `px-2 py-1 rounded-full text-xs font-bold text-white ${bgColor} hover:opacity-80 transition-colors cursor-pointer`;
+                countElement.textContent = `${dayEvents.length} item${dayEvents.length > 1 ? 's' : ''}`;
+                countElement.title = `Click to view ${dayEvents.length} item${dayEvents.length > 1 ? 's' : ''} for this day (Total: ${totalPnL.toFixed(2)})`;
+                
+                countContainer.appendChild(countElement);
+                arg.el.appendChild(countContainer);
             }
+        },
+
+        // Get events for a specific date
+        getEventsForDate(date) {
+            return this.events.filter(event => event.date === date);
+        },
+
+        // Switch to add mode
+        switchToAddMode() {
+            this.offcanvasMode = 'add';
+            this.eventForm.date = this.selectedDate;
+            this.eventForm.time = new Date().toTimeString().slice(0, 5); // HH:MM format
+            this.eventForm.pnl = '';
+            this.eventForm.note = '';
+            this.eventForm.image = '';
+            this.editingEvent = null;
+        },
+
+        // Switch to list mode
+        switchToListMode() {
+            this.offcanvasMode = 'list';
         },
 
         editEventById(id) {
@@ -303,11 +397,71 @@ function calendarApp() {
             if (this.editingEvent) {
                 this.eventForm = {
                     date: this.editingEvent.date,
+                    time: this.editingEvent.time || new Date().toTimeString().slice(0, 5),
                     pnl: this.editingEvent.pnl,
-                    note: this.editingEvent.note
+                    note: this.editingEvent.note,
+                    image: this.editingEvent.image || ''
                 };
+                this.offcanvasMode = 'add';
                 this.showOffcanvas = true;
             }
-        }
+        },
+
+        deleteEventById(id) {
+            Swal.fire({
+                title: 'Delete Event',
+                text: 'Are you sure you want to delete this event?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#EF4444',
+                cancelButtonColor: '#6B7280',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.events = this.events.filter(e => e.id !== id);
+                    this.saveEventsToStorage();
+                    this.refreshCalendar();
+                    
+                    // If no more events for this date, switch to add mode
+                    if (this.getEventsForDate(this.selectedDate).length === 0) {
+                        this.switchToAddMode();
+                    }
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted!',
+                        text: 'Event has been deleted successfully.',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        background: '#10B981',
+                        color: '#ffffff'
+                    });
+                }
+            });
+        },
+
+        handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.eventForm.image = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        },
+
+        clearImage() {
+            this.eventForm.image = '';
+            // Clear the file input
+            const fileInput = document.getElementById('image');
+            if (fileInput) {
+                fileInput.value = '';
+            }
+        },
     }
 } 

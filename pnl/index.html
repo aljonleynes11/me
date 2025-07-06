@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FullCalendar with Alpine.js</title>
+    <title>Basic Accounting</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/index.global.min.js"></script>
@@ -12,14 +12,59 @@
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.10/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/list@6.1.10/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timezone@6.1.10/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         /* Custom styles for calendar day cells */
         .fc-daygrid-day {
             position: relative !important;
+            border-radius: 12px !important;
+            margin: 2px !important;
+            transition: all 0.2s ease !important;
+            border: 0px !important;
+            padding: 5px !important;
+        }
+        
+        .fc-daygrid-day:hover {
+            background-color: rgba(16, 185, 129, 0.05) !important;
+            transform: scale(1.02) !important;
+        }
+        .fc-scrollgrid-sync-inner{
+            border: 0px !important;
+        }
+        .fc-col-header-cel{
+            border: 0px !important;
+        }
+        
+        .fc-col-header {
+            border: 0px !important;
+        }
+        
+        .fc-col-header-cell {
+            border: 0px !important;
+            background: transparent !important;
+        }
+        
+        .fc-day-header {
+            border: 0px !important;
+            background: transparent !important;
+        }
+        
+        .fc-scrollgrid {
+            border: 0px !important;
+        }
+        
+        .fc-scrollgrid-section {
+            border: 0px !important;
         }
         
         .fc-daygrid-day-frame {
             position: relative !important;
+            border-radius: 12px !important;
+            padding: 8px !important;
+            min-height: 100px !important;
+            border: 0px !important;
+            background: white !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06) !important;
         }
         
         /* Ensure the (+) button is visible and properly positioned */
@@ -41,55 +86,209 @@
             min-height: 100px;
         }
         
-        /* PnL display styling */
-        .pnl-display {
-            max-width: calc(100% - 40px); /* Leave space for (+) button */
-            overflow: hidden;
+        /* Item count display styling */
+        .item-count-display {
+            z-index: 5;
         }
         
-        .pnl-display div {
-            display: inline-block;
-            margin-right: 2px;
-            margin-bottom: 2px;
-            min-width: 30px;
-            text-align: center;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: all 0.2s ease;
+        /* Calendar header styling */
+        .fc-header-toolbar {
+            margin-bottom: 1rem !important;
         }
         
-        .pnl-display div:hover {
-            transform: scale(1.05);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        .fc-button {
+            border-radius: 8px !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
         }
         
-        /* Ensure events don't overlap with PnL display */
+        .fc-button:hover {
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        .fc-button-primary {
+            background-color: #3B82F6 !important;
+            border-color: #3B82F6 !important;
+        }
+        
+        .fc-button-primary:hover {
+            background-color: #2563EB !important;
+            border-color: #2563EB !important;
+        }
+        
+        .fc-button-primary:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3) !important;
+        }
+
+        .fc-button{
+            margin: 2px !important;
+        }
+        
+        /* Calendar title styling */
+        .fc-toolbar-title {
+            font-weight: 600 !important;
+            color: #1F2937 !important;
+        }
+        
+        /* Remove vertical scroll from calendar */
+        .fc-scroller {
+            overflow: hidden !important;
+        }
+        
+        .fc-scroller-liquid {
+            overflow: hidden !important;
+        }
+        
+        /* Remove remaining calendar borders */
+        .fc-scrollgrid-section-body {
+            border-right: 0px !important;
+            border-bottom: 0px !important;
+        }
+        
+        .fc-scrollgrid-section-footer {
+            border: 0px !important;
+        }
+        
+        .fc-scrollgrid-section-header {
+            border-right: 0px !important;
+        }
+        
+        .fc-daygrid-day-frame {
+            border-right: 0px !important;
+            border-bottom: 0px !important;
+        }
+        
+        /* Additional border removal */
+        .fc-scrollgrid-section {
+            border: 0px !important;
+        }
+        
+        .fc-scrollgrid-section-body td {
+            border: 0px !important;
+        }
+        
+        .fc-scrollgrid-section-body th {
+            border: 0px !important;
+        }
+        
+        .fc-daygrid-day {
+            border: 0px !important;
+        }
+        
+        .fc-daygrid-day td {
+            border: 0px !important;
+        }
+        
+        .fc-daygrid-day th {
+            border: 0px !important;
+        }
+        
+        .fc-daygrid-day-frame {
+            border: 0px !important;
+        }
+        
+        .fc-daygrid-day-frame td {
+            border: 0px !important;
+        }
+        
+        .fc-daygrid-day-frame th {
+            border: 0px !important;
+        }
+        
+        /* Hide calendar events completely */
         .fc-daygrid-event {
-            margin-top: 20px !important;
+            display: none !important;
+        }
+        
+        .fc-daygrid-event-dot {
+            display: none !important;
+        }
+        
+        /* Hide any all-day text */
+        .fc-daygrid-day-events {
+            display: none !important;
+        }
+        
+        .fc-daygrid-day-frame .fc-daygrid-day-events {
+            display: none !important;
         }
         
         /* Hide elements with x-cloak until Alpine.js is loaded */
         [x-cloak] {
             display: none !important;
         }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .fc-daygrid-day-frame {
+                min-height: 80px;
+                border-radius: 8px !important;
+                padding: 6px !important;
+            }
+            
+            .item-count-display {
+                position: absolute !important;
+                bottom: 2px !important;
+                right: 2px !important;
+                left: auto !important;
+                top: auto !important;
+            }
+            
+            .fc-daygrid-day .add-event-btn {
+                width: 20px !important;
+                height: 20px !important;
+                bottom: 1px !important;
+                right: 1px !important;
+            }
+            
+            .fc-daygrid-day .add-event-btn svg {
+                width: 12px !important;
+                height: 12px !important;
+            }
+            
+
+            
+            /* Improve calendar header on mobile */
+            .fc-header-toolbar {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .fc-header-toolbar .fc-toolbar-chunk {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+            
+            /* Hide calendar events on mobile */
+            .fc-daygrid-event {
+                display: none !important;
+            }
+            
+            /* Improve day cell content spacing */
+            .fc-daygrid-day-events {
+                margin-top: 15px;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-200">
     <div x-data="calendarApp()" class="min-h-screen">
         <!-- Header -->
         <header class="bg-white shadow-sm border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center py-6">
-                    <h1 class="text-3xl font-bold text-gray-900">Calendar</h1>
-                    <div class="flex items-center space-x-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 sm:py-6 space-y-4 sm:space-y-0">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Basic Accounting</h1>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
                         <!-- Timezone Selector -->
-                        <div class="flex items-center space-x-2">
-                            <label for="timezone" class="text-sm font-medium text-gray-700">Timezone:</label>
+                        <div class="flex items-center space-x-2 w-full sm:w-auto">
+                            <label for="timezone" class="text-sm font-medium text-gray-700 whitespace-nowrap">Timezone:</label>
                             <select 
                                 id="timezone" 
                                 x-model="selectedTimezone"
                                 @change="changeTimezone()"
-                                class="px-3 py-1 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                class="flex-1 sm:flex-none px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             >
                                 <option value="Asia/Manila">Philippines (Asia/Manila)</option>
                                 <option value="UTC">UTC</option>
@@ -106,7 +305,7 @@
                         </div>
                         <button 
                             @click="addEvent()" 
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                            class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
                         >
                             Add Event
                         </button>
@@ -116,61 +315,66 @@
         </header>
 
         <!-- Main Content -->
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
             <!-- Summary Section -->
-            <div class="bg-white rounded-lg shadow-sm border mb-6 p-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">PnL Summary</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-white rounded-lg shadow-sm border mb-4 sm:mb-6 p-4 sm:p-6">
+                <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-4">Stats</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                     <!-- Total Wins -->
-                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-3 sm:p-4">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
-                                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-6 h-6 sm:w-8 sm:h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                                 </svg>
                             </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-green-600">Total Wins</p>
-                                <p class="text-2xl font-bold text-green-900" x-text="totalWins"></p>
+                            <div class="ml-3 sm:ml-4">
+                                <p class="text-xs sm:text-sm font-medium text-green-600">Gross Profit</p>
+                                <p class="text-lg sm:text-2xl font-bold text-green-900" x-text="totalEarnings"></p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Total Losses -->
-                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
-                                <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-6 h-6 sm:w-8 sm:h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
                                 </svg>
                             </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-red-600">Total Losses</p>
-                                <p class="text-2xl font-bold text-red-900" x-text="totalLosses"></p>
+                            <div class="ml-3 sm:ml-4">
+                                <p class="text-xs sm:text-sm font-medium text-red-600">Total Expenses</p>
+                                <p class="text-lg sm:text-2xl font-bold text-red-900" x-text="totalExpenses"></p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Net PnL -->
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4 sm:col-span-2 lg:col-span-1">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
-                                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                 </svg>
                             </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-blue-600">Net PnL</p>
-                                <p class="text-2xl font-bold" :class="netPnL >= 0 ? 'text-green-900' : 'text-red-900'" x-text="netPnL"></p>
+                            <div class="ml-3 sm:ml-4">
+                                <p class="text-xs sm:text-sm font-medium text-blue-600">Net Income</p>
+                                <p class="text-lg sm:text-2xl font-bold" :class="netPnL >= 0 ? 'text-green-900' : 'text-red-900'" x-text="netIncome"></p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Events List Section -->
+            <div class="bg-white rounded-lg shadow-sm border mb-6">
+                
+            </div>
+
             <!-- Calendar Container -->
             <div class="bg-white rounded-lg shadow-sm border">
-                <div id="calendar" class="p-6"></div>
+                <div id="calendar" class="p-3 sm:p-6"></div>
             </div>
         </main>
 
@@ -197,93 +401,254 @@
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="translate-x-0"
             x-transition:leave-end="translate-x-full"
-            class="fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-xl z-50 overflow-y-auto"
+            class="fixed right-0 top-0 h-full w-full max-w-sm sm:max-w-md bg-white shadow-xl z-50 overflow-y-auto"
         >
             <!-- Offcanvas Header -->
-            <div class="flex items-center justify-between p-6 border-b">
-                <h2 class="text-xl font-semibold text-gray-900">
-                    <span x-text="editingEvent ? 'Edit Event' : 'Add Event'"></span>
-                </h2>
+            <div class="flex items-center justify-between p-4 sm:p-6 border-b">
+                <div class="flex items-center space-x-3">
+                    <h2 class="text-lg sm:text-xl font-semibold text-gray-900">
+                        <span x-text="offcanvasMode === 'add' ? 'Add Event' : 'Events for ' + selectedDate"></span>
+                    </h2>
+                    <!-- Mode Toggle Buttons -->
+                    <div class="flex space-x-2" x-show="selectedDate">
+                        <button 
+                            @click="switchToAddMode()" 
+                            class="px-3 py-2 text-sm font-semibold rounded-lg border-2 transition-all duration-200 shadow-sm"
+                            :class="offcanvasMode === 'add' ? 'bg-blue-600 text-white border-blue-600 shadow-md scale-105' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-blue-300 hover:shadow-md'"
+                        >
+                            Add
+                        </button>
+                        <button 
+                            @click="switchToListMode()" 
+                            class="px-3 py-2 text-sm font-semibold rounded-lg border-2 transition-all duration-200 shadow-sm"
+                            :class="offcanvasMode === 'list' ? 'bg-blue-600 text-white border-blue-600 shadow-md scale-105' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-blue-300 hover:shadow-md'"
+                            x-show="getEventsForDate(selectedDate).length > 0"
+                        >
+                            List
+                        </button>
+                    </div>
+                </div>
                 <button 
                     @click="closeOffcanvas()" 
                     class="text-gray-400 hover:text-gray-600 transition-colors"
                 >
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
 
             <!-- Offcanvas Content -->
-            <div class="p-6">
-                <form @submit.prevent="saveEvent()" class="space-y-6">
-                    <!-- Date Input -->
-                    <div>
-                        <label for="date" class="block text-sm font-medium text-gray-700 mb-2">Date</label>
-                        <input 
-                            type="date" 
-                            id="date" 
-                            x-model="eventForm.date"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                            required
-                        >
-                    </div>
+            <div class="p-4 sm:p-6">
+                <!-- Add Mode -->
+                <div x-show="offcanvasMode === 'add'">
+                    <form @submit.prevent="saveEvent()" class="space-y-4 sm:space-y-6">
+                        <!-- Image Upload -->
+                        <div>
+                            <label for="image" class="block text-sm font-medium text-gray-700 mb-2">Image</label>
+                            
+                            <!-- Upload Area -->
+                            <div x-show="!eventForm.image" class="relative">
+                                <input 
+                                    type="file" 
+                                    id="image" 
+                                    accept="image/*"
+                                    @change="handleImageUpload($event)"
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                >
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <p class="mt-2 text-sm text-gray-600">Click to upload or drag and drop</p>
+                                    <p class="text-xs text-gray-500 mt-1">PNG, JPG, GIF up to 10MB</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Image Preview -->
+                            <div x-show="eventForm.image" class="relative">
+                                <img 
+                                    :src="eventForm.image" 
+                                    alt="Preview" 
+                                    class="w-full h-32 object-cover rounded-lg border border-gray-300"
+                                >
+                                <button 
+                                    type="button"
+                                    @click="clearImage()"
+                                    class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 transition-colors"
+                                    title="Remove image"
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
 
-                    <!-- PnL Input -->
-                    <div>
-                        <label for="pnl" class="block text-sm font-medium text-gray-700 mb-2">PnL</label>
-                        <input 
-                            type="number" 
-                            id="pnl" 
-                            x-model="eventForm.pnl"
-                            step="0.01"
-                            placeholder="Enter PnL value"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                            required
-                        >
-                    </div>
+                        <!-- Date Input -->
+                        <div>
+                            <label for="date" class="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                            <input 
+                                type="date" 
+                                id="date" 
+                                x-model="eventForm.date"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                required
+                            >
+                        </div>
 
-                    <!-- Note Input -->
-                    <div>
-                        <label for="note" class="block text-sm font-medium text-gray-700 mb-2">Note</label>
-                        <textarea 
-                            id="note" 
-                            x-model="eventForm.note"
-                            rows="4"
-                            placeholder="Enter your note here..."
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
-                            required
-                        ></textarea>
-                    </div>
+                        <!-- Time Input -->
+                        <div >
+                            <label for="time" class="block text-sm font-medium text-gray-700 mb-2">Time</label>
+                            <input 
+                                type="time" 
+                                id="time" 
+                                x-model="eventForm.time"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                required
+                            >
+                        </div>
 
-                    <!-- Action Buttons -->
-                    <div class="flex space-x-3 pt-4">
-                        <button 
-                            type="button"
-                            @click="closeOffcanvas()" 
-                            class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-                        >
-                            Cancel
-                        </button>
-                        <button 
-                            type="submit" 
-                            class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                        >
-                            <span x-text="editingEvent ? 'Update' : 'Save'"></span>
-                        </button>
-                    </div>
+                        <!-- PnL Input -->
+                        <div>
+                            <label for="Value" class="block text-sm font-medium text-gray-700 mb-2">Value</label>
+                            <input 
+                                type="number" 
+                                id="pnl" 
+                                x-model="eventForm.pnl"
+                                step="0.01"
+                                placeholder="Enter value"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                required
+                            >
+                        </div>
 
-                    <!-- Delete Button (only show when editing) -->
-                    <div x-show="editingEvent" class="pt-4">
-                        <button 
-                            type="button"
-                            @click="deleteEvent()" 
-                            class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                        >
-                            Delete Event
-                        </button>
+                        <!-- Note Input -->
+                        <div>
+                            <label for="note" class="block text-sm font-medium text-gray-700 mb-2">Note</label>
+                            <textarea 
+                                id="note" 
+                                x-model="eventForm.note"
+                                rows="4"
+                                placeholder="Enter your note here..."
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 pt-4">
+                            <button 
+                                type="button"
+                                @click="closeOffcanvas()" 
+                                class="w-full sm:flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                type="submit" 
+                                class="w-full sm:flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            >
+                                <span x-text="editingEvent ? 'Update' : 'Save'"></span>
+                            </button>
+                        </div>
+
+                        <!-- Delete Button (only show when editing) -->
+                        <div x-show="editingEvent" class="pt-4">
+                            <button 
+                                type="button"
+                                @click="deleteEvent()" 
+                                class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                            >
+                                Delete Event
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- List Mode -->
+                <div x-show="offcanvasMode === 'list'">
+                    <div class="space-y-4">
+                        <!-- Stats Section -->
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <h3 class="text-sm font-semibold text-gray-700 mb-3">Day Summary</h3>
+                            <div class="grid grid-cols-3 gap-3">
+                                <!-- Total Income -->
+                                <div class="text-center">
+                                    <div class="text-lg font-bold text-green-600" x-text="getEventsForDate(selectedDate).filter(e => parseFloat(e.pnl) > 0).reduce((sum, e) => sum + parseFloat(e.pnl), 0).toFixed(2)"></div>
+                                    <div class="text-xs text-gray-500">Income</div>
+                                </div>
+                                <!-- Total Expenses -->
+                                <div class="text-center">
+                                    <div class="text-lg font-bold text-red-600" x-text="getEventsForDate(selectedDate).filter(e => parseFloat(e.pnl) < 0).reduce((sum, e) => sum + Math.abs(parseFloat(e.pnl)), 0).toFixed(2)"></div>
+                                    <div class="text-xs text-gray-500">Expenses</div>
+                                </div>
+                                <!-- Net Income -->
+                                <div class="text-center">
+                                    <div class="text-lg font-bold text-blue-600" x-text="getEventsForDate(selectedDate).reduce((sum, e) => sum + parseFloat(e.pnl), 0).toFixed(2)"></div>
+                                    <div class="text-xs text-gray-500">Net</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Events List -->
+                        <div class="space-y-3">
+                            <template x-for="event in getEventsForDate(selectedDate)" :key="event.id">
+                                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-sm font-medium text-gray-600" x-text="event.date + ' ' + (event.time || '')"></span>
+                                            <span 
+                                                class="px-2 py-1 rounded-full text-xs font-bold text-white"
+                                                :class="parseFloat(event.pnl) > 0 ? 'bg-green-500' : parseFloat(event.pnl) < 0 ? 'bg-red-500' : 'bg-gray-500'"
+                                                x-text="event.pnl"
+                                            ></span>
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <button 
+                                                @click="editEventById(event.id)"
+                                                class="text-blue-600 hover:text-blue-800 p-1 rounded-md hover:bg-blue-50 transition-colors"
+                                                title="Edit event"
+                                            >
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                            </button>
+                                            <button 
+                                                @click="deleteEventById(event.id)"
+                                                class="text-red-600 hover:text-red-800 p-1 rounded-md hover:bg-red-50 transition-colors"
+                                                title="Delete event"
+                                            >
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-800 text-sm" x-text="event.note"></p>
+                                    <!-- Image Display -->
+                                    <div x-show="event.image" class="mt-3">
+                                        <img 
+                                            :src="event.image" 
+                                            alt="Event image" 
+                                            class="w-full h-32 object-cover rounded-lg border border-gray-300"
+                                        >
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- Add New Event Button -->
+                        <div class="pt-4 border-t border-gray-200">
+                            <button 
+                                @click="switchToAddMode()"
+                                class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            >
+                                Add New Event
+                            </button>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
