@@ -39,6 +39,7 @@ function calendarApp() {
         },
 
         init() {
+            document.title = this.documentName;
             // Focus input if editing document name
             this.$nextTick(() => {
                 if (this.editingDocumentName && this.$refs && this.$refs.docNameInput) {
@@ -525,6 +526,7 @@ function calendarApp() {
         finishEditingDocumentName() {
             this.editingDocumentName = false;
             localStorage.setItem('documentName', this.documentName);
+            document.title = this.documentName;
         },
     }
 } 
