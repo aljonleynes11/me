@@ -271,7 +271,20 @@
                 margin-top: 15px;
             }
         }
+
+        /* Offcanvas 50% width on large screens */
+        @media (min-width: 1024px) {
+            .offcanvas-half {
+                max-width: 50vw !important;
+                width: 50vw !important;
+                border-top-left-radius: 2rem !important;
+                border-bottom-left-radius: 2rem !important;
+            }
+        }
     </style>
+    <!-- QuillJS for rich text editor -->
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 </head>
 <body class="bg-gray-200">
     <div x-data="calendarApp()" class="min-h-screen">
@@ -279,7 +292,14 @@
         <header class="bg-white shadow-sm border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 sm:py-6 space-y-4 sm:space-y-0">
-                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Basic Accounting</h1>
+                    <div class="relative group">
+                        <template x-if="!editingDocumentName">
+                            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 cursor-pointer" @click="startEditingDocumentName()" x-text="documentName"></h1>
+                        </template>
+                        <template x-if="editingDocumentName">
+                            <input type="text" class="text-2xl sm:text-3xl font-bold text-gray-900 border-b border-blue-400 focus:outline-none focus:border-blue-600 bg-transparent" x-model="documentName" @keydown.enter="finishEditingDocumentName()" @blur="finishEditingDocumentName()" x-ref="docNameInput" />
+                        </template>
+                    </div>
                     <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
                         <!-- Timezone Selector -->
                         <div class="flex items-center space-x-2 w-full sm:w-auto">
@@ -329,7 +349,7 @@
                                 </svg>
                             </div>
                             <div class="ml-3 sm:ml-4">
-                                <p class="text-xs sm:text-sm font-medium text-green-600">Gross Profit</p>
+                                <p class="text-xs sm:text-sm font-medium text-green-600">Income</p>
                                 <p class="text-lg sm:text-2xl font-bold text-green-900" x-text="totalEarnings"></p>
                             </div>
                         </div>
@@ -344,7 +364,7 @@
                                 </svg>
                             </div>
                             <div class="ml-3 sm:ml-4">
-                                <p class="text-xs sm:text-sm font-medium text-red-600">Total Expenses</p>
+                                <p class="text-xs sm:text-sm font-medium text-red-600">Expenses</p>
                                 <p class="text-lg sm:text-2xl font-bold text-red-900" x-text="totalExpenses"></p>
                             </div>
                         </div>
@@ -359,7 +379,7 @@
                                 </svg>
                             </div>
                             <div class="ml-3 sm:ml-4">
-                                <p class="text-xs sm:text-sm font-medium text-blue-600">Net Income</p>
+                                <p class="text-xs sm:text-sm font-medium text-blue-600">Total</p>
                                 <p class="text-lg sm:text-2xl font-bold" :class="netPnL >= 0 ? 'text-green-900' : 'text-red-900'" x-text="netIncome"></p>
                             </div>
                         </div>
@@ -401,7 +421,7 @@
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="translate-x-0"
             x-transition:leave-end="translate-x-full"
-            class="fixed right-0 top-0 h-full w-full max-w-sm sm:max-w-md bg-white shadow-xl z-50 overflow-y-auto"
+            class="fixed right-0 top-0 h-full w-full max-w-sm sm:max-w-md bg-white shadow-xl z-50 overflow-y-auto offcanvas-half"
         >
             <!-- Offcanvas Header -->
             <div class="flex items-center justify-between p-4 sm:p-6 border-b">
@@ -525,15 +545,8 @@
 
                         <!-- Note Input -->
                         <div>
-                            <label for="note" class="block text-sm font-medium text-gray-700 mb-2">Note</label>
-                            <textarea 
-                                id="note" 
-                                x-model="eventForm.note"
-                                rows="4"
-                                placeholder="Enter your note here..."
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
-                                required
-                            ></textarea>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Note</label>
+                            <div id="quill-note" class="bg-white border border-gray-300 rounded-lg" style="min-height: 120px;"></div>
                         </div>
 
                         <!-- Action Buttons -->
@@ -625,7 +638,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <p class="text-gray-800 text-sm" x-text="event.note"></p>
+                                    <p class="text-gray-800 text-sm" x-html="event.note"></p>
                                     <!-- Image Display -->
                                     <div x-show="event.image" class="mt-3">
                                         <img 
@@ -654,5 +667,26 @@
     </div>
 
     <script src="app.js"></script>
+    <script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.effect(() => {
+            if (window.Quill && document.getElementById('quill-note')) {
+                if (!window._quillNote) {
+                    window._quillNote = new Quill('#quill-note', { theme: 'snow', placeholder: 'Enter your note here...' });
+                    // Sync Quill with Alpine eventForm.note
+                    window._quillNote.on('text-change', function() {
+                        if (Alpine.store('calendarApp')) {
+                            Alpine.store('calendarApp').eventForm.note = window._quillNote.root.innerHTML;
+                        }
+                    });
+                }
+                // Set Quill content if eventForm.note changes
+                if (Alpine.store('calendarApp') && Alpine.store('calendarApp').eventForm && window._quillNote.root.innerHTML !== Alpine.store('calendarApp').eventForm.note) {
+                    window._quillNote.root.innerHTML = Alpine.store('calendarApp').eventForm.note || '';
+                }
+            }
+        });
+    });
+    </script>
 </body>
 </html> 

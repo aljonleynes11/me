@@ -14,6 +14,8 @@ function calendarApp() {
         events: [],
         offcanvasMode: 'add', // 'add' or 'list'
         selectedDate: null,
+        documentName: localStorage.getItem('documentName') || 'Basic Accounting',
+        editingDocumentName: false,
 
         // Computed properties for summary
         get totalEarnings() {
@@ -37,6 +39,12 @@ function calendarApp() {
         },
 
         init() {
+            // Focus input if editing document name
+            this.$nextTick(() => {
+                if (this.editingDocumentName && this.$refs && this.$refs.docNameInput) {
+                    this.$refs.docNameInput.focus();
+                }
+            });
             this.loadEvents();
             this.initCalendar();
             
@@ -238,7 +246,11 @@ function calendarApp() {
         },
 
         saveEvent() {
-            if (!this.eventForm.date || !this.eventForm.time || !this.eventForm.pnl || !this.eventForm.note) {
+            if (window._quillNote) {
+                this.eventForm.note = window._quillNote.root.innerHTML;
+            }
+            const noteContent = this.eventForm.note.replace(/<(.|\n)*?>/g, '').trim();
+            if (!this.eventForm.date || !this.eventForm.time || !this.eventForm.pnl || !noteContent) {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Missing Information',
@@ -270,6 +282,17 @@ function calendarApp() {
 
             this.saveEventsToStorage();
             this.refreshCalendar();
+            // Reset form fields
+            this.eventForm = {
+                date: '',
+                time: '',
+                pnl: '',
+                note: '',
+                image: ''
+            };
+            if (window._quillNote) {
+                window._quillNote.root.innerHTML = '';
+            }
             this.closeOffcanvas();
             
             Swal.fire({
@@ -462,6 +485,19 @@ function calendarApp() {
             if (fileInput) {
                 fileInput.value = '';
             }
+        },
+
+        startEditingDocumentName() {
+            this.editingDocumentName = true;
+            this.$nextTick(() => {
+                if (this.$refs && this.$refs.docNameInput) {
+                    this.$refs.docNameInput.focus();
+                }
+            });
+        },
+        finishEditingDocumentName() {
+            this.editingDocumentName = false;
+            localStorage.setItem('documentName', this.documentName);
         },
     }
 } 
