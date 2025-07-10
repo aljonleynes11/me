@@ -102,7 +102,7 @@ function calendarApp() {
                         this.selectedDate = arg.date.toISOString().split('T')[0];
                         const dayEvents = this.events.filter(event => event.date === this.selectedDate);
                         
-                        // Always show add mode by default
+                        // Show add mode by default
                         this.offcanvasMode = 'add';
                         // Pre-fill the date field
                         this.eventForm.date = this.selectedDate;
@@ -125,8 +125,8 @@ function calendarApp() {
                     this.selectedDate = info.startStr;
                     const dayEvents = this.events.filter(event => event.date === this.selectedDate);
                     
-                    // Always show add mode by default
-                    this.offcanvasMode = 'add';
+                    // Show list mode by default
+                    this.offcanvasMode = 'list';
                     // Pre-fill the date field
                     this.eventForm.date = this.selectedDate;
                     this.eventForm.time = new Date().toTimeString().slice(0, 5); // HH:MM format
@@ -242,6 +242,11 @@ function calendarApp() {
                     image: this.editingEvent.image || ''
                 };
                 this.showOffcanvas = true;
+                this.$nextTick(() => {
+                    if (window._quillNote) {
+                        window._quillNote.root.innerHTML = this.eventForm.note || '';
+                    }
+                });
             }
         },
 
@@ -388,6 +393,18 @@ function calendarApp() {
                 countElement.className = `px-2 py-1 rounded-full text-xs font-bold text-white ${bgColor} hover:opacity-80 transition-colors cursor-pointer`;
                 countElement.textContent = `${dayEvents.length} item${dayEvents.length > 1 ? 's' : ''}`;
                 countElement.title = `Click to view ${dayEvents.length} item${dayEvents.length > 1 ? 's' : ''} for this day (Total: ${totalPnL.toFixed(2)})`;
+                countElement.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.selectedDate = dateStr;
+                    this.offcanvasMode = 'list';
+                    this.eventForm.date = dateStr;
+                    this.eventForm.time = new Date().toTimeString().slice(0, 5);
+                    this.eventForm.pnl = '';
+                    this.eventForm.note = '';
+                    this.eventForm.image = '';
+                    this.editingEvent = null;
+                    this.showOffcanvas = true;
+                });
                 
                 countContainer.appendChild(countElement);
                 arg.el.appendChild(countContainer);
@@ -408,6 +425,11 @@ function calendarApp() {
             this.eventForm.note = '';
             this.eventForm.image = '';
             this.editingEvent = null;
+            this.$nextTick(() => {
+                if (window._quillNote) {
+                    window._quillNote.root.innerHTML = '';
+                }
+            });
         },
 
         // Switch to list mode
@@ -427,6 +449,11 @@ function calendarApp() {
                 };
                 this.offcanvasMode = 'add';
                 this.showOffcanvas = true;
+                this.$nextTick(() => {
+                    if (window._quillNote) {
+                        window._quillNote.root.innerHTML = this.eventForm.note || '';
+                    }
+                });
             }
         },
 
