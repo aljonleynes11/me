@@ -93,10 +93,44 @@ function calendarApp() {
                 
                 // Render event notes as HTML in all views
                 eventContent: function(arg) {
-                    // For list view, render the note as HTML
-                    const noteHtml = arg.event.extendedProps.note || '';
-                    // Optionally, add time or other info as you wish
-                    return { html: noteHtml };
+                    // Only apply collapsible UI in list view
+                    if (arg.view.type.startsWith('list')) {
+                        const pnl = arg.event.extendedProps.pnl || '';
+                        const noteHtml = arg.event.extendedProps.note || '';
+                        const image = arg.event.extendedProps.image || '';
+                        const time = arg.event.extendedProps.time || '';
+                        const date = arg.event.startStr || '';
+                        const id = arg.event.id;
+                        // Color for PnL
+                        let pnlClass = 'bg-gray-500';
+                        if (parseFloat(pnl) > 0) pnlClass = 'bg-green-500';
+                        else if (parseFloat(pnl) < 0) pnlClass = 'bg-red-500';
+                        // Edit (pencil) icon SVG
+                        const editIcon = `<button type=\"button\" class=\"p-1 rounded hover:bg-blue-100 transition-colors\" title=\"Edit event\" data-edit-id=\"${id}\"><svg class=\"w-4 h-4 text-blue-600\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z\" /></svg></button>`;
+                        return {
+                            html: `
+                            <div x-data=\"{ open: false }\" class=\"bg-gray-50 rounded-lg border border-gray-200 my-2\">
+                                <div class=\"flex items-center justify-between p-2\">
+                                    <div class=\"flex items-center space-x-2 cursor-pointer\" @click=\"open = !open\">
+                                        <span class=\"text-sm font-medium text-gray-600\">${date} ${time}</span>
+                                        <span class=\"px-2 py-1 rounded-full text-xs font-bold text-white ${pnlClass}\">${pnl}</span>
+                                        <svg :class=\"open ? 'transform rotate-90' : ''\" class=\"w-4 h-4 text-gray-400 transition-transform\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 5l7 7-7 7\" /></svg>
+                                    </div>
+                                    <div>${editIcon}</div>
+                                </div>
+                                <div x-show=\"open\" x-collapse>
+                                    <div class=\"px-4 pb-4\">
+                                        <div class=\"text-gray-800 text-sm\">${noteHtml}</div>
+                                        ${image ? `<div class=\"mt-3\"><img src=\"${image}\" alt=\"Event image\" class=\"w-full h-32 object-cover rounded-lg border border-gray-300\"></div>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            `
+                        };
+                    } else {
+                        // For other views, just show nothing (or minimal)
+                        return { html: '' };
+                    }
                 },
                 
                 // Add day cell click handler and item count display
@@ -149,7 +183,13 @@ function calendarApp() {
 
                 // Handle event click
                 eventClick: (info) => {
-                    this.editEvent(info.event);
+                    // Only open offcanvas if the click was on the edit button
+                    const editBtn = info.jsEvent.target.closest('[data-edit-id]');
+                    if (editBtn) {
+                        const id = editBtn.getAttribute('data-edit-id');
+                        this.editEventById(id);
+                    }
+                    // Otherwise, do nothing (let expand/collapse work)
                 },
 
                 // Handle event drop (drag and drop)
