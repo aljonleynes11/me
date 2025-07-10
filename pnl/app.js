@@ -91,6 +91,14 @@ function calendarApp() {
                     }
                 })),
                 
+                // Render event notes as HTML in all views
+                eventContent: function(arg) {
+                    // For list view, render the note as HTML
+                    const noteHtml = arg.event.extendedProps.note || '';
+                    // Optionally, add time or other info as you wish
+                    return { html: noteHtml };
+                },
+                
                 // Add day cell click handler and item count display
                dayCellDidMount: (arg) => {
                     // Add click handler to the entire day cell
