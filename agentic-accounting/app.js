@@ -16,6 +16,34 @@ function calendarApp() {
         selectedDate: null,
         documentName: localStorage.getItem('documentName') || 'Basic Accounting',
         editingDocumentName: false,
+        descriptionTitle: localStorage.getItem('descriptionTitle') || 'Description',
+        editingDescriptionTitle: false,
+        descriptionContent: localStorage.getItem('descriptionContent') || `<p class="mb-3">
+            Welcome to your personal accounting tracker! This application helps you monitor your income and expenses on a daily basis.
+        </p>
+        <p class="mb-3">
+            <strong>Key Features:</strong>
+        </p>
+        <ul class="list-disc list-inside space-y-1 mb-3 ml-4">
+            <li>Track daily income and expenses with detailed descriptions</li>
+            <li>Visual calendar interface for easy date selection</li>
+            <li>Real-time statistics showing your financial overview</li>
+            <li>Image upload support for receipts and documents</li>
+            <li>Rich text editor for detailed transaction notes</li>
+        </ul>
+        <p class="mb-3">
+            <strong>How to use:</strong>
+        </p>
+        <ul class="list-disc list-inside space-y-1 mb-3 ml-4">
+            <li>Click "Add Event" to create a new transaction</li>
+            <li>Select a date on the calendar or use the date picker</li>
+            <li>Enter the amount (positive for income, negative for expenses)</li>
+            <li>Add a description and optional image</li>
+            <li>View your financial summary in the stats section above</li>
+        </ul>
+        <p class="text-xs text-gray-500">
+            Your data is stored locally in your browser for privacy and security.
+        </p>`,
 
         // Computed properties for summary
         get totalEarnings() {
@@ -575,6 +603,35 @@ function calendarApp() {
             this.editingDocumentName = false;
             localStorage.setItem('documentName', this.documentName);
             document.title = this.documentName;
+        },
+
+        startEditingDescriptionTitle() {
+            this.editingDescriptionTitle = true;
+            this.$nextTick(() => {
+                if (this.$refs && this.$refs.descTitleInput) {
+                    this.$refs.descTitleInput.focus();
+                }
+            });
+        },
+
+        finishEditingDescriptionTitle() {
+            this.editingDescriptionTitle = false;
+            localStorage.setItem('descriptionTitle', this.descriptionTitle);
+        },
+
+        // Description management methods
+        saveDescription() {
+            if (window._quillDescription) {
+                this.descriptionContent = window._quillDescription.root.innerHTML;
+                localStorage.setItem('descriptionContent', this.descriptionContent);
+            }
+        },
+
+        cancelDescriptionEdit() {
+            // Reset to original content
+            if (window._quillDescription) {
+                window._quillDescription.root.innerHTML = this.descriptionContent;
+            }
         },
     }
 } 
