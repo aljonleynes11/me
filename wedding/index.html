@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,12 +16,31 @@
       tailwind.config = {
         safelist: [
           "bg-gradient-to-br",
-          "from-rose-50","via-white","to-sky-50","from-amber-50","to-emerald-50","from-violet-50","to-indigo-50","from-sky-50","to-pink-50",
-          "from-rose-100","via-white","to-sky-100",
-          "from-amber-100","via-white","to-emerald-100",
-          "from-violet-100","via-white","to-indigo-100",
-          "from-sky-100","via-white","to-pink-100",
-          "opacity-0","opacity-30","opacity-40","opacity-60"
+          "from-rose-50",
+          "via-white",
+          "to-sky-50",
+          "from-amber-50",
+          "to-emerald-50",
+          "from-violet-50",
+          "to-indigo-50",
+          "from-sky-50",
+          "to-pink-50",
+          "from-rose-100",
+          "via-white",
+          "to-sky-100",
+          "from-amber-100",
+          "via-white",
+          "to-emerald-100",
+          "from-violet-100",
+          "via-white",
+          "to-indigo-100",
+          "from-sky-100",
+          "via-white",
+          "to-pink-100",
+          "opacity-0",
+          "opacity-30",
+          "opacity-40",
+          "opacity-60",
         ],
         theme: {
           extend: {
@@ -36,32 +55,101 @@
       defer
       src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/typewriter-effect@2.19.0/dist/core.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/typewriter-effect@2.19.0/dist/core.js"
+    ></script>
     <style>
       [x-cloak] {
         display: none;
       }
-      @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-      .animate-fade-up { animation: fadeUp 700ms ease-out both; }
-      .animate-fade-in { animation: fadeIn 800ms ease-out both; }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .animate-fade-up {
+        animation: fadeUp 700ms ease-out both;
+      }
+      .animate-fade-in {
+        animation: fadeIn 800ms ease-out both;
+      }
+      .reveal-hidden {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      .reveal-show {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 600ms ease-out, transform 600ms ease-out;
+      }
+      html {
+        scrollbar-width: none;
+      }
+      body {
+        -ms-overflow-style: none;
+      }
+      body::-webkit-scrollbar {
+        display: none;
+      }
     </style>
   </head>
-  <body class="min-h-screen text-gray-800 selection:bg-rose-200/40">
-    <img src="images/background.jpg" alt="" aria-hidden="true" class="fixed inset-0 -z-20 w-full h-full object-cover blur-sm scale-105" />
-    <div x-data="gradientCrossfade()" x-init="start()" class="fixed inset-0 -z-10 pointer-events-none">
-      <div :class="aClass + ' ' + aOpacity" class="absolute inset-0 transition-opacity duration-[3000ms] ease-in-out"></div>
-      <div :class="bClass + ' ' + bOpacity" class="absolute inset-0 transition-opacity duration-[3000ms] ease-in-out"></div>
+  <body
+    class="min-h-screen text-gray-800 selection:bg-rose-200/40 snap-y snap-mandatory overflow-y-scroll scroll-smooth"
+    x-data="pageNav()"
+    x-init="init()"
+  >
+    <img
+      src="images/background.jpg"
+      alt=""
+      aria-hidden="true"
+      class="fixed inset-0 -z-20 w-full h-full object-cover blur-sm scale-105"
+    />
+    <div
+      x-data="gradientCrossfade()"
+      x-init="start()"
+      class="fixed inset-0 -z-10 pointer-events-none"
+    >
+      <div
+        :class="aClass + ' ' + aOpacity"
+        class="absolute inset-0 transition-opacity duration-[3000ms] ease-in-out"
+      ></div>
+      <div
+        :class="bClass + ' ' + bOpacity"
+        class="absolute inset-0 transition-opacity duration-[3000ms] ease-in-out"
+      ></div>
     </div>
-    <section class="flex items-center justify-center min-h-screen px-6 py-16">
-      <div class="w-full max-w-3xl text-center">
+    <section
+      class="flex items-center justify-center min-h-screen px-6 py-16 snap-start relative"
+      x-data
+      x-init="window.__reveal && window.__reveal.observe($el)"
+    >
+      <div class="w-full max-w-3xl text-center reveal-hidden">
         <p class="uppercase tracking-[0.35em] text-xs text-gray-900">Wedding</p>
-        <h1 id="hero-names" class="font-script text-6xl sm:text-7xl text-gray-900 mt-3 animate-fade-in">Aljon and Lynn</h1>
-        <p class="mt-6 text-sm text-gray-600">
+        <h1
+          id="hero-names"
+          class="font-script text-6xl sm:text-7xl text-gray-900 mt-3"
+        >
+          Aljon and Lynn
+        </h1>
+        <p class="mt-6 text-sm text-gray-900">
           We joyfully invite you to celebrate our union
         </p>
         <div
-          class="mt-8 inline-flex items-center justify-center gap-4 rounded-2xl bg-white/30 backdrop-blur-xl p-6 shadow-lg ring-1 ring-white/40 animate-fade-up"
+          class="mt-8 inline-flex items-center justify-center gap-4 rounded-2xl bg-white/30 backdrop-blur-xl p-6 shadow-lg ring-1 ring-white/40"
         >
           <div class="text-center">
             <div
@@ -77,14 +165,18 @@
           </div>
           <div class="h-10 w-px bg-gray-200" aria-hidden="true"></div>
           <div class="text-center">
-            <div class="text-3xl font-semibold text-gray-900 drop-shadow">9</div>
+            <div class="text-3xl font-semibold text-gray-900 drop-shadow">
+              9
+            </div>
             <div class="text-sm uppercase tracking-widest text-gray-900">
               Day
             </div>
           </div>
           <div class="h-10 w-px bg-gray-200" aria-hidden="true"></div>
           <div class="text-center">
-            <div class="text-3xl font-semibold text-gray-900 drop-shadow">2025</div>
+            <div class="text-3xl font-semibold text-gray-900 drop-shadow">
+              2025
+            </div>
             <div class="text-sm uppercase tracking-widest text-gray-900">
               Year
             </div>
@@ -157,14 +249,27 @@
           <p class="text-xs text-gray-900">Formal invitation to follow</p>
         </div>
       </div>
+      <div class="absolute bottom-6 left-0 right-0 flex justify-center">
+        <button
+          onclick="document.getElementById('venue').scrollIntoView({behavior:'smooth'})"
+          class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
+        >
+          Next
+        </button>
+      </div>
     </section>
-    <section id="venue" x-data="rsvp()" class="min-h-screen flex items-center px-6 py-16">
-      <div class="w-full max-w-3xl mx-auto text-center">
+    <section
+      id="venue"
+      x-data="rsvp()"
+      class="min-h-screen flex items-center px-6 py-16 snap-start relative"
+      x-init="window.__reveal && window.__reveal.observe($el)"
+    >
+      <div class="w-full max-w-3xl mx-auto text-center reveal-hidden">
         <p class="uppercase tracking-[0.35em] text-xs text-gray-900">Venue</p>
         <h2 class="font-script text-5xl text-gray-900 mt-3">
           Angels Gabriel Garden
         </h2>
-        <p class="mt-3 text-sm text-gray-600">San Gabriel, Bulacan</p>
+        <p class="mt-3 text-sm text-gray-900">San Gabriel, Bulacan</p>
         <div class="mt-6">
           <a
             href="https://www.google.com/maps/search/?api=1&query=Angels%20Gabriel%20Garden%2C%20San%20Gabriel%2C%20Bulacan"
@@ -176,8 +281,12 @@
 
         <div class="mt-12">
           <p class="uppercase tracking-[0.35em] text-xs text-gray-900">RSVP</p>
-          <h3 class="font-script text-4xl text-gray-900 mt-3">We'd love to celebrate with you</h3>
-          <p class="mt-3 text-xs text-gray-600">Note: Invitation admits 1 companion only. Childless, please.</p>
+          <h3 class="font-script text-4xl text-gray-900 mt-3">
+            We'd love to celebrate with you
+          </h3>
+          <p class="mt-3 text-xs text-gray-900">
+            Note: Invitation admits 1 companion only. Childless, please.
+          </p>
           <div class="mt-6 flex items-center justify-center gap-3 flex-wrap">
             <button
               type="button"
@@ -195,31 +304,94 @@
           </div>
         </div>
       </div>
+      <div class="absolute bottom-6 left-0 right-0 flex justify-center">
+        <button
+          onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})"
+          class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
+        >
+          Next
+        </button>
+      </div>
 
       <!-- Accept Modal -->
-      <div x-show="open" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" @keydown.escape.window="open = false">
-        <div class="w-full max-w-md rounded-2xl bg-white p-6 text-left shadow-xl">
+      <div
+        x-show="open"
+        x-cloak
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+        @keydown.escape.window="open = false"
+      >
+        <div
+          class="w-full max-w-md rounded-2xl bg-white p-6 text-left shadow-xl"
+        >
           <h3 class="text-lg font-semibold text-gray-900">RSVP - Accept</h3>
-          <p class="mt-1 text-xs text-gray-900">Please indicate your name and your companion's name. One companion only; childless, please.</p>
+          <p class="mt-1 text-xs text-gray-900">
+            Please indicate your name and your companion's name. One companion
+            only; childless, please.
+          </p>
           <div class="mt-4 space-y-4">
             <div class="text-left">
-              <label for="guestName" class="block text-xs font-medium text-gray-700">Your Name</label>
-              <input id="guestName" type="text" x-model="name" class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black" placeholder="Juan Dela Cruz" />
+              <label
+                for="guestName"
+                class="block text-xs font-medium text-gray-700"
+                >Your Name</label
+              >
+              <input
+                id="guestName"
+                type="text"
+                x-model="name"
+                class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+                placeholder="Juan Dela Cruz"
+              />
             </div>
             <div class="text-left">
-              <label for="companionName" class="block text-xs font-medium text-gray-700">Companion's Name</label>
-              <input id="companionName" type="text" x-model="companion" class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black" placeholder="Maria Dela Cruz" />
+              <label
+                for="companionName"
+                class="block text-xs font-medium text-gray-700"
+                >Companion's Name</label
+              >
+              <input
+                id="companionName"
+                type="text"
+                x-model="companion"
+                class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+                placeholder="Maria Dela Cruz"
+              />
             </div>
           </div>
           <div class="mt-6 flex items-center justify-end gap-2">
-            <button type="button" @click="open = false" class="inline-flex items-center rounded-full border border-gray-300 bg-white text-gray-800 px-4 py-2 text-sm hover:bg-gray-50">Cancel</button>
-            <button type="button" @click="submit()" class="inline-flex items-center rounded-full bg-black text-white px-4 py-2 text-sm hover:bg-black/90">Send RSVP</button>
+            <button
+              type="button"
+              @click="open = false"
+              class="inline-flex items-center rounded-full border border-gray-300 bg-white text-gray-800 px-4 py-2 text-sm hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              @click="submit()"
+              class="inline-flex items-center rounded-full bg-black text-white px-4 py-2 text-sm hover:bg-black/90"
+            >
+              Send RSVP
+            </button>
           </div>
         </div>
       </div>
     </section>
-    <section id="gallery" x-data="gallery()" class="min-h-screen flex items-center px-6 py-16">
-      <div class="w-full max-w-4xl mx-auto text-center">
+    <section
+      id="gallery"
+      x-data="gallery()"
+      class="min-h-screen flex items-center px-6 py-16 snap-start relative"
+      x-init="window.__reveal && window.__reveal.observe($el)"
+    >
+      <div class="absolute bottom-6 left-0 right-0 flex justify-center">
+        <button
+          onclick="document.querySelector('section').scrollIntoView({behavior:'smooth'})"
+          class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
+        >
+          Top
+        </button>
+      </div>
+      <div class="w-full max-w-4xl mx-auto text-center reveal-hidden">
         <p class="uppercase tracking-[0.35em] text-xs text-gray-900">Gallery</p>
         <h2 class="font-script text-5xl text-gray-900 mt-3">Our Moments</h2>
         <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -233,6 +405,7 @@
             </div>
           </template>
         </div>
+       
       </div>
       <div
         x-show="open"
@@ -267,6 +440,7 @@
           class="max-h-[80vh] max-w-[90vw] rounded-lg shadow-2xl ring-1 ring-white/20"
         />
       </div>
+      
     </section>
     <script>
       document.addEventListener("alpine:init", () => {
@@ -311,7 +485,9 @@
           aOpacity: "opacity-40",
           bOpacity: "opacity-0",
           useA: true,
-          nextIndex(i){ return (i + 1) % this.palettes.length; },
+          nextIndex(i) {
+            return (i + 1) % this.palettes.length;
+          },
           swap() {
             if (this.useA) {
               this.bClass = this.palettes[this.nextIndex(this.index)];
@@ -328,7 +504,9 @@
             }, 3200);
           },
           start() {
-            const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const reduce =
+              window.matchMedia &&
+              window.matchMedia("(prefers-reduced-motion: reduce)").matches;
             if (reduce) {
               this.aOpacity = "opacity-30";
               this.bOpacity = "opacity-0";
@@ -341,15 +519,72 @@
         const initTypewriter = () => {
           const target = document.getElementById("hero-names");
           if (!target || !window.Typewriter) return;
-          const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          if (reduce) { target.textContent = 'Aljon and Lynn'; return; }
-          if (target._tw) { try { target._tw.stop(); } catch(e){} target._tw = null; }
-          const tw = new Typewriter(target, { loop: true, delay: 100, deleteSpeed: 50, cursor: "_" });
-          tw.deleteAll(1).typeString("Aljon and Lynn").pauseFor(2500).deleteAll().typeString("Lynn and Aljon").pauseFor(2500).start();
+          const reduce =
+            window.matchMedia &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          if (reduce) {
+            target.textContent = "Aljon and Lynn";
+            return;
+          }
+          if (target._tw) {
+            try {
+              target._tw.stop();
+            } catch (e) {}
+            target._tw = null;
+          }
+          const tw = new Typewriter(target, {
+            loop: true,
+            delay: 100,
+            deleteSpeed: 50,
+            cursor: "_",
+          });
+          tw.deleteAll(1)
+            .typeString("Aljon and Lynn")
+            .pauseFor(2500)
+            .deleteAll()
+            .typeString("Lynn and Aljon")
+            .pauseFor(2500)
+            .start();
           target._tw = tw;
         };
         const ready = () => initTypewriter();
-        if (document.readyState === 'complete') { ready(); } else { window.addEventListener('load', ready, { once: true }); }
+        if (document.readyState === "complete") {
+          ready();
+        } else {
+          window.addEventListener("load", ready, { once: true });
+        }
+
+        // Shared intersection observer for reveal animations
+        window.__reveal = {
+          observer: null,
+          observe(rootEl) {
+            if (!("IntersectionObserver" in window)) {
+              rootEl
+                .querySelectorAll(".reveal-hidden")
+                .forEach((el) => el.classList.add("reveal-show"));
+              return;
+            }
+            if (!this.observer) {
+              this.observer = new IntersectionObserver(
+                (entries) => {
+                  entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                      entry.target.classList.add("reveal-show");
+                      entry.target.classList.remove("reveal-hidden");
+                      this.observer.unobserve(entry.target);
+                    }
+                  });
+                },
+                { threshold: 0.15 }
+              );
+            }
+            rootEl
+              .querySelectorAll(".reveal-hidden")
+              .forEach((el) => this.observer.observe(el));
+          },
+        };
+        // Ensure initial elements are observed immediately
+        window.__reveal.observe(document);
 
         Alpine.data("gallery", () => ({
           images: [
@@ -379,12 +614,91 @@
           },
         }));
 
+        Alpine.data("pageNav", () => ({
+          sections: [],
+          active: 0,
+          scrolling: false,
+          init() {
+            this.sections = Array.from(document.querySelectorAll("section"));
+            this.updateActive();
+            window.addEventListener(
+              "scroll",
+              this.throttle(() => this.updateActive(), 150)
+            );
+            window.addEventListener("wheel", (e) => this.onWheel(e), {
+              passive: false,
+            });
+            window.addEventListener("keydown", (e) => this.onKey(e));
+          },
+          throttle(fn, wait) {
+            let last = 0;
+            return (...args) => {
+              const now = Date.now();
+              if (now - last > wait) {
+                last = now;
+                fn(...args);
+              }
+            };
+          },
+          updateActive() {
+            const mid = window.innerHeight / 2;
+            const idx = this.sections.findIndex((s) => {
+              const r = s.getBoundingClientRect();
+              return r.top <= mid && r.bottom >= mid;
+            });
+            if (idx >= 0) this.active = idx;
+          },
+          go(idx) {
+            if (idx < 0 || idx >= this.sections.length) return;
+            this.scrolling = true;
+            this.sections[idx].scrollIntoView({ behavior: "smooth" });
+            setTimeout(() => {
+              this.scrolling = false;
+              this.active = idx;
+            }, 800);
+          },
+          next() {
+            this.go(this.active + 1);
+          },
+          prev() {
+            this.go(this.active - 1);
+          },
+          onWheel(e) {
+            if (this.scrolling) {
+              e.preventDefault();
+              return;
+            }
+            if (Math.abs(e.deltaY) < 20) return;
+            e.preventDefault();
+            if (e.deltaY > 0) this.next();
+            else this.prev();
+          },
+          onKey(e) {
+            if (["ArrowDown", "PageDown", " "].includes(e.key)) {
+              e.preventDefault();
+              this.next();
+            }
+            if (["ArrowUp", "PageUp"].includes(e.key)) {
+              e.preventDefault();
+              this.prev();
+            }
+          },
+          dotClass(i) {
+            return (
+              "h-3 w-3 rounded-full ring-2 ring-white/60 transition " +
+              (this.active === i ? "bg-black" : "bg-white/70 hover:bg-white")
+            );
+          },
+        }));
+
         Alpine.data("rsvp", () => ({
           open: false,
           name: "",
           companion: "",
           submit() {
-            const subject = encodeURIComponent("RSVP: Aljon & Lynn Wedding - Accept");
+            const subject = encodeURIComponent(
+              "RSVP: Aljon & Lynn Wedding - Accept"
+            );
             const body = encodeURIComponent(
               `Name: ${this.name}\nCompanion: ${this.companion}\nNotes: `
             );
@@ -395,5 +709,45 @@
         }));
       });
     </script>
+    <!-- Mobile dots navigation (top) -->
+    <nav class="fixed top-3 left-0 right-0 z-40 sm:hidden">
+      <ul class="mx-auto flex justify-center gap-3">
+        <li>
+          <button @click="go(0)" :class="dotClass(0)" class="p-2" aria-label="Hero"></button>
+        </li>
+        <li>
+          <button @click="go(1)" :class="dotClass(1)" class="p-2" aria-label="Venue"></button>
+        </li>
+        <li>
+          <button @click="go(2)" :class="dotClass(2)" class="p-2" aria-label="Gallery"></button>
+        </li>
+      </ul>
+    </nav>
+    <!-- Sticky dots navigation -->
+    <nav class="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden sm:block">
+      <ul class="flex flex-col gap-3">
+        <li>
+          <button
+            @click="go(0)"
+            :class="dotClass(0)"
+            aria-label="Hero"
+          ></button>
+        </li>
+        <li>
+          <button
+            @click="go(1)"
+            :class="dotClass(1)"
+            aria-label="Venue"
+          ></button>
+        </li>
+        <li>
+          <button
+            @click="go(2)"
+            :class="dotClass(2)"
+            aria-label="Gallery"
+          ></button>
+        </li>
+      </ul>
+    </nav>
   </body>
 </html>
