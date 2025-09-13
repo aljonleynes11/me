@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth snap-y snap-mandatory h-full overflow-x-hidden">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -105,10 +105,11 @@
       body::-webkit-scrollbar {
         display: none;
       }
+      html, body { margin: 0; padding: 0; }
     </style>
   </head>
   <body
-    class="min-h-screen text-gray-800 selection:bg-rose-200/40 snap-y snap-mandatory overflow-y-scroll scroll-smooth"
+    class="min-h-screen text-gray-800 selection:bg-rose-200/40 overflow-y-scroll overflow-x-hidden scroll-smooth"
     x-data="pageNav()"
     x-init="init()"
   >
@@ -133,7 +134,7 @@
       ></div>
     </div>
     <section
-      class="flex items-center justify-center min-h-screen px-6 py-16 snap-start relative"
+      class="flex items-center justify-center min-h-screen px-0 sm:px-6 py-16 snap-start snap-always relative"
       x-data
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
@@ -149,11 +150,11 @@
           We joyfully invite you to celebrate our union
         </p>
         <div
-          class="mt-8 inline-flex items-center justify-center gap-4 rounded-2xl bg-white/30 backdrop-blur-xl p-6 shadow-lg ring-1 ring-white/40"
+          class="mt-8 inline-flex sm:inline-flex items-center justify-center gap-4 rounded-2xl bg-white/30 backdrop-blur-xl p-4 sm:p-6 shadow-lg ring-1 ring-white/40 flex-col sm:flex-row w-full max-w-md mx-auto"
         >
           <div class="text-center">
             <div
-              class="text-3xl font-semibold text-gray-900 drop-shadow"
+              class="text-2xl sm:text-3xl font-semibold text-gray-900 drop-shadow"
               x-data
               x-text="new Date('2025-11-09').toLocaleString(navigator.language,{month:'long'})"
             >
@@ -163,18 +164,18 @@
               Month
             </div>
           </div>
-          <div class="h-10 w-px bg-gray-200" aria-hidden="true"></div>
+          <div class="hidden sm:block h-10 w-px bg-gray-200" aria-hidden="true"></div>
           <div class="text-center">
-            <div class="text-3xl font-semibold text-gray-900 drop-shadow">
+            <div class="text-2xl sm:text-3xl font-semibold text-gray-900 drop-shadow">
               9
             </div>
             <div class="text-sm uppercase tracking-widest text-gray-900">
               Day
             </div>
           </div>
-          <div class="h-10 w-px bg-gray-200" aria-hidden="true"></div>
+          <div class="hidden sm:block h-10 w-px bg-gray-200" aria-hidden="true"></div>
           <div class="text-center">
-            <div class="text-3xl font-semibold text-gray-900 drop-shadow">
+            <div class="text-2xl sm:text-3xl font-semibold text-gray-900 drop-shadow">
               2025
             </div>
             <div class="text-sm uppercase tracking-widest text-gray-900">
@@ -190,12 +191,12 @@
           <p class="text-xs uppercase tracking-[0.25em] text-gray-900">
             Countdown
           </p>
-          <div class="mt-3 grid grid-cols-4 gap-3 animate-fade-up">
+          <div class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-md mx-auto animate-fade-up">
             <div
-              class="rounded-xl bg-white/20 backdrop-blur-xl p-4 ring-1 ring-white/40 shadow-md"
+              class="rounded-xl bg-white/20 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md"
             >
               <div
-                class="text-2xl font-semibold text-gray-900"
+                class="text-xl sm:text-2xl font-semibold text-gray-900"
                 x-text="remaining.days"
               >
                 0
@@ -205,10 +206,10 @@
               </div>
             </div>
             <div
-              class="rounded-xl bg-white/20 backdrop-blur-xl p-4 ring-1 ring-white/40 shadow-md"
+              class="rounded-xl bg-white/20 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md"
             >
               <div
-                class="text-2xl font-semibold text-gray-900"
+                class="text-xl sm:text-2xl font-semibold text-gray-900"
                 x-text="remaining.hours"
               >
                 0
@@ -218,10 +219,10 @@
               </div>
             </div>
             <div
-              class="rounded-xl bg-white/20 backdrop-blur-xl p-4 ring-1 ring-white/40 shadow-md"
+              class="rounded-xl bg-white/20 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md"
             >
               <div
-                class="text-2xl font-semibold text-gray-900"
+                class="text-xl sm:text-2xl font-semibold text-gray-900"
                 x-text="remaining.minutes"
               >
                 0
@@ -231,10 +232,10 @@
               </div>
             </div>
             <div
-              class="rounded-xl bg-white/20 backdrop-blur-xl p-4 ring-1 ring-white/40 shadow-md"
+              class="rounded-xl bg-white/20 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md"
             >
               <div
-                class="text-2xl font-semibold text-gray-900"
+                class="text-xl sm:text-2xl font-semibold text-gray-900"
                 x-text="remaining.seconds"
               >
                 0
@@ -261,7 +262,7 @@
     <section
       id="venue"
       x-data="rsvp()"
-      class="min-h-screen flex items-center px-6 py-16 snap-start relative"
+      class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
       <div class="w-full max-w-3xl mx-auto text-center reveal-hidden">
@@ -380,7 +381,7 @@
     <section
       id="gallery"
       x-data="gallery()"
-      class="min-h-screen flex items-center px-6 py-16 snap-start relative"
+      class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
       <div class="absolute bottom-6 left-0 right-0 flex justify-center">
@@ -391,16 +392,16 @@
           Top
         </button>
       </div>
-      <div class="w-full max-w-4xl mx-auto text-center reveal-hidden">
+      <div class="w-full max-w-4xl mx-auto text-center reveal-hidden px-0 sm:px-2">
         <p class="uppercase tracking-[0.35em] text-xs text-gray-900">Gallery</p>
         <h2 class="font-script text-5xl text-gray-900 mt-3">Our Moments</h2>
-        <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-md sm:max-w-none mx-auto">
           <template x-for="(img, idx) in images" :key="idx">
             <div class="relative group cursor-pointer" @click="openAt(idx)">
               <img
                 :src="img"
                 alt=""
-                class="w-full h-40 sm:h-48 object-cover rounded-lg ring-1 ring-gray-200 group-hover:ring-rose-300 transition"
+                class="w-full h-36 sm:h-48 object-cover rounded-lg ring-1 ring-gray-200 group-hover:ring-rose-300 transition"
               />
             </div>
           </template>
@@ -625,10 +626,24 @@
               "scroll",
               this.throttle(() => this.updateActive(), 150)
             );
-            window.addEventListener("wheel", (e) => this.onWheel(e), {
-              passive: false,
-            });
+            // Only intercept wheel on non-touch devices
+            if (window.matchMedia('(pointer:fine)').matches) {
+              window.addEventListener("wheel", (e) => this.onWheel(e), {
+                passive: false,
+              });
+            }
             window.addEventListener("keydown", (e) => this.onKey(e));
+            // Simple touch swipe to advance sections on mobile
+            let startY = null;
+            window.addEventListener('touchstart', (e)=>{ startY = e.touches[0].clientY; }, { passive: true });
+            window.addEventListener('touchmove', (e)=>{
+              if (startY === null) return;
+              const dy = e.touches[0].clientY - startY;
+              if (Math.abs(dy) > 80) {
+                if (dy < 0) this.next(); else this.prev();
+                startY = null;
+              }
+            }, { passive: true });
           },
           throttle(fn, wait) {
             let last = 0;
@@ -727,25 +742,13 @@
     <nav class="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden sm:block">
       <ul class="flex flex-col gap-3">
         <li>
-          <button
-            @click="go(0)"
-            :class="dotClass(0)"
-            aria-label="Hero"
-          ></button>
+          <button @click="go(0)" :class="dotClass(0)" aria-label="Hero"></button>
         </li>
         <li>
-          <button
-            @click="go(1)"
-            :class="dotClass(1)"
-            aria-label="Venue"
-          ></button>
+          <button @click="go(1)" :class="dotClass(1)" aria-label="Venue"></button>
         </li>
         <li>
-          <button
-            @click="go(2)"
-            :class="dotClass(2)"
-            aria-label="Gallery"
-          ></button>
+          <button @click="go(2)" :class="dotClass(2)" aria-label="Gallery"></button>
         </li>
       </ul>
     </nav>
