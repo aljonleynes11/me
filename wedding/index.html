@@ -37,6 +37,10 @@
           "from-sky-100",
           "via-white",
           "to-pink-100",
+          "from-pink-100","via-rose-50","to-fuchsia-100",
+          "from-rose-100","via-pink-50","to-purple-100",
+          "from-fuchsia-100","to-pink-100",
+          "from-purple-100",
           "opacity-0",
           "opacity-30",
           "opacity-40",
@@ -105,11 +109,14 @@
       body::-webkit-scrollbar {
         display: none;
       }
-      html, body { margin: 0; padding: 0; }
+      html, body { margin: 0; padding: 0; overscroll-behavior: none; }
+      @media (pointer: fine) {
+        html, body { overflow: hidden !important; height: 100%; }
+      }
     </style>
   </head>
   <body
-    class="min-h-screen text-gray-800 selection:bg-rose-200/40 overflow-y-scroll overflow-x-hidden scroll-smooth"
+    class="min-h-screen text-gray-800 selection:bg-rose-200/40 overflow-y-hidden overflow-x-hidden"
     x-data="pageNav()"
     x-init="init()"
   >
@@ -139,108 +146,81 @@
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
       <div class="w-full max-w-3xl text-center reveal-hidden">
-        <p class="uppercase tracking-[0.35em] text-xs text-gray-900">Wedding</p>
+        <p class="uppercase tracking-[0.35em] text-xs text-gray-900 sm:mt-5">Wedding</p>
         <h1
           id="hero-names"
-          class="font-script text-6xl sm:text-7xl text-gray-900 mt-3"
+          class="font-script text-5xl sm:text-6xl text-gray-900 mt-5 h-[150px] leading-tight flex items-center justify-center"
         >
           Aljon and Lynn
         </h1>
-        <p class="mt-6 text-sm text-gray-900">
+        <p class="mt-5 text-xs sm:text-sm text-gray-900">
           We joyfully invite you to celebrate our union
         </p>
-        <div
-          class="mt-8 inline-flex sm:inline-flex items-center justify-center gap-4 rounded-2xl bg-white/30 backdrop-blur-xl p-4 sm:p-6 shadow-lg ring-1 ring-white/40 flex-col sm:flex-row w-full max-w-md mx-auto"
-        >
-          <div class="text-center">
-            <div
-              class="text-2xl sm:text-3xl font-semibold text-gray-900 drop-shadow"
-              x-data
-              x-text="new Date('2025-11-09').toLocaleString(navigator.language,{month:'long'})"
-            >
-              November
-            </div>
-            <div class="text-sm uppercase tracking-widest text-gray-900">
-              Month
-            </div>
-          </div>
-          <div class="hidden sm:block h-10 w-px bg-gray-200" aria-hidden="true"></div>
-          <div class="text-center">
-            <div class="text-2xl sm:text-3xl font-semibold text-gray-900 drop-shadow">
-              9
-            </div>
-            <div class="text-sm uppercase tracking-widest text-gray-900">
-              Day
-            </div>
-          </div>
-          <div class="hidden sm:block h-10 w-px bg-gray-200" aria-hidden="true"></div>
-          <div class="text-center">
-            <div class="text-2xl sm:text-3xl font-semibold text-gray-900 drop-shadow">
-              2025
-            </div>
-            <div class="text-sm uppercase tracking-widest text-gray-900">
-              Year
-            </div>
+        <div class="mt-4 w-full max-w-[18rem] sm:max-w-md mx-auto">
+          <div class="text-center rounded-xl bg-white/30 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md">
+            <div class="text-lg  sm:text-2xl lg:text-3xl font-semibold text-gray-900 drop-shadow whitespace-nowrap" x-data x-text="(()=>{const d=new Date('2025-11-09');return d.toLocaleString(navigator.language,{month:'long'})+' '+d.getDate()+' '+d.getFullYear();})()">November 9 2025</div>
+            <div class="mt-1 font-script text-base sm:text-lg text-gray-900" x-data x-text="(()=>{const d=new Date('2025-11-09');const mm=String(d.getMonth()+1).padStart(2,'0');const dd=String(d.getDate()).padStart(2,'0');const yyyy=d.getFullYear();return `${mm}.${dd}.${yyyy}`;})()">11.09.2025</div>
+            <div class="mt-1 text-[10px] sm:text-xs tracking-widest text-gray-900" x-data x-text="'(' + new Date('2025-11-09').toLocaleDateString(navigator.language,{weekday:'long'}) + ')'">(Sunday)</div>
           </div>
         </div>
         <div
-          class="mt-10"
+          class="mt-2"
           x-data="countdown('2025-11-09T00:00:00')"
           x-init="start()"
         >
           <p class="text-xs uppercase tracking-[0.25em] text-gray-900">
             Countdown
           </p>
-          <div class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-md mx-auto animate-fade-up">
+          <div class="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-3 lg:gap-4 max-w-[16rem] sm:max-w-md lg:max-w-xl mx-auto animate-fade-up">
             <div
-              class="rounded-xl bg-white/20 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md"
+              class="rounded-xl bg-white/20 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
             >
               <div
-                class="text-xl sm:text-2xl font-semibold text-gray-900"
+                class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
                 x-text="remaining.days"
               >
                 0
               </div>
-              <div class="text-[10px] uppercase tracking-wider text-gray-900">
+              <div class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-900">
                 Days
               </div>
             </div>
             <div
-              class="rounded-xl bg-white/20 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md"
+              class="rounded-xl bg-white/20 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
             >
               <div
-                class="text-xl sm:text-2xl font-semibold text-gray-900"
+                class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
                 x-text="remaining.hours"
               >
                 0
               </div>
-              <div class="text-[10px] uppercase tracking-wider text-gray-900">
+              <div class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-900">
                 Hours
               </div>
             </div>
             <div
-              class="rounded-xl bg-white/20 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md"
+              class="rounded-xl bg-white/20 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
             >
               <div
-                class="text-xl sm:text-2xl font-semibold text-gray-900"
+                class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
                 x-text="remaining.minutes"
               >
                 0
               </div>
-              <div class="text-[10px] uppercase tracking-wider text-gray-900">
+              <div class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-900">
                 Minutes
               </div>
             </div>
             <div
-              class="rounded-xl bg-white/20 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md"
+              class="rounded-xl bg-white/20 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
             >
               <div
-                class="text-xl sm:text-2xl font-semibold text-gray-900"
+                class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
                 x-text="remaining.seconds"
               >
                 0
               </div>
-              <div class="text-[10px] uppercase tracking-wider text-gray-900">
+              <div class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-900">
                 Seconds
               </div>
             </div>
@@ -252,7 +232,7 @@
       </div>
       <div class="absolute bottom-6 left-0 right-0 flex justify-center">
         <button
-          onclick="document.getElementById('venue').scrollIntoView({behavior:'smooth'})"
+          onclick="window.goToSection(1)"
           class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
         >
           Next
@@ -307,7 +287,7 @@
       </div>
       <div class="absolute bottom-6 left-0 right-0 flex justify-center">
         <button
-          onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})"
+          onclick="window.goToSection(2)"
           class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
         >
           Next
@@ -379,69 +359,41 @@
       </div>
     </section>
     <section
-      id="gallery"
-      x-data="gallery()"
+      id="details"
       class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
+      <div class="w-full max-w-4xl mx-auto text-center reveal-hidden px-2 sm:px-2">
+
+        <h2 class="font-script text-3xl text-gray-900 mt-1">Wedding Information</h2>
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+
+          <div class="rounded-2xl bg-white/40 backdrop-blur-xl p-4 ring-1 ring-white/50 shadow">
+            <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-800">Color Palette</h3>
+            <div class="mt-3 flex items-center gap-3">
+              <span class="h-6 w-6 rounded-full ring-1 ring-black/10" style="background:#FADDE1"></span>
+              <span class="h-6 w-6 rounded-full ring-1 ring-black/10" style="background:#F8E1E7"></span>
+              <span class="h-6 w-6 rounded-full ring-1 ring-black/10" style="background:#E9D7F7"></span>
+              <span class="h-6 w-6 rounded-full ring-1 ring-black/10" style="background:#DCC6E0"></span>
+              <span class="h-6 w-6 rounded-full ring-1 ring-black/10" style="background:#F3E5F5"></span>
+            </div>
+            <p class="mt-2 text-xs text-gray-600">Pastel pink and mauve tones</p>
+          </div>
+          <div class="rounded-2xl bg-white/40 backdrop-blur-xl p-4 ring-1 ring-white/50 shadow">
+            <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-800">Dress Code</h3>
+            <p class="mt-2 text-sm text-gray-900">Formal Attire</p>
+            <img src="images/dress_code.png" alt="Wedding dress code" class="mt-3 w-full h-36 object-fit-contain rounded-lg ring-1 ring-black/10" />
+          </div>
+        </div>
+      </div>
       <div class="absolute bottom-6 left-0 right-0 flex justify-center">
         <button
-          onclick="document.querySelector('section').scrollIntoView({behavior:'smooth'})"
+          onclick="window.goToSection(0)"
           class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
         >
           Top
         </button>
       </div>
-      <div class="w-full max-w-4xl mx-auto text-center reveal-hidden px-0 sm:px-2">
-        <p class="uppercase tracking-[0.35em] text-xs text-gray-900">Gallery</p>
-        <h2 class="font-script text-5xl text-gray-900 mt-3">Our Moments</h2>
-        <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-md sm:max-w-none mx-auto">
-          <template x-for="(img, idx) in images" :key="idx">
-            <div class="relative group cursor-pointer" @click="openAt(idx)">
-              <img
-                :src="img"
-                alt=""
-                class="w-full h-36 sm:h-48 object-cover rounded-lg ring-1 ring-gray-200 group-hover:ring-rose-300 transition"
-              />
-            </div>
-          </template>
-        </div>
-       
-      </div>
-      <div
-        x-show="open"
-        x-cloak
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
-        @keydown.escape.window="close()"
-      >
-        <button
-          class="absolute top-4 right-4 text-white/80 hover:text-white text-xl"
-          @click="close()"
-          aria-label="Close"
-        >
-          ✕
-        </button>
-        <button
-          class="absolute left-4 text-white/80 hover:text-white text-2xl"
-          @click="prev()"
-          aria-label="Previous"
-        >
-          ‹
-        </button>
-        <button
-          class="absolute right-4 text-white/80 hover:text-white text-2xl"
-          @click="next()"
-          aria-label="Next"
-        >
-          ›
-        </button>
-        <img
-          :src="images[selectedIndex]"
-          alt=""
-          class="max-h-[80vh] max-w-[90vw] rounded-lg shadow-2xl ring-1 ring-white/20"
-        />
-      </div>
-      
     </section>
     <script>
       document.addEventListener("alpine:init", () => {
@@ -476,13 +428,13 @@
         Alpine.data("gradientCrossfade", () => ({
           index: 0,
           palettes: [
-            "bg-gradient-to-br from-rose-100 via-white to-sky-100",
-            "bg-gradient-to-br from-amber-100 via-white to-emerald-100",
-            "bg-gradient-to-br from-violet-100 via-white to-indigo-100",
-            "bg-gradient-to-br from-sky-100 via-white to-pink-100",
+            "bg-gradient-to-br from-pink-100 via-rose-50 to-fuchsia-100",
+            "bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100",
+            "bg-gradient-to-br from-fuchsia-100 via-rose-50 to-pink-100",
+            "bg-gradient-to-br from-purple-100 via-rose-50 to-pink-100",
           ],
-          aClass: "bg-gradient-to-br from-rose-100 via-white to-sky-100",
-          bClass: "bg-gradient-to-br from-amber-100 via-white to-emerald-100",
+          aClass: "bg-gradient-to-br from-pink-100 via-rose-50 to-fuchsia-100",
+          bClass: "bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100",
           aOpacity: "opacity-40",
           bOpacity: "opacity-0",
           useA: true,
@@ -535,16 +487,17 @@
           }
           const tw = new Typewriter(target, {
             loop: true,
-            delay: 100,
+            delay: 90,
             deleteSpeed: 50,
             cursor: "_",
           });
           tw.deleteAll(1)
-            .typeString("Aljon and Lynn")
-            .pauseFor(2500)
+            .typeString("Aljon<br>and<br>Lynn")
+            .pauseFor(1800)
             .deleteAll()
-            .typeString("Lynn and Aljon")
-            .pauseFor(2500)
+            .typeString("Lynn<br>and<br>Aljon")
+            .pauseFor(1800)
+            .deleteAll()
             .start();
           target._tw = tw;
         };
@@ -587,34 +540,6 @@
         // Ensure initial elements are observed immediately
         window.__reveal.observe(document);
 
-        Alpine.data("gallery", () => ({
-          images: [
-            "images/photo1.jpg",
-            "images/photo2.jpg",
-            "images/photo3.jpg",
-            "images/photo4.jpg",
-            "images/photo5.jpg",
-            "images/photo6.jpg",
-          ],
-          open: false,
-          selectedIndex: 0,
-          openAt(i) {
-            this.selectedIndex = i;
-            this.open = true;
-          },
-          close() {
-            this.open = false;
-          },
-          next() {
-            this.selectedIndex = (this.selectedIndex + 1) % this.images.length;
-          },
-          prev() {
-            this.selectedIndex =
-              (this.selectedIndex + this.images.length - 1) %
-              this.images.length;
-          },
-        }));
-
         Alpine.data("pageNav", () => ({
           sections: [],
           active: 0,
@@ -622,28 +547,37 @@
           init() {
             this.sections = Array.from(document.querySelectorAll("section"));
             this.updateActive();
+            // Update dots when goToSection announces a sectionchange
+            window.addEventListener('sectionchange', (e)=>{ if (typeof e.detail?.index === 'number') { this.active = e.detail.index; } });
             window.addEventListener(
               "scroll",
               this.throttle(() => this.updateActive(), 150)
             );
-            // Only intercept wheel on non-touch devices
+            // Desktop: fully disable wheel/keyboard navigation (Next buttons only)
             if (window.matchMedia('(pointer:fine)').matches) {
-              window.addEventListener("wheel", (e) => this.onWheel(e), {
-                passive: false,
+              window.addEventListener('wheel', (e)=>{ e.preventDefault(); }, { passive: false });
+              window.addEventListener('keydown', (e)=>{
+                if (["ArrowDown","PageDown"," ","ArrowUp","PageUp"].includes(e.key)) {
+                  e.preventDefault();
+                }
               });
+            } else {
+              // Mobile/tablet: allow swipe navigation
+              window.addEventListener("keydown", (e) => this.onKey(e));
             }
-            window.addEventListener("keydown", (e) => this.onKey(e));
             // Simple touch swipe to advance sections on mobile
             let startY = null;
-            window.addEventListener('touchstart', (e)=>{ startY = e.touches[0].clientY; }, { passive: true });
+            window.addEventListener('touchstart', (e)=>{ startY = e.touches[0].clientY; }, { passive: false });
             window.addEventListener('touchmove', (e)=>{
+              e.preventDefault();
               if (startY === null) return;
               const dy = e.touches[0].clientY - startY;
               if (Math.abs(dy) > 80) {
                 if (dy < 0) this.next(); else this.prev();
                 startY = null;
               }
-            }, { passive: true });
+            }, { passive: false });
+            window.addEventListener('touchend', ()=>{ startY = null; }, { passive: true });
           },
           throttle(fn, wait) {
             let last = 0;
@@ -723,18 +657,38 @@
           },
         }));
       });
+      // Helper for desktop: temporarily enable scroll to jump sections via buttons/dots
+      window.goToSection = function(index){
+        const sections = Array.from(document.querySelectorAll('section'));
+        const el = sections[index];
+        if (!el) return;
+        const root = document.documentElement;
+        const body = document.body;
+        const prevRoot = root.style.overflowY;
+        const prevBody = body.style.overflowY;
+        root.style.overflowY = 'auto';
+        body.style.overflowY = 'auto';
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // proactively notify listeners which section is active
+        try { window.dispatchEvent(new CustomEvent('sectionchange', { detail: { index } })); } catch(e){}
+        setTimeout(()=>{
+          root.style.overflowY = 'hidden';
+          body.style.overflowY = 'hidden';
+          try { window.dispatchEvent(new CustomEvent('sectionchange', { detail: { index } })); } catch(e){}
+        }, 900);
+      };
     </script>
     <!-- Mobile dots navigation (top) -->
     <nav class="fixed top-3 left-0 right-0 z-40 sm:hidden">
       <ul class="mx-auto flex justify-center gap-3">
         <li>
-          <button @click="go(0)" :class="dotClass(0)" class="p-2" aria-label="Hero"></button>
+          <button @click="window.goToSection(0)" :class="dotClass(0)" class="p-2" aria-label="Hero"></button>
         </li>
         <li>
-          <button @click="go(1)" :class="dotClass(1)" class="p-2" aria-label="Venue"></button>
+          <button @click="window.goToSection(1)" :class="dotClass(1)" class="p-2" aria-label="Venue"></button>
         </li>
         <li>
-          <button @click="go(2)" :class="dotClass(2)" class="p-2" aria-label="Gallery"></button>
+          <button @click="window.goToSection(2)" :class="dotClass(2)" class="p-2" aria-label="Details"></button>
         </li>
       </ul>
     </nav>
@@ -742,13 +696,13 @@
     <nav class="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden sm:block">
       <ul class="flex flex-col gap-3">
         <li>
-          <button @click="go(0)" :class="dotClass(0)" aria-label="Hero"></button>
+          <button @click="window.goToSection(0)" :class="dotClass(0)" aria-label="Hero"></button>
         </li>
         <li>
-          <button @click="go(1)" :class="dotClass(1)" aria-label="Venue"></button>
+          <button @click="window.goToSection(1)" :class="dotClass(1)" aria-label="Venue"></button>
         </li>
         <li>
-          <button @click="go(2)" :class="dotClass(2)" aria-label="Gallery"></button>
+          <button @click="window.goToSection(2)" :class="dotClass(2)" aria-label="Details"></button>
         </li>
       </ul>
     </nav>
