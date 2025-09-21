@@ -259,6 +259,7 @@
         </button>
       </div>
     </section>
+    
     <section
       id="venue"
       x-data="rsvp()"
@@ -266,19 +267,7 @@
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
       <div class="w-full max-w-3xl mx-auto text-center reveal-hidden">
-        <p class="uppercase tracking-[0.35em] text-xs text-gray-900">Venue</p>
-        <h2 class="font-script text-5xl text-gray-900 mt-3">
-          Angels Gabriel Garden
-        </h2>
-        <p class="mt-3 text-sm text-gray-900">San Gabriel, Bulacan</p>
-        <div class="mt-6">
-          <a
-            href="https://www.google.com/maps/search/?api=1&query=Angels%20Gabriel%20Garden%2C%20San%20Gabriel%2C%20Bulacan"
-            target="_blank"
-            class="inline-flex items-center rounded-full bg-black text-white px-5 py-2.5 text-sm hover:bg-black/90 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-            >Open in Google Maps</a
-          >
-        </div>
+        
 
         <div class="mt-12">
           <p class="uppercase tracking-[0.35em] text-xs text-gray-900">RSVP</p>
@@ -352,6 +341,18 @@
                 placeholder="John Doe"
               />
             </div>
+            <div class="text-left" x-show="(name || '').trim().length > 3">
+              <label for="beverage" class="block text-xs font-medium text-gray-700">Preferred Beverage</label>
+              <select
+                id="beverage"
+                x-model="beverage"
+                class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+              >
+                <option value="">-</option>
+                <option value="Coffee">Coffee</option>
+                <option value="Chocolate">Chocolate</option>
+              </select>
+            </div>
             <div class="text-left">
               <label
                 for="companionName"
@@ -366,11 +367,11 @@
                 placeholder="Jane Doe"
               />
             </div>
-            <div class="text-left">
-              <label for="beverage" class="block text-xs font-medium text-gray-700">Preferred Beverage</label>
+            <div class="text-left" x-show="(companion || '').trim().length > 3">
+              <label for="companionBeverage" class="block text-xs font-medium text-gray-700">Companion's Beverage (optional)</label>
               <select
-                id="beverage"
-                x-model="beverage"
+                id="companionBeverage"
+                x-model="companionBeverage"
                 class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
               >
                 <option value="">-</option>
@@ -393,10 +394,55 @@
               :disabled="!canSubmit()"
               :class="'inline-flex items-center rounded-full px-4 py-2 text-sm ' + (canSubmit() ? 'bg-black text-white hover:bg-black/90' : 'bg-gray-200 text-gray-400 cursor-not-allowed')"
             >
-              Send RSVP
+              Send RVSP
             </button>
           </div>
         </div>
+      </div>
+    </section>
+    <!-- Ceremony Section (3rd) -->
+    <section
+      id="ceremony"
+      class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
+      x-init="window.__reveal && window.__reveal.observe($el)"
+    >
+      <div class="w-full max-w-4xl mx-auto text-center reveal-hidden px-2 sm:px-2">
+        <p class="uppercase tracking-[0.35em] text-xs text-gray-900">Ceremony & Venue</p>
+        <div class="mt-3">
+          <h2 class="font-script text-4xl text-gray-900 mt-2">Angels Gabriel Garden</h2>
+          <p class="mt-2 text-sm text-gray-900">San Gabriel, Bulacan</p>
+          <div class="mt-4">
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Angels%20Gabriel%20Garden%2C%20San%20Gabriel%2C%20Bulacan"
+              target="_blank"
+              class="inline-flex items-center rounded-full bg-black text-white px-5 py-2.5 text-sm hover:bg-black/90 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+            >Open in Google Maps</a>
+          </div>
+        </div>
+      
+        <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="relative">
+            <img src="images/ceremony.jpg" alt="Ceremony" class="w-full max-h-[10rem] sm:max-h-[12rem] object-cover rounded-2xl ring-1 ring-white/60 shadow-md" />
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="rounded-md bg-white/40 backdrop-blur-md text-black px-4 py-1.5 text-2xl md:text-base ring-1 ring-white/60 shadow font-script">Ceremony</span>
+            </div>
+          </div>
+          <div class="relative">
+            <img src="images/venue.jpg" alt="Location" class="w-full max-h-[10rem] sm:max-h-[12rem] object-cover rounded-2xl ring-1 ring-white/60 shadow-md" />
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="rounded-md bg-white/40 backdrop-blur-md text-black px-4 py-1.5 text-2xl md:text-base ring-1 ring-white/60 shadow font-script">Reception</span>
+            </div>
+          </div>
+          <span></span>
+        </div>
+      </div>
+      <div class="absolute bottom-6 left-0 right-0 flex justify-center">
+        <button
+          onclick="window.goToSection(3)"
+          class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
+        >
+          Next
+        </button>
       </div>
     </section>
     <section
@@ -406,7 +452,7 @@
     >
       <div class="w-full max-w-4xl mx-auto text-center reveal-hidden px-2 sm:px-2">
 
-        <h2 class="font-script text-3xl text-gray-900 mt-1">Wedding Information</h2>
+        <h2 class="font-script text-3xl text-gray-900 mt-1">Dress Code</h2>
         <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
 
           <div class="rounded-2xl bg-white/40 backdrop-blur-xl p-4 ring-1 ring-white/50 shadow">
@@ -605,25 +651,29 @@
           window.addEventListener("load", ready, { once: true });
         }
 
-        // Particles.js init (desktop only, respects reduced motion)
+        // Particles.js init (respects reduced motion; scales for mobile)
         const initParticles = () => {
           const container = document.getElementById('particles-js');
           if (!container || !window.particlesJS) return;
           const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          const isDesktop = window.matchMedia && window.matchMedia('(pointer:fine)').matches;
-          if (prefersReduced || !isDesktop) return;
+          if (prefersReduced) return;
+          const hasCoarsePointer = window.matchMedia && window.matchMedia('(pointer:coarse)').matches;
+          const lowEndHints = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || (navigator.deviceMemory && navigator.deviceMemory <= 2);
+          const isMobileLike = hasCoarsePointer || lowEndHints;
+          const particleNumber = isMobileLike ? 60 : 180;
+          const particleSize = 8
+          const moveSpeed = isMobileLike ? 0.35 : 0.6;
           window.particlesJS('particles-js', {
             particles: {
-              number: { value: 500, density: { enable: true, value_area: 900 } },
+              number: { value: particleNumber, density: { enable: true, value_area: 900 } },
               color: { value: ["#fb7185", "#f472b6", "#fda4af", "#e879f9"] },
               shape: { type: "circle" },
-              opacity: { value: 0.25 },
-              size: { value: 2, random: true },
+              opacity: { value: 0.22 },
+              size: { value: particleSize, random: true },
               line_linked: { enable: false },
-              size: {value: 12, random: true},
               move: {
                 enable: true,
-                speed: 0.6,
+                speed: moveSpeed,
                 direction: "top",
                 random: false,
                 straight: false,
@@ -773,13 +823,35 @@
               (this.active === i ? "bg-black" : "bg-white/70 hover:bg-white")
             );
           },
+          tabClass(i) {
+            return (
+              "px-3 py-1.5 rounded-full text-[10px] sm:text-xs ring-1 ring-white/60 backdrop-blur transition " +
+              (this.active === i
+                ? "bg-black text-white"
+                : "bg-white/70 text-gray-700 hover:bg-white")
+            );
+          },
         }));
 
         Alpine.data("rsvp", () => ({
           open: false,
           name: "",
           companion: "",
+          companionBeverage: "",
           beverage: "",
+          init() {
+            try {
+              const params = (typeof window.getUrlParams === 'function') ? window.getUrlParams() : {};
+              const main = params.main ?? params.Main ?? params.MAIN;
+              const sub = params.sub ?? params.Sub ?? params.SUB;
+              if (typeof main === 'string' && main.length) {
+                this.name = decodeURIComponent(main).replace(/\+/g, ' ').trim();
+              }
+              if (typeof sub === 'string' && sub.length) {
+                this.companion = decodeURIComponent(sub).replace(/\+/g, ' ').trim();
+              }
+            } catch (e) {}
+          },
           canSubmit() {
             const hasName = typeof this.name === 'string' && this.name.trim().length > 0;
             const hasBeverage = typeof this.beverage === 'string' && this.beverage.trim().length > 0;
@@ -791,7 +863,7 @@
               "RSVP: Aljon & Lynn Wedding - Accept"
             );
             const body = encodeURIComponent(
-              `Name: ${this.name}\nCompanion: ${(this.companion || '').trim() || 'None'}\nBeverage: ${this.beverage}\nNotes: `
+              `Name: ${this.name}\nCompanion: ${(this.companion || '').trim() || 'None'}\nBeverage: ${this.beverage}\nCompanion Beverage: ${(((this.companion || '').trim().length > 3) && (this.companionBeverage || '').trim()) || 'None'}\nNotes: `
             );
             const mailto = `mailto:lynnbesacruz@gmail.com?cc=aljonleynes11@gmail.com&subject=${subject}&body=${body}`;
             window.location.href = mailto;
@@ -799,6 +871,15 @@
           },
         }));
       });
+      // Simple URL params helper
+      window.getUrlParams = function() {
+        try {
+          const out = {};
+          const usp = new URLSearchParams(window.location.search || '');
+          usp.forEach((value, key) => { out[key] = value; });
+          return out;
+        } catch (e) { return {}; }
+      };
       // Helper for desktop: temporarily enable scroll to jump sections via buttons/dots
       window.goToSection = function(index){
         const sections = Array.from(document.querySelectorAll('section'));
@@ -820,31 +901,37 @@
         }, 900);
       };
     </script>
-    <!-- Mobile dots navigation (top) -->
+    <!-- Mobile tabs navigation (top) -->
     <nav class="fixed top-3 left-0 right-0 z-40 sm:hidden">
-      <ul class="mx-auto flex justify-center gap-3">
+      <ul class="mx-auto flex justify-center gap-2">
         <li>
-          <button @click="window.goToSection(0)" :class="dotClass(0)" class="p-2" aria-label="Hero"></button>
+          <button @click="window.goToSection(0)" :class="tabClass(0)" class="p-1.5" aria-label="Hero">INVITATION</button>
         </li>
         <li>
-          <button @click="window.goToSection(1)" :class="dotClass(1)" class="p-2" aria-label="Venue"></button>
+          <button @click="window.goToSection(1)" :class="tabClass(1)" class="p-1.5" aria-label="RVSP">RVSP</button>
         </li>
         <li>
-          <button @click="window.goToSection(2)" :class="dotClass(2)" class="p-2" aria-label="Details"></button>
+          <button @click="window.goToSection(2)" :class="tabClass(2)" class="p-1.5" aria-label="Ceremony and Reception">VENUE</button>
+        </li>
+        <li>
+          <button @click="window.goToSection(3)" :class="tabClass(3)" class="p-1.5" aria-label="Details">DRESS CODE</button>
         </li>
       </ul>
     </nav>
-    <!-- Sticky dots navigation -->
+    <!-- Sticky tabs navigation (desktop) -->
     <nav class="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden sm:block">
-      <ul class="flex flex-col gap-3">
+      <ul class="flex flex-col gap-2">
         <li>
-          <button @click="window.goToSection(0)" :class="dotClass(0)" aria-label="Hero"></button>
+          <button @click="window.goToSection(0)" :class="tabClass(0)" aria-label="Hero">INVITATION</button>
         </li>
         <li>
-          <button @click="window.goToSection(1)" :class="dotClass(1)" aria-label="Venue"></button>
+          <button @click="window.goToSection(1)" :class="tabClass(1)" aria-label="RVSP">RVSP</button>
         </li>
         <li>
-          <button @click="window.goToSection(2)" :class="dotClass(2)" aria-label="Details"></button>
+          <button @click="window.goToSection(2)" :class="tabClass(2)" aria-label="Ceremony and Reception">VENUE</button>
+        </li>
+        <li>
+          <button @click="window.goToSection(3)" :class="tabClass(3)" aria-label="Details">DRESS CODE</button>
         </li>
       </ul>
     </nav>
