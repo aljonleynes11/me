@@ -63,6 +63,10 @@
       defer
       src="https://cdn.jsdelivr.net/npm/typewriter-effect@2.19.0/dist/core.js"
     ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"
+    ></script>
     <style>
       [x-cloak] {
         display: none;
@@ -120,12 +124,26 @@
     x-data="pageNav()"
     x-init="init()"
   >
-    <img
-      src="images/background.jpg"
-      alt=""
-      aria-hidden="true"
-      class="fixed inset-0 -z-20 w-full h-full object-cover blur-sm scale-105"
-    />
+    <div
+      x-data="bgSlideshow()"
+      x-init="start()"
+      class="fixed inset-0 -z-20"
+    >
+      <img
+        :src="aSrc"
+        alt=""
+        aria-hidden="true"
+        :class="useA ? 'opacity-100' : 'opacity-0'"
+        class="absolute inset-0 w-full h-full object-cover blur-sm scale-105 transition-opacity duration-[2000ms]"
+      />
+      <img
+        :src="bSrc"
+        alt=""
+        aria-hidden="true"
+        :class="useA ? 'opacity-0' : 'opacity-100'"
+        class="absolute inset-0 w-full h-full object-cover blur-sm scale-105 transition-opacity duration-[2000ms]"
+      />
+    </div>
     <div
       x-data="gradientCrossfade()"
       x-init="start()"
@@ -140,6 +158,8 @@
         class="absolute inset-0 transition-opacity duration-[3000ms] ease-in-out"
       ></div>
     </div>
+    <!-- Particles background (desktop only, subtle) -->
+    <div id="particles-js" class="fixed inset-0 pointer-events-none" style="z-index:-5;"></div>
     <section
       class="flex items-center justify-center min-h-screen px-0 sm:px-6 py-16 snap-start snap-always relative"
       x-data
@@ -266,8 +286,12 @@
             We'd love to celebrate with you
           </h3>
           <p class="mt-3 text-xs text-gray-900">
-            Note: Invitation admits 1 companion only. Childless, please.
+            Note: Invitation admits 1 companion only. No Child, please.
           </p>
+          <p class="mt-3 text-xs text-gray-900">
+            Childless wedding.
+          </p>
+
           <div class="mt-6 flex items-center justify-center gap-3 flex-wrap">
             <button
               type="button"
@@ -309,6 +333,10 @@
             Please indicate your name and your companion's name. One companion
             only; childless, please.
           </p>
+          <p class="mt-1 text-xs text-gray-900">
+          Childless Wedding
+          </p>
+
           <div class="mt-4 space-y-4">
             <div class="text-left">
               <label
@@ -321,22 +349,34 @@
                 type="text"
                 x-model="name"
                 class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-                placeholder="Juan Dela Cruz"
+                placeholder="John Doe"
               />
             </div>
             <div class="text-left">
               <label
                 for="companionName"
                 class="block text-xs font-medium text-gray-700"
-                >Companion's Name</label
+                >Companion's Name (optional)</label
               >
               <input
                 id="companionName"
                 type="text"
                 x-model="companion"
                 class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-                placeholder="Maria Dela Cruz"
+                placeholder="Jane Doe"
               />
+            </div>
+            <div class="text-left">
+              <label for="beverage" class="block text-xs font-medium text-gray-700">Preferred Beverage</label>
+              <select
+                id="beverage"
+                x-model="beverage"
+                class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+              >
+                <option value="">-</option>
+                <option value="Coffee">Coffee</option>
+                <option value="Chocolate">Chocolate</option>
+              </select>
             </div>
           </div>
           <div class="mt-6 flex items-center justify-end gap-2">
@@ -350,7 +390,8 @@
             <button
               type="button"
               @click="submit()"
-              class="inline-flex items-center rounded-full bg-black text-white px-4 py-2 text-sm hover:bg-black/90"
+              :disabled="!canSubmit()"
+              :class="'inline-flex items-center rounded-full px-4 py-2 text-sm ' + (canSubmit() ? 'bg-black text-white hover:bg-black/90' : 'bg-gray-200 text-gray-400 cursor-not-allowed')"
             >
               Send RSVP
             </button>
@@ -469,6 +510,62 @@
           },
         }));
 
+        Alpine.data("bgSlideshow", () => ({
+          images: Array.from({ length: 8 }, (_, i) => `images/${i + 1}.jpg`),
+          index: 0,
+          aSrc: "",
+          bSrc: "",
+          useA: true,
+          timerId: null,
+          intervalMs: 5000,
+          nextIndex(i) {
+            return (i + 1) % this.images.length;
+          },
+          preload(src) {
+            if (!src) return;
+            const img = new Image();
+            img.src = src;
+          },
+          setInitial() {
+            if (this.images.length === 0) return;
+            this.index = 0;
+            this.aSrc = this.images[this.index];
+            this.bSrc = this.images[this.nextIndex(this.index)];
+            this.useA = true;
+          },
+          swap() {
+            if (this.images.length < 2) return;
+            this.useA = !this.useA;
+            this.index = this.nextIndex(this.index);
+            const upcoming = this.images[this.nextIndex(this.index)];
+            this.preload(upcoming);
+            if (this.useA) {
+              // b is visible, prepare a for next
+              this.aSrc = upcoming;
+            } else {
+              // a is visible, prepare b for next
+              this.bSrc = upcoming;
+            }
+          },
+          start() {
+            this.setInitial();
+            if (this.images.length < 2) return;
+            const reduce =
+              window.matchMedia &&
+              window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            if (reduce) return;
+            this.preload(this.aSrc);
+            this.preload(this.bSrc);
+            this.timerId = setInterval(() => this.swap(), this.intervalMs);
+          },
+          stop() {
+            if (this.timerId) {
+              clearInterval(this.timerId);
+              this.timerId = null;
+            }
+          },
+        }));
+
         const initTypewriter = () => {
           const target = document.getElementById("hero-names");
           if (!target || !window.Typewriter) return;
@@ -508,6 +605,45 @@
           window.addEventListener("load", ready, { once: true });
         }
 
+        // Particles.js init (desktop only, respects reduced motion)
+        const initParticles = () => {
+          const container = document.getElementById('particles-js');
+          if (!container || !window.particlesJS) return;
+          const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const isDesktop = window.matchMedia && window.matchMedia('(pointer:fine)').matches;
+          if (prefersReduced || !isDesktop) return;
+          window.particlesJS('particles-js', {
+            particles: {
+              number: { value: 500, density: { enable: true, value_area: 900 } },
+              color: { value: ["#fb7185", "#f472b6", "#fda4af", "#e879f9"] },
+              shape: { type: "circle" },
+              opacity: { value: 0.25 },
+              size: { value: 2, random: true },
+              line_linked: { enable: false },
+              size: {value: 12, random: true},
+              move: {
+                enable: true,
+                speed: 0.6,
+                direction: "top",
+                random: false,
+                straight: false,
+                out_mode: "out"
+              }
+            },
+            interactivity: {
+              detect_on: "canvas",
+              events: { onhover: { enable: false }, onclick: { enable: false }, resize: true }
+            },
+            retina_detect: true
+          });
+        };
+        const readyParticles = () => initParticles();
+        if (document.readyState === "complete") {
+          readyParticles();
+        } else {
+          window.addEventListener("load", readyParticles, { once: true });
+        }
+
         // Shared intersection observer for reveal animations
         window.__reveal = {
           observer: null,
@@ -544,6 +680,7 @@
           sections: [],
           active: 0,
           scrolling: false,
+          isDesktop: false,
           init() {
             this.sections = Array.from(document.querySelectorAll("section"));
             this.updateActive();
@@ -553,18 +690,13 @@
               "scroll",
               this.throttle(() => this.updateActive(), 150)
             );
-            // Desktop: fully disable wheel/keyboard navigation (Next buttons only)
-            if (window.matchMedia('(pointer:fine)').matches) {
-              window.addEventListener('wheel', (e)=>{ e.preventDefault(); }, { passive: false });
-              window.addEventListener('keydown', (e)=>{
-                if (["ArrowDown","PageDown"," ","ArrowUp","PageUp"].includes(e.key)) {
-                  e.preventDefault();
-                }
-              });
-            } else {
-              // Mobile/tablet: allow swipe navigation
-              window.addEventListener("keydown", (e) => this.onKey(e));
+            // Set input mode and enable wheel/keyboard navigation for desktop
+            this.isDesktop = window.matchMedia('(pointer:fine)').matches;
+            if (this.isDesktop) {
+              window.addEventListener('wheel', (e) => this.onWheel(e), { passive: false });
             }
+            // Keyboard navigation for all
+            window.addEventListener("keydown", (e) => this.onKey(e));
             // Simple touch swipe to advance sections on mobile
             let startY = null;
             window.addEventListener('touchstart', (e)=>{ startY = e.touches[0].clientY; }, { passive: false });
@@ -599,12 +731,18 @@
           },
           go(idx) {
             if (idx < 0 || idx >= this.sections.length) return;
+            if (idx === this.active) return;
+            if (this.scrolling) return;
             this.scrolling = true;
-            this.sections[idx].scrollIntoView({ behavior: "smooth" });
+            if (this.isDesktop) {
+              try { window.goToSection(idx); } catch(e) { this.sections[idx].scrollIntoView({ behavior: "smooth" }); }
+            } else {
+              this.sections[idx].scrollIntoView({ behavior: "smooth" });
+            }
             setTimeout(() => {
               this.scrolling = false;
               this.active = idx;
-            }, 800);
+            }, 900);
           },
           next() {
             this.go(this.active + 1);
@@ -613,14 +751,11 @@
             this.go(this.active - 1);
           },
           onWheel(e) {
-            if (this.scrolling) {
-              e.preventDefault();
-              return;
-            }
             if (Math.abs(e.deltaY) < 20) return;
             e.preventDefault();
-            if (e.deltaY > 0) this.next();
-            else this.prev();
+            if (this.scrolling) return;
+            const idx = this.active + (e.deltaY > 0 ? 1 : -1);
+            this.go(idx);
           },
           onKey(e) {
             if (["ArrowDown", "PageDown", " "].includes(e.key)) {
@@ -644,12 +779,19 @@
           open: false,
           name: "",
           companion: "",
+          beverage: "",
+          canSubmit() {
+            const hasName = typeof this.name === 'string' && this.name.trim().length > 0;
+            const hasBeverage = typeof this.beverage === 'string' && this.beverage.trim().length > 0;
+            return hasName && hasBeverage;
+          },
           submit() {
+            if (!this.canSubmit()) return;
             const subject = encodeURIComponent(
               "RSVP: Aljon & Lynn Wedding - Accept"
             );
             const body = encodeURIComponent(
-              `Name: ${this.name}\nCompanion: ${this.companion}\nNotes: `
+              `Name: ${this.name}\nCompanion: ${(this.companion || '').trim() || 'None'}\nBeverage: ${this.beverage}\nNotes: `
             );
             const mailto = `mailto:lynnbesacruz@gmail.com?cc=aljonleynes11@gmail.com&subject=${subject}&body=${body}`;
             window.location.href = mailto;
