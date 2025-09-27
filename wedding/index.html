@@ -67,6 +67,10 @@
       defer
       src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"
     ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+    ></script>
     <style>
       [x-cloak] {
         display: none;
@@ -280,6 +284,9 @@
           <p class="mt-3 text-xs text-gray-900">
             Childless wedding.
           </p>
+          <h3 class="font-script text-4xl text-gray-900 mt-10" x-show="responded">
+            Thanks for joining us!
+          </h3>
 
           <div class="mt-6 flex items-center justify-center gap-3 flex-wrap">
             <button
@@ -287,14 +294,9 @@
               @click="open = true"
               class="inline-flex items-center rounded-full bg-black text-white px-5 py-2.5 text-sm hover:bg-black/90 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
             >
-              Accept
+              <span x-text="responded ? 'Update' : 'Accept'"></span>
             </button>
-            <a
-              href="mailto:lynnbesacruz@gmail.com?cc=aljonleynes11@gmail.com&subject=RSVP%3A%20Aljon%20%26%20Lynn%20Wedding%20-%20Regrets&body=Name%3A%0AMessage%3A%0A"
-              class="inline-flex items-center rounded-full border border-black bg-white text-black px-5 py-2.5 text-sm hover:bg-black hover:text-white transition focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-            >
-              Regrets
-            </a>
+           
           </div>
         </div>
       </div>
@@ -311,11 +313,11 @@
       <div
         x-show="open"
         x-cloak
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 pb-8"
         @keydown.escape.window="open = false"
       >
         <div
-          class="w-full max-w-md rounded-2xl bg-white p-6 text-left shadow-xl"
+          class="w-full max-w-md rounded-2xl bg-white p-6 text-left shadow-xl pb-8"
         >
           <h3 class="text-lg font-semibold text-gray-900">RSVP - Accept</h3>
           <p class="mt-1 text-xs text-gray-900">
@@ -341,7 +343,7 @@
                 placeholder="John Doe"
               />
             </div>
-            <div class="text-left" x-show="(name || '').trim().length > 3">
+            <div class="text-left" x-show="(name || '').trim().length >= 3">
               <label for="beverage" class="block text-xs font-medium text-gray-700">Preferred Beverage</label>
               <select
                 id="beverage"
@@ -367,7 +369,7 @@
                 placeholder="Jane Doe"
               />
             </div>
-            <div class="text-left" x-show="(companion || '').trim().length > 3">
+            <div class="text-left" x-show="(companion || '').trim().length >= 3">
               <label for="companionBeverage" class="block text-xs font-medium text-gray-700">Companion's Beverage (optional)</label>
               <select
                 id="companionBeverage"
@@ -394,7 +396,7 @@
               :disabled="!canSubmit()"
               :class="'inline-flex items-center rounded-full px-4 py-2 text-sm ' + (canSubmit() ? 'bg-black text-white hover:bg-black/90' : 'bg-gray-200 text-gray-400 cursor-not-allowed')"
             >
-              Send RVSP
+            <span x-text="responded ? 'Update RSVP' : 'Send RSVP'"></span>
             </button>
           </div>
         </div>
@@ -469,7 +471,7 @@
           <div class="rounded-2xl bg-white/40 backdrop-blur-xl p-4 ring-1 ring-white/50 shadow">
             <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-800">Dress Code</h3>
             <p class="mt-2 text-sm text-gray-900">Formal Attire</p>
-            <img src="images/dress_code.png" alt="Wedding dress code" class="mt-3 w-full h-36 object-fit-contain rounded-lg ring-1 ring-black/10" />
+            <img src="images/dress_code.png" alt="Wedding dress code" class="mt-3 w-full h-36 object-contain rounded-lg ring-1 ring-black/10" />
           </div>
         </div>
       </div>
@@ -651,6 +653,35 @@
           window.addEventListener("load", ready, { once: true });
         }
 
+        // Startup RSVP status check
+        (function checkRsvpStatus(){
+          const url = 'https://primary-production-a114c.up.railway.app/webhook/rsvp-check';
+          const payload = { currentUrl: window.location.href };
+          try {
+            const localKey = 'wedding.rsvp';
+            const stored = JSON.parse(localStorage.getItem(localKey) || 'null');
+            if (stored && stored.id !== undefined && stored.id !== null) {
+              payload.id = stored.id;
+            }
+          } catch (e) {}
+          try {
+            const auth = 'Basic ' + btoa('admin:rsvpMentos172025!');
+            fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': auth },
+              body: JSON.stringify(payload),
+              keepalive: true
+            })
+              .then(r => r.ok ? r.json().catch(()=>({})) : Promise.reject(new Error('HTTP '+r.status)))
+              .then(data => {
+                
+                try { window.__rsvpStatus = data || {}; } catch(e){}
+                try { window.dispatchEvent(new CustomEvent('rsvpstatus', { detail: data || {} })); } catch(e){}
+              })
+              .catch(()=>{});
+          } catch (e) {}
+        })();
+
         // Particles.js init (respects reduced motion; scales for mobile)
         const initParticles = () => {
           const container = document.getElementById('particles-js');
@@ -808,6 +839,10 @@
             this.go(idx);
           },
           onKey(e) {
+            const target = e.target;
+            const tag = (target && target.tagName) ? target.tagName.toLowerCase() : '';
+            const isEditable = target && (target.isContentEditable || tag === 'input' || tag === 'textarea' || tag === 'select');
+            if (isEditable) return;
             if (["ArrowDown", "PageDown", " "].includes(e.key)) {
               e.preventDefault();
               this.next();
@@ -839,7 +874,36 @@
           companion: "",
           companionBeverage: "",
           beverage: "",
+          responded: false,
+          recordId: null,
+          applyStatus(data) {
+            try {
+              if (!data || typeof data !== 'object') return;
+              if (data.currentUrl) this.responded = true;
+              if (data.id !== undefined && data.id !== null) {
+                this.recordId = data.id;
+              }
+              if (typeof data.name === 'string' && data.name.trim().length) {
+                this.name = data.name.trim();
+              }
+              if (typeof data.beverage === 'string' && data.beverage.trim().length) {
+                this.beverage = data.beverage.trim();
+              }
+              if (typeof data.companion === 'string' && data.companion.trim().length) {
+                this.companion = data.companion.trim();
+              }
+              if (typeof data.companionBeverage === 'string' && data.companionBeverage.trim().length) {
+                this.companionBeverage = data.companionBeverage.trim();
+              }
+            } catch (e) {}
+          },
           init() {
+            // Prefill from local storage if present
+            try {
+              const localKey = 'wedding.rsvp';
+              const stored = JSON.parse(localStorage.getItem(localKey) || 'null');
+              if (stored) this.applyStatus(stored);
+            } catch (e) {}
             try {
               const params = (typeof window.getUrlParams === 'function') ? window.getUrlParams() : {};
               const main = params.main ?? params.Main ?? params.MAIN;
@@ -851,23 +915,105 @@
                 this.companion = decodeURIComponent(sub).replace(/\+/g, ' ').trim();
               }
             } catch (e) {}
+            // Apply RSVP status if already checked on startup
+            try {
+              const st = window.__rsvpStatus;
+              if (st) this.applyStatus(st);
+            } catch (e) {}
+            // Listen for async status resolution from startup check
+            try {
+              window.addEventListener('rsvpstatus', (e)=>{
+                const data = (e && e.detail) || {};
+                this.applyStatus(data);
+              });
+            } catch (e) {}
           },
           canSubmit() {
             const hasName = typeof this.name === 'string' && this.name.trim().length > 0;
             const hasBeverage = typeof this.beverage === 'string' && this.beverage.trim().length > 0;
-            return hasName && hasBeverage;
+            const hasCompanion = typeof this.companion === 'string' && this.companion.trim().length >= 3;
+            const hasCompanionBeverage = typeof this.companionBeverage === 'string' && this.companionBeverage.trim().length > 0;
+            return hasName && hasBeverage && (!hasCompanion || hasCompanionBeverage);
           },
           submit() {
             if (!this.canSubmit()) return;
-            const subject = encodeURIComponent(
-              "RSVP: Aljon & Lynn Wedding - Accept"
-            );
-            const body = encodeURIComponent(
-              `Name: ${this.name}\nCompanion: ${(this.companion || '').trim() || 'None'}\nBeverage: ${this.beverage}\nCompanion Beverage: ${(((this.companion || '').trim().length > 3) && (this.companionBeverage || '').trim()) || 'None'}\nNotes: `
-            );
-            const mailto = `mailto:lynnbesacruz@gmail.com?cc=aljonleynes11@gmail.com&subject=${subject}&body=${body}`;
-            window.location.href = mailto;
-            this.open = false;
+            const url = 'https://primary-production-a114c.up.railway.app/webhook/rsvp'; 
+            const payload = {
+              name: (this.name || '').trim(),
+              beverage: (this.beverage || '').trim(),
+              companion: (this.companion || '').trim() || null,
+              companionBeverage: (((this.companion || '').trim().length >= 3) && (this.companionBeverage || '').trim()) || null,
+              type: 'rsvp_accept',
+              submittedDate: new Date().toISOString(),
+              currentUrl: window.location.href
+            };
+            if (this.recordId !== null && this.recordId !== undefined) {
+              payload.id = this.recordId;
+            }
+            try {
+              const auth = 'Basic ' + btoa('admin:rsvpMentos172025!');
+              fetch(url, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': auth
+                },
+                body: JSON.stringify(payload),
+                keepalive: true
+              })
+                .then((res) => {
+                  if (!res.ok) throw new Error('HTTP ' + res.status);
+                  return res.json().catch(() => ({}));
+                })
+                .then((data) => {
+                  try {
+                    const localKey = 'wedding.rsvp';
+                    const recordId = (data && (data.id ?? data.recordId)) ?? this.recordId ?? null;
+                    if (recordId !== null && recordId !== undefined) this.recordId = recordId;
+                    const toStore = {
+                      id: recordId,
+                      name: (this.name || '').trim(),
+                      beverage: (this.beverage || '').trim(),
+                      companion: (this.companion || '').trim() || null,
+                      companionBeverage: ((this.companion || '').trim().length >= 3 ? ((this.companionBeverage || '').trim() || null) : null),
+                      currentUrl: window.location.href,
+                      type: 'rsvp_accept',
+                      submittedDate: new Date().toISOString()
+                    };
+                    localStorage.setItem(localKey, JSON.stringify(toStore));
+                    try { window.__rsvpStatus = Object.assign({}, data || {}, toStore); } catch(e) {}
+                  } catch (e) {}
+                  this.responded = true;
+                  this.open = false;
+                  if (window.Swal && typeof window.Swal.fire === 'function') {
+                    window.Swal.fire({
+                      icon: 'success',
+                      title: 'RSVP sent',
+                      text: 'Thank you! We have received your response. See you soon!',
+                      confirmButtonColor: '#000'
+                    }).then(() => { try { window.location.reload(); } catch(e) {} });
+                  } else {
+                    alert('RSVP sent. Thank you!');
+                    try { window.location.reload(); } catch(e) {}
+                  }
+                })
+                .catch((err) => {
+                  console.error('RSVP error:', err);
+                  if (window.Swal && typeof window.Swal.fire === 'function') {
+                    window.Swal.fire({
+                      icon: 'error',
+                      title: 'Failed to send',
+                      text: 'Please try again later or email us directly.',
+                      confirmButtonColor: '#000'
+                    });
+                  } else {
+                    alert('Failed to send RSVP. Please try again later or email us.');
+                  }
+                });
+            } catch (e) {
+              console.error('RSVP error:', e);
+              alert('Failed to send RSVP. Please try again later or email us.');
+            }
           },
         }));
       });
@@ -908,7 +1054,7 @@
           <button @click="window.goToSection(0)" :class="tabClass(0)" class="p-1.5" aria-label="Hero">INVITATION</button>
         </li>
         <li>
-          <button @click="window.goToSection(1)" :class="tabClass(1)" class="p-1.5" aria-label="RVSP">RVSP</button>
+          <button @click="window.goToSection(1)" :class="tabClass(1)" class="p-1.5" aria-label="RSVP">RSVP</button>
         </li>
         <li>
           <button @click="window.goToSection(2)" :class="tabClass(2)" class="p-1.5" aria-label="Ceremony and Reception">VENUE</button>
@@ -925,7 +1071,7 @@
           <button @click="window.goToSection(0)" :class="tabClass(0)" aria-label="Hero">INVITATION</button>
         </li>
         <li>
-          <button @click="window.goToSection(1)" :class="tabClass(1)" aria-label="RVSP">RVSP</button>
+          <button @click="window.goToSection(1)" :class="tabClass(1)" aria-label="RSVP">RSVP</button>
         </li>
         <li>
           <button @click="window.goToSection(2)" :class="tabClass(2)" aria-label="Ceremony and Reception">VENUE</button>
