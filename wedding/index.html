@@ -47,6 +47,25 @@
         },
       };
     </script>
+    <script>
+      (function setupLoader(){
+        function hideLoader(){
+          try {
+            const el = document.getElementById('app-loader');
+            if (!el) return;
+            el.classList.add('hidden');
+            setTimeout(()=>{ try { el.remove(); } catch(_){} }, 450);
+          } catch(_) {}
+        }
+        if (document.readyState === 'complete') {
+          hideLoader();
+        } else {
+          window.addEventListener('load', hideLoader, { once: true });
+          // Fallback timeout in case 'load' never fires
+          setTimeout(hideLoader, 8000);
+        }
+      })();
+    </script>
     <script
       defer
       src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
@@ -103,6 +122,11 @@
       /* Hide scrollbar utility for overflowed containers */
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       .no-scrollbar::-webkit-scrollbar { display: none; }
+      /* Initial page loader */
+      #app-loader { position: fixed; inset: 0; z-index: 1000; background: #ffffff; display: flex; align-items: center; justify-content: center; transition: opacity 400ms ease; }
+      #app-loader.hidden { opacity: 0; pointer-events: none; }
+      .loader-spinner { width: 48px; height: 48px; border: 3px solid rgba(0,0,0,0.15); border-top-color: #111111; border-radius: 50%; animation: loaderSpin 1s linear infinite; }
+      @keyframes loaderSpin { to { transform: rotate(360deg); } }
       html {
         scrollbar-width: none;
       }
@@ -123,6 +147,9 @@
     x-data="pageNav()"
     x-init="init()"
   >
+    <div id="app-loader" aria-hidden="true">
+      <div class="loader-spinner" role="status" aria-label="Loading"></div>
+    </div>
     <div
       x-data="bgSlideshow()"
       x-init="start()"
@@ -576,7 +603,7 @@
             <div class="grid grid-cols-1 gap-1">
               <div class="backdrop-blur rounded-2xl bg-rose-100/30 px-3 mx-10 ring-1 ring-rose-900/60 shadow-md  bg-rose-100/30 py-5">
                 <h2 class="font-script text-4xl text-center text-rose-900 mt-1"> Principal Sponsors</h2>
-                <div class="mt-8">
+                <div class="mt-4">
                 <div class="space-y-1">
                   <div class="rounded-xl  tracking-wide text-center text-sm text-gray-800 italic font-sponsor">Mr. Jay James Casin</div>
                   <div class="rounded-xl  tracking-wide text-center  text-sm text-gray-800 italic font-sponsor">Mr. Fernando Padrinao</div>
