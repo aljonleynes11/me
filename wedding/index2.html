@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wedding Invitation</title>
+    <meta
+      name="description"
+      content="You're invited to our wedding celebration. Join us for the ceremony and reception."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <meta property="og:title" content="Wedding Invitation" />
+    <meta
+      property="og:description"
+      content="Join us to celebrate our special day."
+    />
+    <meta property="og:image" content="images/ceremony.jpg" />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      window.tailwind = window.tailwind || {};
+      tailwind.config = {
+        safelist: [
+          "bg-gradient-to-br",
+          "from-rose-50",
+          "via-white",
+          "to-sky-50",
+          "from-amber-50",
+          "to-emerald-50",
+          "from-violet-50",
+          "to-indigo-50",
+          "from-sky-50",
+          "to-pink-50",
+          "from-rose-100",
+          "via-white",
+          "to-sky-100",
+          "from-amber-100",
+          "via-white",
+          "to-emerald-100",
+          "from-violet-100",
+          "via-white",
+          "to-indigo-100",
+          "from-sky-100",
+          "via-white",
+          "to-pink-100",
+          "from-pink-100",
+          "via-rose-50",
+          "to-fuchsia-100",
+          "from-rose-100",
+          "via-pink-50",
+          "to-purple-100",
+          "from-fuchsia-100",
+          "to-pink-100",
+          "from-purple-100",
+          "opacity-0",
+          "opacity-30",
+          "opacity-40",
+          "opacity-60",
+        ],
+        theme: {
+          extend: {
+            fontFamily: {
+              script: ["Great Vibes", "cursive"],
+            },
+          },
+        },
+      };
+    </script>
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/typewriter-effect@2.19.0/dist/core.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"
+    ></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body class="">
+    <div id="particles-js" class="fixed inset-0 -z-10 opacity-40"></div>
+
+    <div class="flex flex-col">
+      <div class="h-screen flex items-center justify-center">
+        <div class="flex flex-col items-center justify-center w-full">
+          <p class="uppercase tracking-[0.35em] text-xs text-gray-900 sm:mt-5">
+            Wedding
+          </p>
+          <h1
+            id="hero-names"
+            class="font-script text-5xl sm:text-6xl text-gray-900 mt-5 h-[150px] leading-tight flex items-center justify-center"
+          >
+            Aljon and Lynn
+          </h1>
+          <p class="mt-3 text-xs sm:text-sm text-gray-900">
+            We joyfully invite you to celebrate our union
+          </p>
+
+          <div class="mt-4 w-full max-w-[18rem] sm:max-w-md mx-auto">
+            <div
+              class="text-center rounded-xl bg-white/30 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md"
+            >
+              <div
+                class="text-lg sm:text-2xl lg:text-3xl font-semibold text-gray-900 drop-shadow whitespace-nowrap"
+                x-data
+                x-text="(()=>{const d=new Date('2025-11-09');return d.toLocaleString(navigator.language,{month:'long'})+' '+d.getDate()+' '+d.getFullYear();})()"
+              >
+                November 9 2025
+              </div>
+              <div
+                class="mt-1 font-script text-base sm:text-lg text-gray-900"
+                x-data
+                x-text="(()=>{const d=new Date('2025-11-09');const mm=String(d.getMonth()+1).padStart(2,'0');const dd=String(d.getDate()).padStart(2,'0');const yyyy=d.getFullYear();return `${mm}.${dd}.${yyyy}`;})()"
+              >
+                11.09.2025
+              </div>
+              <div
+                class="mt-1 text-[10px] sm:text-xs tracking-widest text-gray-900"
+                x-data
+                x-text="'(' + new Date('2025-11-09').toLocaleDateString(navigator.language,{weekday:'long'}) + ')'"
+              >
+                (Sunday)
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="mt-2"
+            x-data="countdown('2025-11-09T00:00:00')"
+            x-init="start()"
+          >
+            <div class="w-full max-w-[18rem] sm:max-w-md mx-auto">
+              <p class="text-xs uppercase tracking-[0.25em] text-gray-900">
+                Countdown
+              </p>
+              <div
+                class="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-3 lg:gap-4 animate-fade-up"
+              >
+              <div
+                class="rounded-xl bg-white/20 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
+              >
+                <div
+                  class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
+                  x-text="remaining.days"
+                >
+                  0
+                </div>
+                <div
+                  class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-900"
+                >
+                  Days
+                </div>
+              </div>
+              <div
+                class="rounded-xl bg-white/20 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
+              >
+                <div
+                  class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
+                  x-text="remaining.hours"
+                >
+                  0
+                </div>
+                <div
+                  class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-900"
+                >
+                  Hours
+                </div>
+              </div>
+              <div
+                class="rounded-xl bg-white/20 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
+              >
+                <div
+                  class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
+                  x-text="remaining.minutes"
+                >
+                  0
+                </div>
+                <div
+                  class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-900"
+                >
+                  Minutes
+                </div>
+              </div>
+              <div
+                class="rounded-xl bg-white/20 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
+              >
+                <div
+                  class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
+                  x-text="remaining.seconds"
+                >
+                  0
+                </div>
+                <div
+                  class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-900"
+                >
+                  Seconds
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="h-screen flex items-center justify-center">02</div>
+      <div class="h-screen flex items-center justify-center">03</div>
+    </div>
+  </body>
+  <script>
+    document.addEventListener("alpine:init", () => {
+      Alpine.data("countdown", targetIso => ({
+        remaining: { days: 0, hours: 0, minutes: 0, seconds: 0 },
+        intervalId: null,
+        endTime: new Date(targetIso).getTime(),
+        start() {
+          this.tick();
+          this.intervalId = setInterval(() => this.tick(), 1000);
+        },
+        tick() {
+          const now = Date.now();
+          let diff = Math.max(0, this.endTime - now);
+          const dayMs = 86400000;
+          const hourMs = 3600000;
+          const minuteMs = 60000;
+          const secondMs = 1000;
+          const days = Math.floor(diff / dayMs);
+          diff -= days * dayMs;
+          const hours = Math.floor(diff / hourMs);
+          diff -= hours * hourMs;
+          const minutes = Math.floor(diff / minuteMs);
+          diff -= minutes * minuteMs;
+          const seconds = Math.floor(diff / secondMs);
+          this.remaining = { days, hours, minutes, seconds };
+          if (this.endTime <= now) {
+            clearInterval(this.intervalId);
+          }
+        },
+      }));
+    });
+  </script>
+</html>

@@ -10,46 +10,30 @@
       href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Allura&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       window.tailwind = window.tailwind || {};
       tailwind.config = {
         safelist: [
-          "bg-gradient-to-br",
-          "from-rose-50",
-          "via-white",
-          "to-sky-50",
-          "from-amber-50",
-          "to-emerald-50",
-          "from-violet-50",
-          "to-indigo-50",
-          "from-sky-50",
-          "to-pink-50",
-          "from-rose-100",
-          "via-white",
-          "to-sky-100",
-          "from-amber-100",
-          "via-white",
-          "to-emerald-100",
-          "from-violet-100",
-          "via-white",
-          "to-indigo-100",
-          "from-sky-100",
-          "via-white",
-          "to-pink-100",
-          "from-pink-100","via-rose-50","to-fuchsia-100",
-          "from-rose-100","via-pink-50","to-purple-100",
-          "from-fuchsia-100","to-pink-100",
-          "from-purple-100",
-          "opacity-0",
-          "opacity-30",
-          "opacity-40",
-          "opacity-60",
+          
         ],
         theme: {
           extend: {
             fontFamily: {
               script: ["Great Vibes", "cursive"],
+              sponsor: ["Georgia", "serif"],
             },
           },
         },
@@ -108,6 +92,9 @@
         transform: translateY(0);
         transition: opacity 600ms ease-out, transform 600ms ease-out;
       }
+      /* Hide scrollbar utility for overflowed containers */
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
       html {
         scrollbar-width: none;
       }
@@ -170,10 +157,10 @@
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
       <div class="w-full max-w-3xl text-center reveal-hidden">
-        <p class="uppercase tracking-[0.35em] text-xs text-gray-900 sm:mt-5">Wedding</p>
+        <p class="uppercase tracking-[0.35em] text-xs text-gray-900 sm:mt-5 mb-10">Wedding</p>
         <h1
           id="hero-names"
-          class="font-script text-5xl sm:text-6xl text-gray-900 mt-5 h-[150px] leading-tight flex items-center justify-center"
+          class="font-script text-5xl sm:text-6xl text-rose-800 mt-5 h-[150px] leading-tight flex items-center justify-center"
         >
           Aljon and Lynn
         </h1>
@@ -181,7 +168,7 @@
           We joyfully invite you to celebrate our union
         </p>
         <div class="mt-4 w-full max-w-[18rem] sm:max-w-md mx-auto">
-          <div class="text-center rounded-xl bg-white/30 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md">
+          <div class="text-center rounded-xl bg-white/70 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md">
             <div class="text-lg  sm:text-2xl lg:text-3xl font-semibold text-gray-900 drop-shadow whitespace-nowrap" x-data x-text="(()=>{const d=new Date('2025-11-09');return d.toLocaleString(navigator.language,{month:'long'})+' '+d.getDate()+' '+d.getFullYear();})()">November 9 2025</div>
             <div class="mt-1 font-script text-base sm:text-lg text-gray-900" x-data x-text="(()=>{const d=new Date('2025-11-09');const mm=String(d.getMonth()+1).padStart(2,'0');const dd=String(d.getDate()).padStart(2,'0');const yyyy=d.getFullYear();return `${mm}.${dd}.${yyyy}`;})()">11.09.2025</div>
             <div class="mt-1 text-[10px] sm:text-xs tracking-widest text-gray-900" x-data x-text="'(' + new Date('2025-11-09').toLocaleDateString(navigator.language,{weekday:'long'}) + ')'">(Sunday)</div>
@@ -197,7 +184,7 @@
           </p>
           <div class="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-3 lg:gap-4 max-w-[16rem] sm:max-w-md lg:max-w-xl mx-auto animate-fade-up">
             <div
-              class="rounded-xl bg-white/20 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
+              class="rounded-xl bg-white/70 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
             >
               <div
                 class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
@@ -210,7 +197,7 @@
               </div>
             </div>
             <div
-              class="rounded-xl bg-white/20 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
+              class="rounded-xl bg-white/70 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
             >
               <div
                 class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
@@ -223,7 +210,7 @@
               </div>
             </div>
             <div
-              class="rounded-xl bg-white/20 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
+              class="rounded-xl bg-white/70 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
             >
               <div
                 class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
@@ -236,7 +223,7 @@
               </div>
             </div>
             <div
-              class="rounded-xl bg-white/20 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
+              class="rounded-xl bg-white/70 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
             >
               <div
                 class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
@@ -250,9 +237,7 @@
             </div>
           </div>
         </div>
-        <div class="mt-12">
-          <p class="text-xs text-gray-900">Formal invitation to follow</p>
-        </div>
+     
       </div>
       <div class="absolute bottom-6 left-0 right-0 flex justify-center">
         <button
@@ -263,6 +248,7 @@
         </button>
       </div>
     </section>
+    
     
     <section
       id="venue"
@@ -292,7 +278,7 @@
             <button
               type="button"
               @click="open = true"
-              class="inline-flex items-center rounded-full bg-black text-white px-5 py-2.5 text-sm hover:bg-black/90 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              class="inline-flex items-center rounded-full bg-rose-800/80 text-white px-5 py-2.5 text-sm hover:bg-rose-900 duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
             >
               <span x-text="responded ? 'Update' : 'Accept'"></span>
             </button>
@@ -313,7 +299,7 @@
       <div
         x-show="open"
         x-cloak
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 pb-8"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-rose-400/60 p-4 pb-8"
         @keydown.escape.window="open = false"
       >
         <div
@@ -394,7 +380,7 @@
               type="button"
               @click="submit()"
               :disabled="!canSubmit()"
-              :class="'inline-flex items-center rounded-full px-4 py-2 text-sm ' + (canSubmit() ? 'bg-black text-white hover:bg-black/90' : 'bg-gray-200 text-gray-400 cursor-not-allowed')"
+              :class="'inline-flex items-center rounded-full px-4 py-2 text-sm ' + (canSubmit() ? 'bg-rose-800/80 text-white hover:bg-rose-900' : 'bg-gray-200 text-gray-400 cursor-not-allowed')"
             >
             <span x-text="responded ? 'Update RSVP' : 'Send RSVP'"></span>
             </button>
@@ -417,7 +403,7 @@
             <a
               href="https://www.google.com/maps/search/?api=1&query=Angels%20Gabriel%20Garden%2C%20San%20Gabriel%2C%20Bulacan"
               target="_blank"
-              class="inline-flex items-center rounded-full bg-black text-white px-5 py-2.5 text-sm hover:bg-black/90 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              class="inline-flex items-center rounded-full bg-rose-800/80 text-white px-5 py-2.5 text-sm hover:bg-rose-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
             >Open in Google Maps</a>
           </div>
         </div>
@@ -472,6 +458,175 @@
             <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-800">Dress Code</h3>
             <p class="mt-2 text-sm text-gray-900">Formal Attire</p>
             <img src="images/dress_code.png" alt="Wedding dress code" class="mt-3 w-full h-36 object-contain rounded-lg ring-1 ring-black/10" />
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-6 left-0 right-0 flex justify-center">
+        <button
+          onclick="window.goToSection(4)"
+          class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
+        >
+          Next
+        </button>
+      </div>
+    </section>
+    <!-- Timeline Section (5th) -->
+    <section
+      id="timeline"
+      class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
+      x-init="window.__reveal && window.__reveal.observe($el)"
+    >
+      <div class="w-full max-w-2xl mx-auto text-center reveal-hidden px-2 sm:px-2">
+
+        <div class="mt-8">
+          <div class="rounded-3xl  p-4 sm:p-8 ring-1 ring-rose-900/60 shadow-md  bg-rose-100/30">
+            <h2 class="font-script text-4xl text-rose-900 mt-1 mb-10 "> Wedding Timeline</h2>
+            <div class="relative">
+              
+              
+              <div class="absolute inset-y-0 left-1/2 w-px bg-rose-900/60 mt-10"></div>
+
+              <div class="relative my-4 grid grid-cols-2 gap-3 items-center">
+                <div class="pr-8 flex justify-end">
+                  <div class="w-full max-w-sm rounded-xl bg-rose-800/80 ring-1 ring-white/60 shadow p-4">
+                    <div class="text-[11px] uppercase tracking-wider text-white/90">2:30 PM</div>
+                    <div class="mt-1 flex items-center gap-2 text-2xl text-white font-script"><span class="text-xl">💒</span><span>Ceremony</span></div>
+                  </div>
+                </div>
+                <div></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-white ring-2 ring-rose-900"></div>
+              </div>
+
+              <div class="relative my-4 grid grid-cols-2 gap-3 items-center">
+                <div></div>
+                <div class="pl-8 flex justify-start">
+                  <div class="w-full max-w-sm rounded-xl bg-rose-800/80 ring-1 ring-white/60 shadow p-4">
+                    <div class="text-[11px] uppercase tracking-wider text-white/90">5:00 PM</div>
+                    <div class="mt-1 flex items-center gap-2 text-2xl  text-white font-script"><span class="text-xl">🍸</span><span>Cocktail Hours</span></div>
+                  </div>
+                </div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-white ring-2 ring-rose-900"></div>
+              </div>
+
+              <div class="relative my-4 grid grid-cols-2 gap-3 items-center">
+                <div class="pr-8 flex justify-end">
+                  <div class="w-full max-w-sm rounded-xl bg-rose-800/80 ring-1 ring-white/60 shadow p-4">
+                    <div class="text-[11px] uppercase tracking-wider text-white/90">6:00 PM</div>
+                    <div class="mt-1 flex items-center gap-2 text-2xl  text-white font-script"><span class="text-xl">📝</span><span>Registration of Guest</span></div>
+                  </div>
+                </div>
+                <div></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-white ring-2 ring-rose-900"></div>
+              </div>
+
+              <div class="relative my-4 grid grid-cols-2 gap-3 items-center">
+                <div></div>
+                <div class="pl-8 flex justify-start">
+                  <div class="w-full max-w-sm rounded-xl bg-rose-800/80 ring-1 ring-white/60 shadow p-4">
+                    <div class="text-[11px] uppercase tracking-wider text-white/90">6:30 PM</div>
+                    <div class="mt-1 flex items-center gap-2 text-2xl  text-white font-script"><span class="text-xl">🎉</span><span>Reception Program</span></div>
+                  </div>
+                </div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-white ring-2 ring-rose-900"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-6 left-0 right-0 flex justify-center">
+        <button
+          onclick="window.goToSection(5)"
+          class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
+        >
+          Next
+        </button>
+      </div>
+    </section>
+    <!-- Sponsors Section (6th) -->
+    <section
+      id="sponsors"
+      class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
+      x-init="window.__reveal && window.__reveal.observe($el)"
+    >
+      <div class="w-full max-w-3xl mx-auto text-center reveal-hidden px-2 sm:px-2">
+            <div class="grid grid-cols-1 gap-1">
+              <div class="backdrop-blur rounded-2xl bg-rose-100/30 px-3 mx-10 ring-1 ring-rose-900/60 shadow-md  bg-rose-100/30 py-5">
+                <h2 class="font-script text-4xl text-center text-rose-900 mt-1"> Principal Sponsors</h2>
+                <div class="mt-8">
+                <div class="space-y-1">
+                  <div class="rounded-xl  tracking-wide text-center text-md italic font-sponsor text-gray-800 italic">Mr. Jay James Casin</div>
+                  <div class="rounded-xl  tracking-wide text-center  text-md font-sponsor text-gray-800 italic">Mr. Fernando Padrinao</div>
+                  <div class="rounded-xl  tracking-wide text-center text-md font-sponsor text-gray-800 italic">Dr. Tam Mateo</div>
+                  <div class="rounded-xl  tracking-wide text-center text-md font-sponsor text-gray-800 italic">Hon. Bernie Gojo Cruz</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mr. Howell Inocencio</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mr. Natalio Victolero</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mr. Jonathan Buenaventura</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mr. Alberto Nazareno</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mr. Nelson Manuel</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mr. Jaime Dillena</div>
+                </div>
+                <div class="space-y-1 mt-10">
+                   <div class="rounded-xl mt-3 tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mrs. Norlie Mateo Casin</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mrs. Emelinda Mateo</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mrs. Aida Mateo</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mrs. Arlene Paragas</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mrs. Alice Cabrito</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Ms. Felicitas Mateo</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Ms. Minda Herrera</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mrs. Lucila De Jesus</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mrs. Susan De Mesa</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Ms. Alma Mateo</div>
+                </div>
+              </div>
+             
+            
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-6 left-0 right-0 flex justify-center">
+        <button
+          onclick="window.goToSection(6)"
+          class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
+        >
+          Next
+        </button>
+      </div>
+    </section>
+    <!-- Entourage Section (7th) -->
+    <section
+      id="entourage"
+      class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
+      x-init="window.__reveal && window.__reveal.observe($el)"
+    >
+      <div class="w-full max-w-3xl mx-auto text-center reveal-hidden px-2 sm:px-2">
+            <div class="grid grid-cols-1 gap-1">
+              <div class="backdrop-blur rounded-2xl bg-rose-100/30 px-3 mx-10 ring-1 ring-rose-900/60 shadow-md  bg-rose-100/30 py-5">
+                <h2 class="font-script text-4xl text-center text-rose-900 mt-1"> Entourage</h2>
+                <div class="mt-8">
+                <div class="space-y-1">
+                  <div class="rounded-xl  tracking-wide text-center text-md italic font-sponsor text-gray-800 italic">Mr. Christian Policarpio</div>
+                  <div class="rounded-xl  tracking-wide text-center  text-md font-sponsor text-gray-800 italic">Mr. Alfeo Leynes</div>
+                  <div class="rounded-xl  tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mr. Nathaniel Buenaventura</div>
+                  <div class="rounded-xl  tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mr. Jayvee Mateo</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mr. Antonio Besacruz</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mr. Glabert Bautista</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mr. Ramon Barcial</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mr. Adriel Bautista</div>
+                </div>
+                <div class="space-y-1 mt-10">
+                   <div class="rounded-xl mt-3 tracking-wide text-center text-md font-sponsor text-gray-800 italic">Ms. Lyn Ann Chayene Besacruz</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Ms. Jonnalyn Trinidad</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mrs. Engelyn Bielitz</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mrs. Romavel Roxas</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Ms. Jackielyn Mateo</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Ms. Charla Jean Ecleo</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Ms. Lailanie Concepcion</div>
+                  <div class="rounded-xl tracking-wide text-center text-md font-sponsor text-gray-800 italic">Mrs. Elliza Joyce Santiago</div>
+                </div>
+              </div>
+             
+            
           </div>
         </div>
       </div>
@@ -559,7 +714,7 @@
         }));
 
         Alpine.data("bgSlideshow", () => ({
-          images: Array.from({ length: 8 }, (_, i) => `images/${i + 1}.jpg`),
+          images: Array.from({ length: 6}, (_, i) => `images/${i + 1}.jpg`),
           index: 0,
           aSrc: "",
           bSrc: "",
@@ -966,14 +1121,14 @@
           dotClass(i) {
             return (
               "h-3 w-3 rounded-full ring-2 ring-white/60 transition " +
-              (this.active === i ? "bg-black" : "bg-white/70 hover:bg-white")
+              (this.active === i ? "bg-rose-400" : "bg-white/70 hover:bg-white")
             );
           },
           tabClass(i) {
             return (
               "px-3 py-1.5 rounded-full text-[10px] sm:text-xs ring-1 ring-white/60 backdrop-blur transition " +
               (this.active === i
-                ? "bg-black text-white"
+                ? "bg-rose-800/80 text-white  italic"
                 : "bg-white/70 text-gray-700 hover:bg-white")
             );
           },
@@ -1165,9 +1320,9 @@
     </script>
     <!-- Mobile tabs navigation (top) -->
     <nav class="fixed top-3 left-0 right-0 z-40 sm:hidden">
-      <ul class="mx-auto flex justify-center gap-2">
+      <ul class="mx-auto flex items-center gap-2 overflow-x-auto whitespace-nowrap px-2 no-scrollbar">
         <li>
-          <button @click="window.goToSection(0)" :class="tabClass(0)" class="p-1.5" aria-label="Hero">INVITATION</button>
+          <button @click="window.goToSection(0)" :class="tabClass(0)" class="p-1.5" aria-label="Hero">Home</button>
         </li>
         <li>
           <button @click="window.goToSection(1)" :class="tabClass(1)" class="p-1.5" aria-label="RSVP">RSVP</button>
@@ -1178,13 +1333,22 @@
         <li>
           <button @click="window.goToSection(3)" :class="tabClass(3)" class="p-1.5" aria-label="Details">DRESS CODE</button>
         </li>
+        <li>
+          <button @click="window.goToSection(4)" :class="tabClass(4)" class="p-1.5" aria-label="Timeline">TIMELINE</button>
+        </li>
+        <li>
+          <button @click="window.goToSection(5)" :class="tabClass(5)" class="p-1.5" aria-label="Sponsors">SPONSORS</button>
+        </li>
+        <li>
+          <button @click="window.goToSection(6)" :class="tabClass(6)" class="p-1.5" aria-label="Entourage">ENTOURAGE</button>
+        </li>
       </ul>
     </nav>
     <!-- Sticky tabs navigation (desktop) -->
     <nav class="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden sm:block">
       <ul class="flex flex-col gap-2">
         <li>
-          <button @click="window.goToSection(0)" :class="tabClass(0)" aria-label="Hero">INVITATION</button>
+          <button @click="window.goToSection(0)" :class="tabClass(0)" aria-label="Hero">Home</button>
         </li>
         <li>
           <button @click="window.goToSection(1)" :class="tabClass(1)" aria-label="RSVP">RSVP</button>
@@ -1194,6 +1358,15 @@
         </li>
         <li>
           <button @click="window.goToSection(3)" :class="tabClass(3)" aria-label="Details">DRESS CODE</button>
+        </li>
+        <li>
+          <button @click="window.goToSection(4)" :class="tabClass(4)" aria-label="Timeline">TIMELINE</button>
+        </li>
+        <li>
+          <button @click="window.goToSection(5)" :class="tabClass(5)" aria-label="Sponsors">SPONSORS</button>
+        </li>
+        <li>
+          <button @click="window.goToSection(6)" :class="tabClass(6)" aria-label="Entourage">ENTOURAGE</button>
         </li>
       </ul>
     </nav>
