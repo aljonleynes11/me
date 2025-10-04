@@ -1342,7 +1342,7 @@
     </script>
     <!-- Mobile tabs navigation (top) -->
     <nav class="fixed top-3 left-0 right-0 z-40 sm:hidden">
-      <ul class="mx-auto flex items-center gap-2 overflow-x-auto whitespace-nowrap px-2 no-scrollbar">
+      <ul class="mx-auto flex justify-center gap-2 px-2">
         <li>
           <button @click="window.goToSection(0)" :class="tabClass(0)" class="p-1.5" aria-label="Hero">HOME</button>
         </li>
@@ -1358,6 +1358,9 @@
         <li>
           <button @click="window.goToSection(4)" :class="tabClass(4)" class="p-1.5" aria-label="Timeline">TIMELINE</button>
         </li>
+     
+      </ul>
+      <ul class="mx-auto flex justify-center gap-2 px-2  mt-5">
         <li>
           <button @click="window.goToSection(5)" :class="tabClass(5)" class="p-1.5" aria-label="Sponsors">SPONSORS</button>
         </li>
