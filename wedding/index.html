@@ -27,7 +27,14 @@
       window.tailwind = window.tailwind || {};
       tailwind.config = {
         safelist: [
-          
+          'bg-gradient-to-br',
+          'from-rose-900',
+        
+          'to-sky-900',
+          'from-amber-900',
+          'to-emerald-900',
+          'from-violet-900',
+          'to-indigo-900',
         ],
         theme: {
           extend: {
@@ -1322,7 +1329,7 @@
     <nav class="fixed top-3 left-0 right-0 z-40 sm:hidden">
       <ul class="mx-auto flex items-center gap-2 overflow-x-auto whitespace-nowrap px-2 no-scrollbar">
         <li>
-          <button @click="window.goToSection(0)" :class="tabClass(0)" class="p-1.5" aria-label="Hero">Home</button>
+          <button @click="window.goToSection(0)" :class="tabClass(0)" class="p-1.5" aria-label="Hero">HOME</button>
         </li>
         <li>
           <button @click="window.goToSection(1)" :class="tabClass(1)" class="p-1.5" aria-label="RSVP">RSVP</button>
@@ -1331,7 +1338,7 @@
           <button @click="window.goToSection(2)" :class="tabClass(2)" class="p-1.5" aria-label="Ceremony and Reception">VENUE</button>
         </li>
         <li>
-          <button @click="window.goToSection(3)" :class="tabClass(3)" class="p-1.5" aria-label="Details">DRESS CODE</button>
+          <button @click="window.goToSection(3)" :class="tabClass(3)" class="p-1.5" aria-label="Details">ATTIRE</button>
         </li>
         <li>
           <button @click="window.goToSection(4)" :class="tabClass(4)" class="p-1.5" aria-label="Timeline">TIMELINE</button>
@@ -1348,7 +1355,7 @@
     <nav class="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden sm:block">
       <ul class="flex flex-col gap-2">
         <li>
-          <button @click="window.goToSection(0)" :class="tabClass(0)" aria-label="Hero">Home</button>
+          <button @click="window.goToSection(0)" :class="tabClass(0)" aria-label="Hero">HOME</button>
         </li>
         <li>
           <button @click="window.goToSection(1)" :class="tabClass(1)" aria-label="RSVP">RSVP</button>
