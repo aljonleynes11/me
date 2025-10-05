@@ -117,7 +117,8 @@
       .reveal-show {
         opacity: 1;
         transform: translateY(0);
-        transition: opacity 600ms ease-out, transform 600ms ease-out;
+        transition: opacity 300ms ease-out, transform 600ms ease-out;
+        transition-delay: 600ms;
       }
       /* Hide scrollbar utility for overflowed containers */
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -125,8 +126,10 @@
       /* Initial page loader */
       #app-loader { position: fixed; inset: 0; z-index: 1000; background: #ffffff; display: flex; align-items: center; justify-content: center; transition: opacity 400ms ease; }
       #app-loader.hidden { opacity: 0; pointer-events: none; }
-      .loader-spinner { width: 48px; height: 48px; border: 3px solid rgba(0,0,0,0.15); border-top-color: #111111; border-radius: 50%; animation: loaderSpin 1s linear infinite; }
+       .loader-spinner { width: 48px; height: 48px; border: 3px solid rgba(159,18,57,0.2); border-top-color: #9f1239; border-radius: 50%; animation: loaderSpin 1s linear infinite; }
       @keyframes loaderSpin { to { transform: rotate(360deg); } }
+       /* Small spinner for buttons */
+       .btn-spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.5); border-top-color: #ffffff; border-radius: 9999px; animation: loaderSpin 1s linear infinite; }
       html {
         scrollbar-width: none;
       }
@@ -287,38 +290,45 @@
     
     <section
       id="venue"
-      x-data="rsvp()"
+      x-data="rsvp()" 
       class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
       <div class="w-full max-w-3xl mx-auto text-center reveal-hidden">
-        
-
         <div class="mt-12">
-          <p class="uppercase tracking-[0.35em] text-xs text-gray-900">RSVP</p>
-          <h3 class="font-script text-4xl text-gray-900 mt-3">
+          <h3 class="font-script text-4xl text-gray-900 mt-12">
             We'd love to celebrate with you
           </h3>
-          <p class="mt-3 text-xs text-gray-900">
-            Note: Invitation admits 1 companion only. No Child, please.
-          </p>
-          <p class="mt-3 text-xs text-gray-900">
-            Childless wedding.
-          </p>
-          <h3 class="font-script text-4xl text-gray-900 mt-10" x-show="responded">
-            Thanks for joining us!
+        
+          <h3 class="text-xl text-gray-900 mt-5 bold">
+        Please <br><br><span class="text-rose-800 text-6xl text-bold font-script my-5">  RSVP  </span><br>by October 19, 2025
           </h3>
+         
+         
+        
 
           <div class="mt-6 flex items-center justify-center gap-3 flex-wrap">
             <button
               type="button"
               @click="open = true"
-              class="inline-flex items-center rounded-full bg-rose-800/80 text-white px-5 py-2.5 text-sm hover:bg-rose-900 duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              class="inline-flex items-center rounded-full bg-rose-800/80 text-white tracking-wide px-5 py-2.5 text-sm hover:bg-rose-900 duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
             >
-              <span x-text="responded ? 'Update' : 'Accept'"></span>
+              <span class="underline text-4xl tracking-widest font-sponsor" x-text="responded ? 'RSVP' : 'RSVP'"></span>
             </button>
            
           </div>
+
+          <p class="mt-5 text-xs text-gray-900 mt-5 italic bold font-sponsor">
+           Please click the RSVP button<br>Kindly fill up the form to confirm your attendance.
+          </p>
+
+          <p class=" text-xs text-gray-900 mt-5">
+            Respectfully child-free occasion.
+          </p>
+
+          <h3 class="font-script text-4xl text-gray-900 mt-10" x-show="responded">
+            Thank You!
+          </h3>
         </div>
       </div>
       <div class="absolute bottom-6 left-0 right-0 flex justify-center">
@@ -413,11 +423,14 @@
             </button>
             <button
               type="button"
-              @click="submit()"
-              :disabled="!canSubmit()"
-              :class="'inline-flex items-center rounded-full px-4 py-2 text-sm ' + (canSubmit() ? 'bg-rose-800/80 text-white hover:bg-rose-900' : 'bg-gray-200 text-gray-400 cursor-not-allowed')"
+             @click="submit()"
+             :disabled="!canSubmit() || isSubmitting"
+             :class="'inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition ' + ((canSubmit() && !isSubmitting) ? 'bg-rose-800/80 text-white hover:bg-rose-900' : (isSubmitting ? 'bg-rose-800/60 text-white cursor-wait' : 'bg-gray-200 text-gray-400 cursor-not-allowed'))"
             >
-            <span x-text="responded ? 'Update RSVP' : 'Send RSVP'"></span>
+            <template x-if="isSubmitting">
+              <span class="btn-spinner" aria-hidden="true"></span>
+            </template>
+            <span x-text="isSubmitting ? (responded ? 'Updating…' : 'Sending…') : (responded ? 'Update RSVP' : 'Send RSVP')"></span>
             </button>
           </div>
         </div>
@@ -429,8 +442,8 @@
       class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
-      <div class="w-full max-w-4xl mx-auto text-center reveal-hidden px-2 sm:px-2">
-        <p class="uppercase tracking-[0.35em] text-xs text-gray-900">Ceremony & Venue</p>
+      <div class="w-full max-w-4xl mx-auto text-center reveal-hidden px-2 sm:px-2 ">
+        <p class="uppercase tracking-[0.35em] text-xs text-gray-900 mt-10">Ceremony & Venue</p>
         <div class="mt-3">
           <h2 class="font-script text-4xl text-gray-900 mt-2">Angels Gabriel Garden</h2>
           <p class="mt-2 text-sm text-gray-900">San Gabriel, Bulacan</p>
@@ -443,17 +456,17 @@
           </div>
         </div>
       
-        <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-2">
           <div class="relative">
-            <img src="images/ceremony.jpg" alt="Ceremony" class="w-full max-h-[10rem] sm:max-h-[12rem] object-cover rounded-2xl  shadow-md" />
+            <img src="images/ceremony.jpg" alt="Ceremony" class="w-full max-h-[10rem] sm:max-h-[9rem] object-cover rounded-2xl  shadow-md" />
             <div class="absolute inset-0 flex items-center justify-center">
-              <span class="rounded-md bg-white/40 backdrop-blur-md text-black px-4 py-1.5 text-2xl md:text-base ring-1 ring-white/60 shadow font-script">Ceremony</span>
+              <!-- <span class="rounded-md bg-white/40 backdrop-blur-md text-black px-4 py-1.5 text-2xl md:text-base ring-1 ring-white/60 shadow font-script">Ceremony</span> -->
             </div>
           </div>
           <div class="relative">
-            <img src="images/venue.jpg" alt="Location" class="w-full max-h-[10rem] sm:max-h-[12rem] object-cover rounded-2xl  shadow-md" />
+            <img src="images/venue.jpg" alt="Location" class="w-full max-h-[10rem] sm:max-h-[9rem] object-cover rounded-2xl  shadow-md" />
             <div class="absolute inset-0 flex items-center justify-center">
-              <span class="rounded-md bg-white/40 backdrop-blur-md text-black px-4 py-1.5 text-2xl md:text-base ring-1 ring-white/60 shadow font-script">Reception</span>
+              <!-- <span class="rounded-md bg-white/40 backdrop-blur-md text-black px-4 py-1.5 text-2xl md:text-base ring-1 ring-white/60 shadow font-script">Reception</span> -->
             </div>
           </div>
           <span></span>
@@ -481,34 +494,22 @@
           <div class="rounded-2xl bg-white/40 backdrop-blur-xl p-4 ring-1 ring-white/50 shadow">
             <h2 class="text-sm font-semibold tracking-wider uppercase text-gray-800">Guests</h3>
             <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-800">Color Palette</h3>
-            <div class="mt-3 flex items-center gap-3">
+            <!-- <div class="mt-3 flex items-center gap-3">
               <span class="h-6 w-6 rounded-full ring-1 ring-black/10" style="background:#E0F2FE"></span>
               <span class="h-6 w-6 rounded-full ring-1 ring-black/10" style="background:#DBEAFE"></span>
               <span class="h-6 w-6 rounded-full ring-1 ring-black/10" style="background:#BFDBFE"></span>
               <span class="h-6 w-6 rounded-full ring-1 ring-black/10" style="background:#A5F3FC"></span>
               <span class="h-6 w-6 rounded-full ring-1 ring-black/10" style="background:#C7F0FF"></span>
-            </div>
-            <p class="mt-2 text-xs text-gray-600">Light blue and baby blue tones</p>
+            </div> -->
+            <p class="mt-2 text-xs text-gray-900">Blue tones</p>
+
+            <p class="mt-2 text-sm text-gray-900 mt-5">We would love to see you in youer most comfortable formal or semi-formal attire in these color pallette.</p>
+            <img src="images/attire.png" alt="Wedding dress code" class="mt-3 w-full h-36 object-contain rounded-lg ring-1 ring-black/10  bg-white/20" />
           </div>
 
-          <div class="rounded-2xl bg-white/40 backdrop-blur-xl p-4 ring-1 ring-white/50 shadow">
-            <h2 class="text-sm font-semibold tracking-wider uppercase text-gray-800">Sponsors</h2>
-            <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-800">Color Palette</h3>
-            
-            <div class="mt-3 flex items-center gap-3">
-  
-              <span class="h-6 w-6 rounded-full ring-1 ring-black/10" style="background:#F9A8D4"></span>
-
-            </div>
+         
           
-            <p class="mt-2 text-xs text-gray-600">Blush Pink</p>
-          </div>
-          
-          <!-- <div class="rounded-2xl bg-white/40 backdrop-blur-xl p-4 ring-1 ring-white/50 shadow">
-            <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-800">Dress Code</h3>
-            <p class="mt-2 text-sm text-gray-900">Formal Attire</p>
-            <img src="images/dress_code.png" alt="Wedding dress code" class="mt-3 w-full h-36 object-contain rounded-lg ring-1 ring-black/10" />
-          </div> -->
+       
         </div>
       </div>
       <div class="absolute bottom-6 left-0 right-0 flex justify-center">
@@ -1055,10 +1056,13 @@
               this.observer = new IntersectionObserver(
                 (entries) => {
                   entries.forEach((entry) => {
+                    const el = entry.target;
                     if (entry.isIntersecting) {
-                      entry.target.classList.add("reveal-show");
-                      entry.target.classList.remove("reveal-hidden");
-                      this.observer.unobserve(entry.target);
+                      el.classList.add("reveal-show");
+                      el.classList.remove("reveal-hidden");
+                    } else {
+                      el.classList.remove("reveal-show");
+                      el.classList.add("reveal-hidden");
                     }
                   });
                 },
@@ -1192,6 +1196,7 @@
           beverage: "",
           responded: false,
           recordId: null,
+           isSubmitting: false,
           applyStatus(data) {
             try {
               if (!data || typeof data !== 'object') return;
@@ -1271,6 +1276,8 @@
             if (this.recordId !== null && this.recordId !== undefined) {
               payload.id = this.recordId;
             }
+            if (this.isSubmitting) return;
+            this.isSubmitting = true;
             try {
               const auth = 'Basic ' + btoa('admin:rsvpMentos172025!');
               fetch(url, {
@@ -1311,7 +1318,7 @@
                       icon: 'success',
                       title: 'RSVP sent',
                       text: 'Thank you! We have received your response. See you soon!',
-                      confirmButtonColor: '#000'
+                      confirmButtonColor: '#9f1239'
                     }).then(() => { try { window.location.reload(); } catch(e) {} });
                   } else {
                     alert('RSVP sent. Thank you!');
@@ -1325,15 +1332,17 @@
                       icon: 'error',
                       title: 'Failed to send',
                       text: 'Please try again later or email us directly.',
-                      confirmButtonColor: '#000'
+                      confirmButtonColor: '#9f1239'
                     });
                   } else {
                     alert('Failed to send RSVP. Please try again later or email us.');
                   }
-                });
+                })
+                .finally(() => { this.isSubmitting = false; });
             } catch (e) {
               console.error('RSVP error:', e);
               alert('Failed to send RSVP. Please try again later or email us.');
+              this.isSubmitting = false;
             }
           },
         }));
