@@ -203,8 +203,8 @@
           We joyfully invite you to celebrate our union
         </p>
         <div class="mt-4 w-full max-w-[18rem] sm:max-w-md mx-auto">
-          <div class="text-center rounded-xl bg-white/70 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md">
-            <div class="text-lg  sm:text-2xl lg:text-3xl font-semibold text-gray-900 drop-shadow whitespace-nowrap" x-data x-text="(()=>{const d=new Date('2025-11-09');return d.toLocaleString(navigator.language,{month:'long'})+' '+d.getDate()+' '+d.getFullYear();})()">November 9 2025</div>
+          <div class="text-center rounded-xl bg-white/40 backdrop-blur-xl p-3 sm:p-4 ring-1 ring-white/40 shadow-md ">
+            <div class="text-lg  sm:text-2xl lg:text-3xl font-semibold text-gray-900 drop-shadow whitespace-nowrap " x-data x-text="(()=>{const d=new Date('2025-11-09');return d.toLocaleString(navigator.language,{month:'long'})+' '+d.getDate()+' '+d.getFullYear();})()">November 9 2025</div>
             <div class="mt-1 font-script text-base sm:text-lg text-gray-900" x-data x-text="(()=>{const d=new Date('2025-11-09');const mm=String(d.getMonth()+1).padStart(2,'0');const dd=String(d.getDate()).padStart(2,'0');const yyyy=d.getFullYear();return `${mm}.${dd}.${yyyy}`;})()">11.09.2025</div>
             <div class="mt-1 text-[10px] sm:text-xs tracking-widest text-gray-900" x-data x-text="'(' + new Date('2025-11-09').toLocaleDateString(navigator.language,{weekday:'long'}) + ')'">(Sunday)</div>
           </div>
@@ -219,7 +219,7 @@
           </p>
           <div class="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-3 lg:gap-4 max-w-[16rem] sm:max-w-md lg:max-w-xl mx-auto animate-fade-up">
             <div
-              class="rounded-xl bg-white/70 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
+              class="rounded-xl bg-white/40 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
             >
               <div
                 class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
@@ -232,7 +232,7 @@
               </div>
             </div>
             <div
-              class="rounded-xl bg-white/70 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
+              class="rounded-xl bg-white/40 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
             >
               <div
                 class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
@@ -245,7 +245,7 @@
               </div>
             </div>
             <div
-              class="rounded-xl bg-white/70 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
+              class="rounded-xl bg-white/40 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
             >
               <div
                 class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
@@ -258,7 +258,7 @@
               </div>
             </div>
             <div
-              class="rounded-xl bg-white/70 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
+              class="rounded-xl bg-white/40 backdrop-blur-xl p-1.5 sm:p-3 lg:p-4 ring-1 ring-white/30 shadow-md"
             >
               <div
                 class="text-sm sm:text-lg lg:text-2xl font-semibold text-gray-900"
@@ -445,13 +445,13 @@
       
         <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="relative">
-            <img src="images/ceremony.jpg" alt="Ceremony" class="w-full max-h-[10rem] sm:max-h-[12rem] object-cover rounded-2xl ring-1 ring-white/60 shadow-md" />
+            <img src="images/ceremony.jpg" alt="Ceremony" class="w-full max-h-[10rem] sm:max-h-[12rem] object-cover rounded-2xl  shadow-md" />
             <div class="absolute inset-0 flex items-center justify-center">
               <span class="rounded-md bg-white/40 backdrop-blur-md text-black px-4 py-1.5 text-2xl md:text-base ring-1 ring-white/60 shadow font-script">Ceremony</span>
             </div>
           </div>
           <div class="relative">
-            <img src="images/venue.jpg" alt="Location" class="w-full max-h-[10rem] sm:max-h-[12rem] object-cover rounded-2xl ring-1 ring-white/60 shadow-md" />
+            <img src="images/venue.jpg" alt="Location" class="w-full max-h-[10rem] sm:max-h-[12rem] object-cover rounded-2xl  shadow-md" />
             <div class="absolute inset-0 flex items-center justify-center">
               <span class="rounded-md bg-white/40 backdrop-blur-md text-black px-4 py-1.5 text-2xl md:text-base ring-1 ring-white/60 shadow font-script">Reception</span>
             </div>
@@ -1007,13 +1007,13 @@
           const hasCoarsePointer = window.matchMedia && window.matchMedia('(pointer:coarse)').matches;
           const lowEndHints = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || (navigator.deviceMemory && navigator.deviceMemory <= 2);
           const isMobileLike = hasCoarsePointer || lowEndHints;
-          const particleNumber = isMobileLike ? 60 : 180;
+          const particleNumber = isMobileLike ? 240 : 180;
           const particleSize = 8
-          const moveSpeed = isMobileLike ? 0.35 : 0.6;
+          const moveSpeed = isMobileLike ? 1.5 : 0.6;
           window.particlesJS('particles-js', {
             particles: {
               number: { value: particleNumber, density: { enable: true, value_area: 900 } },
-              color: { value: ["#fb7185", "#f472b6", "#fda4af", "#e879f9", "#7dd3fc"] },
+              color: { value: ["#fb7185", "#f472b6", "#fda4af", "#e879f9", "#7dd3fc", "#EEEEEE"] },
               shape: { type: "circle" },
               opacity: { value: 0.35 },
               size: { value: particleSize, random: true },
