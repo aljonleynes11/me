@@ -88,6 +88,10 @@
       src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
     ></script>
     <style>
+      .my-custom-icon {
+          color: #881337 !important;
+          border-color: #881337 !important;
+      }
       [x-cloak] {
         display: none;
       }
@@ -312,16 +316,16 @@
          
         
 
-          <div class="mt-6 flex items-center justify-center gap-3 flex-wrap">
-            <button
-              type="button"
-              @click="open = true"
-              class="inline-flex items-center rounded-full bg-rose-800/80 text-white tracking-wide px-5 py-2.5 text-sm hover:bg-rose-900 duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-            >
-              <span class="underline text-4xl tracking-widest font-sponsor" x-text="responded ? 'RSVP' : 'RSVP'"></span>
-            </button>
-           
-          </div>
+           <div class="mt-6 flex items-center justify-center gap-3 flex-wrap">
+             <button
+               type="button"
+               @click="showRsvpInfo()"
+               class="inline-flex items-center rounded-full bg-rose-800/80 text-white tracking-wide px-5 py-2.5 text-sm hover:bg-rose-900 duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+             >
+               <span class="underline text-4xl tracking-widest font-sponsor" x-text="responded ? 'RSVP' : 'RSVP'"></span>
+             </button>
+            
+           </div>
 
           <p class="mt-5 text-xs text-gray-900 mt-5 italic bold font-sponsor">
            Please click the RSVP button<br>Kindly fill up the form to confirm your attendance.
@@ -1330,9 +1334,42 @@
             
             return hasName && hasBeverage && companion1Valid && companion2Valid;
           },
-          capitalize(str) {
-            return (str || '').trim().replace(/\b\w/g, c => c.toUpperCase());
-          },
+           capitalize(str) {
+             return (str || '').trim().replace(/\b\w/g, c => c.toUpperCase());
+           },
+           showRsvpInfo() {
+             if (window.Swal && typeof window.Swal.fire === 'function') {
+               window.Swal.fire({
+                 title: 'RSVP Confirmation',
+                 html: `
+                   <div style="text-align: left; line-height: 1.6;">
+                     <p style="margin-bottom: 16px;">While we truly appreciate multiple guests, our wedding has limited seating.</p>
+                     <p style="margin-bottom: 16px;">We kindly ask you to confirm your attendance at your earliest convenience.</p>
+                     <p style="margin-bottom: 16px;">Your RSVP will help us plan and ensure everyone has a wonderful experience. 💍✨</p>
+                   </div>
+                 `,
+                 icon: 'info',
+                 showCancelButton: false,
+                 confirmButtonText: 'Continue to RSVP',
+                 cancelButtonText: 'Cancel',
+                 confirmButtonColor: 'rgba(159, 18, 57, 0.8)',
+                 cancelButtonColor: '#6b7280',
+                 reverseButtons: true,
+                 customClass: {
+                  icon: 'my-custom-icon'
+                 }
+               }).then((result) => {
+                 if (result.isConfirmed) {
+                   this.open = true;
+                 }
+               });
+             } else {
+               // Fallback if SweetAlert is not available
+               if (confirm('While we truly appreciate multiple guests, our wedding has limited seating.\n\nWe kindly ask you to confirm your attendance at your earliest convenience.\n\nYour RSVP will help us plan and ensure everyone has a wonderful experience. 💍✨\n\nDo you want to continue with RSVP?')) {
+                 this.open = true;
+               }
+             }
+           },
           async submit() {
             if (!this.canSubmit()) return;
             const url = 'https://primary-production-a114c.up.railway.app/webhook/rsvp'; 
@@ -1400,7 +1437,10 @@
                       icon: 'success',
                       title: 'RSVP sent',
                       text: 'Thank you! We have received your response. See you soon!',
-                      confirmButtonColor: 'rgba(159, 18, 57, 0.8)'
+                      confirmButtonColor: 'rgba(159, 18, 57, 0.8)',
+                      customClass: {
+                        icon: 'my-custom-icon'
+                      }
                     }).then(() => { try { window.location.reload(); } catch(e) {} });
                   } else {
                     alert('RSVP sent. Thank you!');
