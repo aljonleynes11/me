@@ -59,7 +59,7 @@
             const el = document.getElementById('app-loader');
             if (!el) return;
             el.classList.add('hidden');
-            setTimeout(()=>{ try { el.remove(); } catch(_){} }, 450);
+            setTimeout(()=>{ try { el.remove(); } catch(_){} }, 900);
           } catch(_) {}
         }
         if (document.readyState === 'complete') {
@@ -160,7 +160,8 @@
     x-init="init()"
   >
     <div id="app-loader" aria-hidden="true">
-      <div class="loader-spinner" role="status" aria-label="Loading"></div>
+      <!-- <div class="loader-spinner" role="status" aria-label="Loading"></div> -->
+       <img src="images/loader.jpg" alt="Loading" class="w-100 h-100 object-cover">
     </div>
     <div
       x-data="bgSlideshow()"
@@ -516,28 +517,30 @@
     >
       <div class="w-full max-w-4xl mx-auto text-center reveal-hidden px-2 sm:px-2">
 
-        <h2 class="font-script text-4xl text-rose-900 mt-1">Dress Code</h2>
-        <div class="mt-8  gap-4 text-left">
+        <h2 class="font-script text-4xl text-rose-900 mt-10">Dress Code</h2>
+        <div class="mt-4 gap-2 text-left">
 
 
-          <div class="rounded-2xl bg-white/40 backdrop-blur-xl p-4 ring-1 ring-white/50 shadow">
-            <h2 class="text-sm font-semibold tracking-wider uppercase text-gray-800">Sponsors</h3>
-            <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-800"></h3>
+          <div class="rounded-2xl bg-rose-900/80 text-white backdrop-blur-xl p-4 ring-1 ring-white/50 shadow">
+            <h2 class="text-sm font-semibold tracking-wider uppercase ">Sponsors</h3>
+            <h3 class="text-sm font-semibold tracking-wider uppercase "></h3>
           
-            <p class="my-5 text-xs text-gray-900 italic bold">Barong for Male</p>
-            <p class="my-5 text-xs text-gray-900 italic bold">Dress for Female pink tones</p>
+           <div class="flex items-between gap-2 justify-between">
+            <p class="my-2 text-xs  italic bold">Barong for Male</p>
+            <p class="my-2 text-xs  italic bold">Dress for Female in Pink tones</p>
+           </div>
 
-           
+            <img src="images/sponsors.png" alt="Wedding dress code" class="mt-3 w-full max-h-[6rem] object-contain rounded-lg ring-1 ring-black/10  bg-white/20" />
           </div>
 
-          <div class="rounded-2xl bg-white/40 backdrop-blur-xl p-4 ring-1 ring-white/50 shadow mt-5">
-            <h2 class="text-sm font-semibold tracking-wider uppercase text-gray-800">Guests Color Palette</h3>
-            <h3 class="text-sm font-semibold tracking-wider uppercase text-gray-800"></h3>
+          <div class="rounded-2xl bg-rose-900/80 text-white backdrop-blur-xl p-4 ring-1 ring-white/50 shadow mt-3">
+            <h2 class="text-sm font-semibold tracking-wider uppercase ">Guests Color Palette</h3>
+            <h3 class="text-sm font-semibold tracking-wider uppercase "></h3>
            
-            <p class="my-5 text-xs text-gray-900 italic bold">Blue tones</p>
+            <p class="my-5 text-xs  italic bold">Blue tones</p>
 
-            <p class="mt-2 text-sm text-gray-900 mt-5">We would love to see you in your most comfortable formal or semi-formal attire in these color pallette.</p>
-            <img src="images/attire.png" alt="Wedding dress code" class="mt-3 w-full  object-contain rounded-lg ring-1 ring-black/10  bg-white/20" />
+            <p class="mt-2 text-sm mt-5">We would love to see you in your most comfortable formal or semi-formal attire in these color pallette.</p>
+            <img src="images/attire.png" alt="Wedding dress code" class="mt-3 w-full max-h-[8rem] object-contain rounded-lg ring-1 ring-black/10  bg-white/20" />
           </div>
 
          
