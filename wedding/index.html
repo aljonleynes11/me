@@ -356,13 +356,13 @@
           class="w-full max-w-md rounded-2xl bg-white p-6 text-left shadow-xl pb-8"
         >
           <h3 class="text-lg font-semibold text-gray-900">RSVP - Accept</h3>
-          <p class="mt-1 text-xs text-gray-900">
-            Please indicate your name and your companion's name. One companion
-            only; Childfree, please.
-          </p>
-          <p class="mt-1 text-xs text-gray-900">
-          Childfree Wedding
-          </p>
+           <p class="mt-1 text-xs text-gray-900" x-text="companionCount === 1 ? 'Please indicate your name and your companion\\'s name. One companion only; Childfree, please.' : 'Please indicate your name and your companions\\' names. Up to ' + companionCount + ' companions; Childfree, please.'">
+             Please indicate your name and your companion's name. One companion
+             only; Childfree, please.
+           </p>
+           <p class="mt-1 text-xs text-gray-900">
+           Childfree Wedding
+           </p>
 
           <div class="mt-4 space-y-4">
             <div class="text-left">
@@ -405,18 +405,46 @@
                 placeholder="Jane Doe"
               />
             </div>
-            <div class="text-left" x-show="(companion || '').trim().length >= 3">
-              <label for="companionBeverage" class="block text-xs font-medium text-gray-700">Companion's Beverage (optional)</label>
-              <select
-                id="companionBeverage"
-                x-model="companionBeverage"
-                class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-              >
-                <option value="">-</option>
-                <option value="Coffee">Coffee</option>
-                <option value="Chocolate">Chocolate</option>
-              </select>
-            </div>
+             <div class="text-left" x-show="(companion || '').trim().length >= 3">
+               <label for="companionBeverage" class="block text-xs font-medium text-gray-700">Companion's Beverage (optional)</label>
+               <select
+                 id="companionBeverage"
+                 x-model="companionBeverage"
+                 class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+               >
+                 <option value="">-</option>
+                 <option value="Coffee">Coffee</option>
+                 <option value="Chocolate">Chocolate</option>
+               </select>
+             </div>
+             
+             <!-- Second Companion (only shown if companionCount >= 2) -->
+             <div class="text-left" x-show="companionCount >= 2">
+               <label
+                 for="companion2Name"
+                 class="block text-xs font-medium text-gray-700"
+                 >Second Companion's Name (optional)</label
+               >
+               <input
+                 id="companion2Name"
+                 type="text"
+                 x-model="companion2"
+                 class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+                 placeholder="Jane Doe"
+               />
+             </div>
+             <div class="text-left" x-show="companionCount >= 2 && (companion2 || '').trim().length >= 3">
+               <label for="companion2Beverage" class="block text-xs font-medium text-gray-700">Second Companion's Beverage (optional)</label>
+               <select
+                 id="companion2Beverage"
+                 x-model="companion2Beverage"
+                 class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+               >
+                 <option value="">-</option>
+                 <option value="Coffee">Coffee</option>
+                 <option value="Chocolate">Chocolate</option>
+               </select>
+             </div>
           </div>
           <div class="mt-6 flex items-center justify-end gap-2">
             <button
@@ -1206,10 +1234,13 @@
           name: "",
           companion: "",
           companionBeverage: "",
+          companion2: "",
+          companion2Beverage: "",
           beverage: "",
           responded: false,
           recordId: null,
-           isSubmitting: false,
+          isSubmitting: false,
+          companionCount: 1,
           applyStatus(data) {
             try {
               if (!data || typeof data !== 'object') return;
@@ -1227,12 +1258,33 @@
               if (typeof data.companion === 'string' && data.companion.trim().length) {
                 this.companion = data.companion.trim();
               }
-              if (typeof data.companionBeverage === 'string' && data.companionBeverage.trim().length) {
-                this.companionBeverage = data.companionBeverage.trim();
-              }
+               if (typeof data.companionBeverage === 'string' && data.companionBeverage.trim().length) {
+                 this.companionBeverage = data.companionBeverage.trim();
+               }
+               if (typeof data.companion2 === 'string' && data.companion2.trim().length) {
+                 this.companion2 = data.companion2.trim();
+               }
+               if (typeof data.companion2Beverage === 'string' && data.companion2Beverage.trim().length) {
+                 this.companion2Beverage = data.companion2Beverage.trim();
+               }
+               if (typeof data.companionCount === 'number' && data.companionCount > 0) {
+                 this.companionCount = data.companionCount;
+               }
             } catch (e) {}
           },
           init() {
+            // Check for companion count parameter
+            try {
+              const params = (typeof window.getUrlParams === 'function') ? window.getUrlParams() : {};
+              const companionParam = params.companion ?? params.Companion ?? params.COMPANION;
+              if (typeof companionParam === 'string' && companionParam.length) {
+                const count = parseInt(companionParam, 10);
+                if (!isNaN(count) && count > 0 && count <= 5) {
+                  this.companionCount = count;
+                }
+              }
+            } catch (e) {}
+            
             // Prefill from local storage if present
             try {
               const localKey = 'wedding.rsvp';
@@ -1268,22 +1320,36 @@
             const hasBeverage = typeof this.beverage === 'string' && this.beverage.trim().length > 0;
             const hasCompanion = typeof this.companion === 'string' && this.companion.trim().length >= 3;
             const hasCompanionBeverage = typeof this.companionBeverage === 'string' && this.companionBeverage.trim().length > 0;
-            return hasName && hasBeverage && (!hasCompanion || hasCompanionBeverage);
+            const hasCompanion2 = typeof this.companion2 === 'string' && this.companion2.trim().length >= 3;
+            const hasCompanion2Beverage = typeof this.companion2Beverage === 'string' && this.companion2Beverage.trim().length > 0;
+            
+            // Check first companion
+            const companion1Valid = !hasCompanion || hasCompanionBeverage;
+            // Check second companion if companion count is 2 or more
+            const companion2Valid = this.companionCount < 2 || !hasCompanion2 || hasCompanion2Beverage;
+            
+            return hasName && hasBeverage && companion1Valid && companion2Valid;
+          },
+          capitalize(str) {
+            return (str || '').trim().replace(/\b\w/g, c => c.toUpperCase());
           },
           async submit() {
             if (!this.canSubmit()) return;
             const url = 'https://primary-production-a114c.up.railway.app/webhook/rsvp'; 
             let fingerprint = null;
             try { fingerprint = await (typeof window.getFingerprint === 'function' ? window.getFingerprint() : Promise.resolve(null)); } catch (e) {}
-            const payload = {
-              name: (this.name || '').trim(),
-              beverage: (this.beverage || '').trim(),
-              companion: (this.companion || '').trim() || null,
-              companionBeverage: (((this.companion || '').trim().length >= 3) && (this.companionBeverage || '').trim()) || null,
-              type: 'rsvp_accept',
-              device: fingerprint ?? null,
-              submittedDate: new Date().toISOString()
-            };
+             const payload = {
+               name: this.capitalize(this.name),
+               beverage: this.capitalize(this.beverage),
+               companion: this.capitalize(this.companion) || null,
+               companionBeverage: ((this.capitalize(this.companion) || '').trim().length >= 3) && this.capitalize(this.companionBeverage) || null,
+               companion2: this.companionCount >= 2 ? ((this.capitalize(this.companion2) || '').trim() || null) : null,
+               companion2Beverage: this.companionCount >= 2 ? ((((this.capitalize(this.companion2) || '').trim().length >= 3) && (this.capitalize(this.companion2Beverage) || '').trim()) || null) : null,
+              //  companionCount: this.companionCount,
+               type: 'rsvp_accept',
+               device: fingerprint ?? null,
+               submittedDate: new Date().toISOString()
+             };
             if (fingerprint) payload.device = fingerprint;
             try { console.debug('[RSVP SUBMIT] fingerprint', fingerprint, 'payload', payload); } catch(e) {}
             if (this.recordId !== null && this.recordId !== undefined) {
@@ -1311,16 +1377,19 @@
                     const localKey = 'wedding.rsvp';
                     const recordId = (data && (data.id ?? data.recordId)) ?? this.recordId ?? null;
                     if (recordId !== null && recordId !== undefined) this.recordId = recordId;
-                    const toStore = {
-                      id: recordId,
-                      name: (this.name || '').trim(),
-                      beverage: (this.beverage || '').trim(),
-                      companion: (this.companion || '').trim() || null,
-                      companionBeverage: ((this.companion || '').trim().length >= 3 ? ((this.companionBeverage || '').trim() || null) : null),
-                      device: fingerprint || null,
-                      type: 'rsvp_accept',
-                      submittedDate: new Date().toISOString()
-                    };
+                     const toStore = {
+                       id: recordId,
+                       name: (this.name || '').trim(),
+                       beverage: (this.beverage || '').trim(),
+                       companion: (this.companion || '').trim() || null,
+                       companionBeverage: ((this.companion || '').trim().length >= 3 ? ((this.companionBeverage || '').trim() || null) : null),
+                       companion2: this.companionCount >= 2 ? ((this.companion2 || '').trim() || null) : null,
+                       companion2Beverage: this.companionCount >= 2 ? (((this.companion2 || '').trim().length >= 3 ? ((this.companion2Beverage || '').trim() || null) : null)) : null,
+                      //  companionCount: this.companionCount,
+                       device: fingerprint || null,
+                       type: 'rsvp_accept',
+                       submittedDate: new Date().toISOString()
+                     };
                     localStorage.setItem(localKey, JSON.stringify(toStore));
                     try { window.__rsvpStatus = Object.assign({}, data || {}, toStore); } catch(e) {}
                   } catch (e) {}
