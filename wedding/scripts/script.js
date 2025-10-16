@@ -1,4 +1,26 @@
 (function () {
+  function isIosInAppWebView() {
+    try {
+      const ua = navigator.userAgent || "";
+      const isIOS = /iPhone|iPad|iPod/i.test(ua);
+      const isFacebook = /FBAN|FBAV/i.test(ua) || /FB_IAB/i.test(ua);
+      const isInstagram = /Instagram/i.test(ua);
+      return isIOS && (isFacebook || isInstagram);
+    } catch (e) {
+      return false;
+    }
+  }
+  function safeSwalFire(options) {
+    try {
+      if (window.Swal && typeof window.Swal.fire === "function") {
+        return window.Swal.fire(options);
+      }
+    } catch (e) {}
+    try {
+      console.log("[Message]", (options && (options.title || options.text)) || "");
+    } catch (e) {}
+    return Promise.resolve();
+  }
   function __registerWeddingAlpine() {
     if (window.__weddingAlpineRegistered) return;
     window.__weddingAlpineRegistered = true;
@@ -417,7 +439,10 @@
         retina_detect: true,
       });
     };
-    const readyParticles = () => initParticles();
+  const readyParticles = () => {
+    if (isIosInAppWebView()) return; // avoid crashes in constrained iOS in-app browsers
+    initParticles();
+  };
     if (document.readyState === "complete") {
       readyParticles();
     } else {
@@ -892,7 +917,7 @@
               } catch (e) {}
               this.responded = true;
               this.open = false;
-              if (window.Swal && typeof window.Swal.fire === "function") {
+            if (window.Swal && typeof window.Swal.fire === "function") {
                 window.Swal.fire({
                   icon: "success",
                   title: "RSVP sent",
@@ -901,17 +926,28 @@
                   customClass: {
                     icon: "my-custom-icon",
                   },
-                }).then(() => {
-                  try {
-                    window.location.reload();
-                  } catch (e) {}
-                });
-              } else {
-                alert("RSVP sent. Thank you!");
+              }).then(() => {
                 try {
-                  window.location.reload();
+                  if (!isIosInAppWebView()) {
+                    window.location.reload();
+                  }
                 } catch (e) {}
-              }
+              });
+            } else {
+              safeSwalFire({
+                icon: "success",
+                title: "RSVP sent",
+                text: "Thank you! We have received your response. See you soon!",
+                confirmButtonColor: "rgba(159, 18, 57, 0.8)",
+                customClass: { icon: "my-custom-icon" },
+              }).then(() => {
+                try {
+                  if (!isIosInAppWebView()) {
+                    window.location.reload();
+                  }
+                } catch (e) {}
+              });
+            }
             })
             .catch((err) => {
               console.error("RSVP error:", err);
@@ -922,16 +958,26 @@
                   text: "Please try again later or email us directly.",
                   confirmButtonColor: "rgba(159, 18, 57, 0.8)",
                 });
-              } else {
-                alert("Failed to send RSVP. Please try again later or email us.");
-              }
+            } else {
+              safeSwalFire({
+                icon: "error",
+                title: "Failed to send",
+                text: "Please try again later or email us directly.",
+                confirmButtonColor: "rgba(159, 18, 57, 0.8)",
+              });
+            }
             })
             .finally(() => {
               this.isSubmitting = false;
             });
         } catch (e) {
-          console.error("RSVP error:", e);
-          alert("Failed to send RSVP. Please try again later or email us.");
+        console.error("RSVP error:", e);
+        safeSwalFire({
+          icon: "error",
+          title: "Failed to send",
+          text: "Please try again later or email us directly.",
+          confirmButtonColor: "rgba(159, 18, 57, 0.8)",
+        });
           this.isSubmitting = false;
         }
       },
