@@ -413,7 +413,7 @@
                 <div></div>
                 <div class="pl-8 flex justify-start">
                   <div class="w-full max-w-sm rounded-xl bg-rose-800/80 ring-1 ring-white/60 shadow p-2">
-                    <div class="text-[11px] uppercase tracking-wider text-white/90">5:00 PM</div>
+                    <div class="text-[11px] uppercase tracking-wider text-white/90">4:00 PM</div>
                     <div class="mt-1 flex items-center gap-1 text-base sm:text-xl  text-white font-script"><span class="text-xl">🍸</span><span>Cocktail Hours</span></div>
                   </div>
                 </div>
@@ -423,8 +423,8 @@
               <div class="relative my-4 grid grid-cols-2 gap-3 items-center">
                 <div class="pr-8 flex justify-end">
                   <div class="w-full max-w-sm rounded-xl bg-rose-800/80 ring-1 ring-white/60 shadow p-2">
-                    <div class="text-[11px] uppercase tracking-wider text-white/90">6:00 PM</div>
-                    <div class="mt-1 flex items-center gap-1 text-base sm:text-xl  text-white font-script"><span class="text-xl">📝</span><span>Registration of Guest</span></div>
+                    <div class="text-[11px] uppercase tracking-wider text-white/90">5:00 PM</div>
+                    <div class="mt-1 flex items-center gap-1 text-base sm:text-xl  text-white font-script"><span class="text-xl">📝</span><span>Registration</span></div>
                   </div>
                 </div>
                 <div></div>
@@ -435,7 +435,7 @@
                 <div></div>
                 <div class="pl-8 flex justify-start">
                   <div class="w-full max-w-sm rounded-xl bg-rose-800/80 ring-1 ring-white/60 shadow p-2">
-                    <div class="text-[11px] uppercase tracking-wider text-white/90">6:30 PM</div>
+                    <div class="text-[11px] uppercase tracking-wider text-white/90">5:30 PM</div>
                     <div class="mt-1 flex items-center gap-1 text-base sm:text-xl text-white font-script"><span class="text-xl">🎉</span><span>Reception Program</span></div>
                   </div>
                 </div>
@@ -654,7 +654,7 @@
                 <option value="Chocolate">Chocolate</option>
               </select>
             </div>
-            <div class="text-left">
+            <div class="text-left" x-show="companionCount >= 1">
               <label
                 for="companionName"
                 class="block text-xs font-medium text-gray-700"
@@ -668,7 +668,7 @@
                 placeholder="Jane Doe"
               />
             </div>
-             <div class="text-left" x-show="(companion || '').trim().length >= 3">
+             <div class="text-left" x-show="companionCount >= 1 && (companion || '').trim().length >= 3">
                <label for="companionBeverage" class="block text-xs font-medium text-gray-700">Companion's Beverage (optional)</label>
                <select
                  id="companionBeverage"
