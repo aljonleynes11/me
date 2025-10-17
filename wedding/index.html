@@ -152,6 +152,14 @@
       @media (pointer: fine) {
         html, body { overflow: hidden !important; height: 100%; }
       }
+      /* Responsive tweaks for small devices */
+      @media (max-width: 640px) {
+        html { font-size: 14px; }
+        #hero-names { font-size: clamp(2rem, 9vw, 3rem); }
+      }
+      @media (max-width: 380px) {
+        html { font-size: 13px; }
+      }
     </style>
   </head>
   <body
@@ -200,7 +208,7 @@
     <!-- Particles background (desktop only, subtle) -->
     <div id="particles-js" class="fixed inset-0 pointer-events-none" style="z-index:-5;"></div>
     <section
-      class="flex items-center justify-center min-h-screen px-0 sm:px-6 py-16 snap-start snap-always relative"
+      class="flex items-center justify-center min-h-[80vh] px-0 sm:px-6 py-16 snap-start snap-always relative"
       x-data
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
@@ -287,14 +295,7 @@
         </div>
      
       </div>
-      <div class="absolute bottom-6 left-0 right-0 flex justify-center">
-        <button
-          @click="go(1)"
-          class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
-        >
-          Next
-        </button>
-      </div>
+      
     </section>
     
     
@@ -302,7 +303,7 @@
     <!-- Ceremony Section (3rd) -->
     <section
       id="ceremony"
-      class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
+      class="min-h-[80vh] flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
       <div class="w-full max-w-4xl mx-auto text-center reveal-hidden px-2 sm:px-2 ">
@@ -326,18 +327,11 @@
           <img src="images/venue.jpg" alt="Location" class="w-full max-h-[8rem] object-cover rounded-2xl  shadow-md" />
         </div>
       </div>
-      <div class="absolute bottom-6 left-0 right-0 flex justify-center">
-        <button
-          @click="go(2)"
-          class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
-        >
-          Next
-        </button>
-      </div>
+      
     </section>
     <section
       id="details"
-      class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
+      class="min-h-[80vh] flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
       <div class="w-full max-w-4xl mx-auto text-center reveal-hidden px-2 sm:px-2">
@@ -373,19 +367,12 @@
        
         </div>
       </div>
-      <div class="absolute bottom-6 left-0 right-0 flex justify-center">
-        <button
-          @click="go(3)"
-          class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
-        >
-          Next
-        </button>
-      </div>
+      
     </section>
     <!-- Timeline Section (5th) -->
     <section
       id="timeline"
-      class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
+      class="min-h-[80vh] flex items-center px-0 sm:px-6 py-24 snap-start snap-always relative"
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
       <div class="w-full max-w-2xl mx-auto text-center reveal-hidden px-2 sm:px-2">
@@ -457,19 +444,12 @@
           </div>
         </div>
       </div>
-      <div class="absolute bottom-6 left-0 right-0 flex justify-center">
-        <button
-          @click="go(4)"
-          class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
-        >
-          Next
-        </button>
-      </div>
+      
     </section>
     <!-- Sponsors Section (6th) -->
     <section
       id="sponsors"
-      class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
+      class="min-h-[80vh] flex items-center px-0 sm:px-6 py-32 snap-start snap-always relative"
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
       <div class="w-full max-w-3xl mx-auto text-center reveal-hidden px-2 sm:px-2">
@@ -507,19 +487,12 @@
           </div>
         </div>
       </div>
-      <div class="absolute bottom-6 left-0 right-0 flex justify-center">
-        <button
-          @click="go(5)"
-          class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
-        >
-          Next
-        </button>
-      </div>
+      
     </section>
     <!-- Entourage Section (7th) -->
     <section
       id="entourage"
-      class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
+      class="min-h-[80vh] flex items-center px-0 sm:px-6 py-32 snap-start snap-always relative"
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
       <div class="w-full max-w-3xl mx-auto text-center reveal-hidden px-2 sm:px-2">
@@ -554,20 +527,13 @@
           </div>
         </div>
       </div>
-      <div class="absolute bottom-6 left-0 right-0 flex justify-center">
-        <button
-          @click="go(6)"
-          class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
-        >
-          Next
-        </button>
-      </div>
+      
     </section>
 
     <section
       id="venue"
       x-data="rsvp()" 
-      class="min-h-screen flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative"
+      class="min-h-[90vh] flex items-center px-0 sm:px-6 py-16 snap-start snap-always relative pb-96"
       x-init="window.__reveal && window.__reveal.observe($el)"
     >
       <div class="w-full max-w-3xl mx-auto text-center reveal-hidden">
@@ -745,8 +711,9 @@
           </div>
         </div>
       </div>
+      
     </section>
-    
+
     <!-- Mobile tabs navigation (top) -->
     <nav class="fixed top-3 left-0 right-0 z-40 sm:hidden">
       <ul class="mx-auto flex justify-center gap-2 px-2">
@@ -806,6 +773,18 @@
         </li>
       </ul>
     </nav>
+
+    <!-- Fixed Next button (global) -->
+    <div class="fixed bottom-6 left-0 right-0 z-40 flex justify-center">
+      <button
+        @click="next()"
+        x-show="active < sections.length - 1"
+        class="inline-flex items-center gap-2 text-xs text-gray-700 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full ring-1 ring-gray-200 hover:bg-white/80"
+        aria-label="Next section"
+      >
+        Next
+      </button>
+    </div>
 
     <script src="scripts/script.js"></script>
   </body>
