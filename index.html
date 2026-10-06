@@ -1,218 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aljon Leynes</title>
-  <link rel="stylesheet" href="assets/styles/style.css" />
-  <!-- Include Font Awesome for Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <!-- Include Alpine.js -->
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+  <title>Aljon B. Leynes — Full Stack Mobile Developer + AI Integration Specialist</title>
+  <meta name="description" content="Aljon Leynes builds production Flutter apps on both the App Store and Google Play, and the AI behind them — LLM deployment, RAG, and workflow automation with n8n & Make.com." />
+  <meta property="og:title" content="Aljon B. Leynes — Full Stack Mobile + AI" />
+  <meta property="og:description" content="Flutter apps live on both stores. AI, LLMs, RAG, and automation in production." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 </head>
-
 <body>
-  <!-- Alpine.js Data Scope -->
-  <div x-data="{
-        state: 'about',
-        name: 'Aljon Leynes',
-        jobTitle: 'Full Stack Developer',
-        email: 'aljonleynes11@gmail.com',
-        address: 'Sta Maria Bulacan Philippines',
-        phone1: '+63 961 690 8206',
-        phone2: '+63 943 599 5248',
-        aboutContent: 'I am a developer transitioning from full-stack to AI automation, focusing on creating intelligent and efficient solutions.',
-        github: 'https://github.com/aljonleynes11',
-        linkedin: 'https://www.linkedin.com/in/ajleynes11/',
-        telegram: 'https://t.me/aljonleynes11',
-        techStack: [
-            'Laravel/PHP',
-            'Python',
-            'Flutter/Dart',
-            'Livewire/AlpineJS',
-            'VueJS/Javascript',
-            'Make/n8n/Zapier/FlutterFlow',
-            'AWS',
-            'Telegram Bot',
-            'Tradingview/Pinescript'
-        ],
-        mobileProjects: [
-            { name: 'bukka', path: 'assets/images/projects/bukkaservices.jpg' },
-            { name: 'aiode', path: 'assets/images/projects/aiode.png' },
-            { name: 'cloudmd', path: 'assets/images/projects/cloudmdlogo.png' },
-            { name: 'phreviewer', path: 'assets/images/projects/phreviewer.png' },
-            { name: 'iwallet', path: 'assets/images/projects/iwallet.png' },
-     
-        ],
-        webProjects: [
-            { name: 'sigma', path: 'assets/images/projects/sigma.png', link: 'https://sigmasolutions.org.uk/' },
-            { name: 'iamcare', path: 'assets/images/projects/iamcare.png', link: 'https://iamcare.com.au/' },
-            { name: 'wheelcheck', path: 'assets/images/projects/wheelcheck.png', class: 'w-120', link: 'https://wheelcheck.co.uk/' },
-            { name: 'bukka', path: 'assets/images/projects/bukkaservices.jpg', class: 'w-120', link: 'https://bukkaservices.com' },
-        ],
-        aiProjects : [
-            { name: 'QZ', path: 'assets/images/projects/qz.png', link: 'https://t.me/s/qz_analysis' },
-        ]
-    }">
-    <div class="navbar">
-      <a href="#" id="nav" :class="state == 'about' ? 'active' : 'na'" x-on:click="state = 'about'">Me</a>
-      <a href="#" id="nav" :class="state == 'tech' ? 'active' : 'na'" x-on:click="state = 'tech'">Tech Stack</a>
-      <a href="#" id="nav" :class="state == 'projects' ? 'active' : 'na'" x-on:click="state = 'projects'">Projects</a>
+
+  <!-- ============================= NAV ============================= -->
+  <header class="nav" x-data="{ open: false }">
+    <div class="container nav__inner">
+      <a href="#top" class="nav__brand">
+        <span class="nav__logo">&lt;/&gt;</span>
+        <span>Aljon<span class="accent">.Leynes</span></span>
+      </a>
+
+      <nav class="nav__links" :class="open ? 'is-open' : ''">
+        <a href="#work" @click="open = false">Work</a>
+        <a href="#ai" @click="open = false">AI &amp; Automation</a>
+        <a href="#skills" @click="open = false">Skills</a>
+        <a href="#about" @click="open = false">About</a>
+        <a href="#contact" @click="open = false" class="btn btn--ghost btn--sm">Let's talk</a>
+        <a href="https://github.com/aljonleynes11" target="_blank" rel="noopener" class="btn btn--primary btn--sm nav__github">GitHub ↗</a>
+      </nav>
+
+      <button class="nav__toggle" @click="open = !open" :aria-expanded="open" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+  </header>
 
-    <div class="business-card">
-      <img src="assets/images/me.png" class="flip-in-ver-right img" alt="Aljon Leynes" x-show="state=='about'" />
-      <div class="details scale-in-center" x-show="state=='about'">
-        <h1 class="name" x-text="name"></h1>
-        <p x-text="jobTitle"></p>
-        <p><i x-text="aboutContent"></i></p>
+  <main id="top">
 
-        <!-- Contact Info -->
-        <div class="contact-info">
-          <p>
-            <i class="fas fa-envelope icon"></i>
-            Email: <a :href="'mailto:' + email" x-text="email"></a>
+    <!-- ============================= HERO ============================= -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="hero__eyebrow"><span class="dot"></span> Available for new opportunities</p>
+          <h1 class="hero__title">
+            I build production mobile apps —<br />
+            <span class="grad">and the AI that powers them.</span>
+          </h1>
+          <p class="hero__sub">
+            Full Stack Mobile Developer + AI Integration Specialist with 6+ years shipping Flutter apps and Laravel backends.
+            Now specializing in AI — LLM deployment, RAG, and workflow automation with n8n &amp; Make.com.
           </p>
-          <p>
-            <i class="fas fa-phone icon"></i>
-            Phone: <a :href="'tel:' + phone1" x-text="phone1"></a>
-            |
-            <a :href="'tel:' + phone2" x-text="phone2"></a>
-          </p>
-          <p>
-            <i class="fas fa-map-marker-alt icon"></i>
-            Address: <span x-text="address"></span>
-          </p>
-        </div>
 
-        <!-- Social Links -->
-        <div class="social-links">
-          <a :href="linkedin" target="_blank" class="slide-bck-center">
-            <i class="fab fa-linkedin"></i>
-          </a>
-          <a :href="github" target="_blank" class="slide-bck-center">
-            <i class="fab fa-github"></i>
-          </a>
-          <a :href="telegram" target="_blank" class="slide-bck-center">
-            <i class="fab fa-telegram"></i>
-          </a>
-        </div>
-      </div>
-
-      <div class="details scale-in-center tech-stack" x-show="state=='tech'">
-        <h1>Tech Stack</h1>
-        <ul>
-          <template x-for="tech in techStack" :key="tech">
-            <li x-text="tech"></li>
-          </template>
-        </ul>
-      </div>
-
-      <div class="details projects2 scale-in-center" x-show="state=='projects'">
-        <h1>Projects</h1>
-
-        <!-- Mobile Projects -->
-        <div class="project-section">
-          <h2>Mobile</h2>
-          <div class="project-grid">
-            <template x-for="project in mobileProjects" :key="project.name">
-              <div>
-                <a href="#">
-                  <img :src="project.path" :alt="project.name" class="project-image mobile-project" />
-                </a>
-
-              </div>
-            </template>
+          <div class="hero__cta">
+            <a href="#work" class="btn btn--primary">See my work</a>
+            <a href="https://github.com/aljonleynes11" target="_blank" rel="noopener" class="btn btn--ghost">GitHub ↗</a>
+            <a href="https://play.google.com/store/apps/details?id=com.resolvrdigital.autoledge" target="_blank" rel="noopener" class="btn btn--link">Download AutoLedge →</a>
           </div>
+
+          <ul class="proof">
+            <li><strong>60K+</strong><span>users across my apps</span></li>
+            <li><strong>6+</strong><span>years shipping software</span></li>
+            <li><strong>3</strong><span>apps on App Store &amp; Play</span></li>
+            <li><strong>20h</strong><span>saved / week via AI</span></li>
+          </ul>
         </div>
 
-        <!-- Web Projects -->
-        <div class="project-section">
-          <h2>Web <small> </small></h2>
-          <div class="project-grid">
-            <template x-for="project in webProjects" :key="project.name">
-              <div>
-                <a :href="project.link" target="_blank">
-                  <img :src="project.path" :alt="project.name" :link="project.link" class="project-image" />
-                </a>
+        <div class="hero__mockups">
+          <div class="phone phone--center">
+            <div class="phone__screen">
+              <img src="assets/images/autoledge-mobile.png" alt="AutoLedge — AI + OCR receipt scanner" loading="lazy" />
+              <div class="phone__caption">
+                <div class="phone__label">AutoLedge</div>
+                <div class="phone__tag">AI · OCR receipt → ledger</div>
               </div>
-            </template>
+            </div>
+            <div class="phone__badge"><a href="https://play.google.com/store/apps/details?id=com.resolvrdigital.autoledge" target="_blank" rel="noopener">▶ Play Store</a></div>
           </div>
-        </div>
-
-        <div class="project-section">
-          <h2>AI Automation</h2>
-          <div class="project-grid">
-            <template x-for="project in aiProjects" :key="project.name">
-              <div>
-                <a :href="project.link" target="_blank">
-                  <img :src="project.path" :alt="project.name" class="project-image" />
-                </a>
+          <div class="phone phone--left">
+            <div class="phone__screen">
+              <img src="assets/images/bukka-logo.png" alt="Bukka Services logo" loading="lazy" />
+              <div class="phone__caption">
+                <div class="phone__label">Bukka Services</div>
+                <div class="phone__tag">60K+ users · 4.3★</div>
               </div>
-            </template>
+            </div>
+          </div>
+          <div class="phone phone--right">
+            <div class="phone__screen">
+              <img src="assets/images/bukka-business-logo.png" alt="Bukka Business logo" loading="lazy" />
+              <div class="phone__caption">
+                <div class="phone__label">Bukka Business</div>
+                <div class="phone__tag">Real-time driver app</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- ============================= WORK ============================= -->
+    <section class="section" id="work">
+      <div class="container">
+        <div class="section__head">
+          <h2>Selected Work</h2>
+          <p class="section__lede">Production apps on the App Store &amp; Google Play — plus the systems behind them.</p>
+        </div>
+
+        <!-- Filter (Alpine) -->
+        <div class="filter" x-data="{ filter: 'all' }">
+          <button :class="filter === 'all' ? 'filter__btn is-active' : 'filter__btn'" @click="filter = 'all'">All</button>
+          <button :class="filter === 'mobile' ? 'filter__btn is-active' : 'filter__btn'" @click="filter = 'mobile'">Mobile</button>
+          <button :class="filter === 'backend' ? 'filter__btn is-active' : 'filter__btn'" @click="filter = 'backend'">Backend</button>
+          <button :class="filter === 'ai' ? 'filter__btn is-active' : 'filter__btn'" @click="filter = 'ai'">AI &amp; Automation</button>
+
+          <div class="grid grid--3">
+
+            <!-- AutoLedge -->
+            <article class="card" x-show="filter === 'all' || filter === 'mobile' || filter === 'ai'">
+              <div class="card__thumb card__thumb--autoledge"><img src="assets/images/autoledgecover.webp" alt="AutoLedge cover" loading="lazy" /><span>FLAGSHIP</span></div>
+              <div class="card__body">
+                <div class="tags"><span class="tag">Flutter</span><span class="tag tag--ai">AI</span><span class="tag tag--ai">OCR</span><span class="tag">Google Play</span></div>
+                <h3>AutoLedge</h3>
+                <p class="card__desc">AI + OCR app that reads transaction screenshots — extracting amount, date, and reference — and turns them into an organized, searchable ledger for Southeast Asian markets.</p>
+                <ul class="card__list">
+                  <li>OCR receipt scanner — amount, date &amp; reference auto-extracted</li>
+                  <li>Cash-in / cash-out tracking + duplicate detection</li>
+                  <li>100% owned: design → Google Play release → updates</li>
+                </ul>
+                <div class="card__meta"><strong>100% ownership</strong><span>·</span><span>Solo build</span></div>
+                <div class="card__links">
+                  <a href="https://play.google.com/store/apps/details?id=com.resolvrdigital.autoledge" target="_blank" rel="noopener" class="store-btn">▶ Google Play</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Bukka Services -->
+            <article class="card" x-show="filter === 'all' || filter === 'mobile' || filter === 'backend'">
+              <div class="card__thumb card__thumb--bukka"><img src="assets/images/bukka-logo.png" alt="Bukka Services logo" loading="lazy" /><span>60K+ USERS</span></div>
+              <div class="card__body">
+                <div class="tags"><span class="tag">Flutter</span><span class="tag">iOS + Android</span><span class="tag">Stripe</span></div>
+                <h3>Bukka Services</h3>
+                <p class="card__desc">Customer-facing app for a door-to-door waste collection company — book collections, request photo quotes, and pay in-app.</p>
+                <ul class="card__list">
+                  <li>Calendar booking, repeat schedules &amp; reminders</li>
+                  <li>Photo-quote feature + Stripe payments</li>
+                  <li>Live on both stores · 60K+ users · 4.3★</li>
+                </ul>
+                <div class="card__meta"><strong>100% ownership</strong><span>·</span><span>60K+ users</span></div>
+                <div class="card__links">
+                  <a href="https://apps.apple.com/gb/app/bukka-services/id1615377602" target="_blank" rel="noopener" class="store-btn"> App Store</a>
+                  <a href="https://play.google.com/store/apps/details?id=com.bukka.bukkawaste_user" target="_blank" rel="noopener" class="store-btn">▶ Play</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Bukka Business -->
+            <article class="card" x-show="filter === 'all' || filter === 'mobile'">
+              <div class="card__thumb card__thumb--driver"><img src="assets/images/bukka-business-logo.png" alt="Bukka Business logo" loading="lazy" /><span>REAL-TIME</span></div>
+              <div class="card__body">
+                <div class="tags"><span class="tag">Flutter</span><span class="tag">Google Maps</span><span class="tag">Real-time</span></div>
+                <h3>Bukka Business</h3>
+                <p class="card__desc">Driver app showing real-time locations of booked households for efficient collections — paired with the customer app over a shared backend.</p>
+                <ul class="card__list">
+                  <li>Real-time driver assignment &amp; job notifications</li>
+                  <li>Google Maps integration + live household locations</li>
+                  <li>Fleet &amp; staff management, calendar sales view</li>
+                </ul>
+                <div class="card__meta"><strong>20+ companies</strong><span>use this platform</span></div>
+                <div class="card__links">
+                  <a href="https://apps.apple.com/ph/app/bukka-business/id6497225313" target="_blank" rel="noopener" class="store-btn"> App Store</a>
+                  <a href="https://play.google.com/store/apps/details?id=com.bukka.businessapp" target="_blank" rel="noopener" class="store-btn">▶ Play</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- CRM -->
+            <article class="card" x-show="filter === 'all' || filter === 'backend'">
+              <div class="card__thumb card__thumb--crm"><span>1 OF 5 CRMs</span></div>
+              <div class="card__body">
+                <div class="tags"><span class="tag">Laravel</span><span class="tag">Livewire</span><span class="tag">Vue.js</span><span class="tag">Stripe Connect</span></div>
+                <h3>Custom CRM</h3>
+                <p class="card__desc">A CRM built from scratch around a client's exact sales workflow — web + Flutter mobile over one backend, with multi-vendor payments.</p>
+                <ul class="card__list">
+                  <li>Stripe / Stripe Connect + GoCardless integration</li>
+                  <li>Push notifications + map coordinates</li>
+                  <li>Led a team of 3 developers</li>
+                </ul>
+                <div class="card__meta"><strong>Led team of 3</strong><span>·</span><span>5 CRMs built</span></div>
+              </div>
+            </article>
+
+            <!-- Multi-vendor -->
+            <article class="card" x-show="filter === 'all' || filter === 'backend'">
+              <div class="card__thumb card__thumb--mvp"><span>MARKETPLACE</span></div>
+              <div class="card__body">
+                <div class="tags"><span class="tag">Flutter</span><span class="tag">Laravel</span><span class="tag">GoCardless</span></div>
+                <h3>Multi-vendor Platform</h3>
+                <p class="card__desc">Vendor onboarding, ordering, and automated payouts on web and mobile — customer + vendor apps over a shared backend.</p>
+                <ul class="card__list">
+                  <li>Automated vendor payouts (Stripe Connect)</li>
+                  <li>Customer + vendor app experiences</li>
+                  <li>End-to-end payment flow</li>
+                </ul>
+                <div class="card__meta"><strong>Production</strong><span>·</span><span>Payments</span></div>
+              </div>
+            </article>
+
+            <!-- AI / RAG -->
+            <article class="card" x-show="filter === 'all' || filter === 'ai'">
+              <div class="card__thumb card__thumb--ai"><span>AI FLAGSHIP</span></div>
+              <div class="card__body">
+                <div class="tags"><span class="tag tag--ai">LLM</span><span class="tag tag--ai">RAG</span><span class="tag">Docker</span><span class="tag">n8n</span></div>
+                <h3>AI Automation &amp; RAG</h3>
+                <p class="card__desc">Deployed a self-hosted LLM (Docker + Ollama + Deepseek) and productized a 500-page knowledgebase as a RAG add-on.</p>
+                <ul class="card__list">
+                  <li>RAG over a 500-page knowledgebase (paywalled add-on)</li>
+                  <li>n8n &amp; Make.com workflow automation</li>
+                  <li>Banner automation saving 20 hrs/week</li>
+                </ul>
+                <div class="card__meta"><strong>20 hrs/week saved</strong><span>·</span><span>LLM in production</span></div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= WEB PROJECTS ============================= -->
+    <section class="section" id="web">
+      <div class="container">
+        <div class="section__head">
+          <h2>Web Projects</h2>
+          <p class="section__lede">Client websites and web platforms, shipped to production.</p>
+        </div>
+        <div class="web-grid">
+          <a href="https://sigmasolutions.org.uk/" target="_blank" rel="noopener" class="web-item" title="Sigma Solutions">
+            <img src="assets/images/projects/sigma.png" alt="Sigma Solutions" loading="lazy" />
+            <span>Sigma Solutions</span>
+          </a>
+          <a href="https://iamcare.com.au/" target="_blank" rel="noopener" class="web-item" title="iamcare">
+            <img src="assets/images/projects/iamcare.png" alt="iamcare" loading="lazy" />
+            <span>iamcare</span>
+          </a>
+          <a href="https://wheelcheck.co.uk/" target="_blank" rel="noopener" class="web-item" title="WheelCheck">
+            <img src="assets/images/projects/wheelcheck.png" alt="WheelCheck" loading="lazy" />
+            <span>WheelCheck</span>
+          </a>
+          <a href="https://bukkaservices.com" target="_blank" rel="noopener" class="web-item" title="Bukka Services">
+            <img src="assets/images/projects/bukkaservices.jpg" alt="Bukka Services" loading="lazy" />
+            <span>Bukka Services</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= AI & AUTOMATION ============================= -->
+    <section class="section section--alt" id="ai">
+      <div class="container">
+        <div class="section__head">
+          <h2>AI &amp; Automation</h2>
+          <p class="section__lede">I don't just call AI APIs — I deploy them and wire them into real workflows.</p>
+        </div>
+
+        <div class="grid grid--2">
+          <div class="ai-tile">
+            <span class="ai-tile__icon">🧠</span>
+            <h3>Self-hosted LLM</h3>
+            <p>Deployed an internal LLM with Docker, Ollama, and Deepseek — running in production, not just a notebook.</p>
+          </div>
+          <div class="ai-tile">
+            <span class="ai-tile__icon">📚</span>
+            <h3>RAG Knowledgebase</h3>
+            <p>Productized a 500-page knowledgebase as a paywalled RAG add-on to an existing product.</p>
+          </div>
+          <div class="ai-tile">
+            <span class="ai-tile__icon">⚙️</span>
+            <h3>Workflow Automation</h3>
+            <p>n8n &amp; Make.com pipelines that remove manual work across reporting, ops, and content.</p>
+          </div>
+          <div class="ai-tile">
+            <span class="ai-tile__icon">⏱️</span>
+            <h3>Measurable ROI</h3>
+            <p>Automated banner generation cut 20 hours/week from graphic and front-end workload.</p>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <span>Tools I work with:</span>
+          <span class="tool">n8n</span><span class="tool">Make.com</span><span class="tool">Ollama</span><span class="tool">Deepseek</span><span class="tool">FlowiseAI</span><span class="tool">OCR</span><span class="tool">Docker</span><span class="tool">RAG / Vector DBs</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= SKILLS ============================= -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section__head">
+          <h2>Skills</h2>
+          <p class="section__lede">Core stack: Flutter · Laravel · Vue · Docker · n8n · Ollama</p>
+        </div>
+
+        <div class="grid grid--2">
+          <div class="skill">
+            <h3 class="skill__title">📱 Mobile</h3>
+            <div class="chips"><span class="chip chip--primary">Flutter (Dart)</span><span class="chip">iOS &amp; Android publishing</span><span class="chip">Firebase / Supabase</span><span class="chip">Google Maps &amp; geolocation</span><span class="chip">Real-time features</span><span class="chip">Codemagic (CI/CD)</span></div>
+          </div>
+          <div class="skill">
+            <h3 class="skill__title">🤖 AI &amp; Automation</h3>
+            <div class="chips"><span class="chip chip--ai">LLM deployment (Ollama, Deepseek)</span><span class="chip chip--ai">RAG &amp; vector DBs</span><span class="chip chip--ai">OCR (receipt/document scanning)</span><span class="chip chip--ai">n8n / Make.com</span><span class="chip">AI prompting &amp; agents</span><span class="chip">FlowiseAI</span></div>
+          </div>
+          <div class="skill">
+            <h3 class="skill__title">🖥️ Backend</h3>
+            <div class="chips"><span class="chip">PHP / Laravel</span><span class="chip">Livewire</span><span class="chip">Vue.js</span><span class="chip">MySQL / PostgreSQL</span><span class="chip">Stripe &amp; Stripe Connect</span><span class="chip">GoCardless</span><span class="chip">REST APIs</span></div>
+          </div>
+          <div class="skill">
+            <h3 class="skill__title">🚀 DevOps &amp; Infra</h3>
+            <div class="chips"><span class="chip">Docker</span><span class="chip">AWS / DigitalOcean</span><span class="chip">cPanel</span><span class="chip">Git</span><span class="chip">Self-hosted (Mattermost, NextCloud)</span></div>
+          </div>
+          <div class="skill skill--full">
+            <h3 class="skill__title">🤝 Soft Skills</h3>
+            <div class="chips"><span class="chip">Team leadership (led 3 devs)</span><span class="chip">Communication (fluent English)</span><span class="chip">Problem-solving</span><span class="chip">Time management</span><span class="chip">Customer focus</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= ABOUT ============================= -->
+    <section class="section section--alt" id="about">
+      <div class="container container--narrow">
+        <div class="section__head">
+          <h2>About Me</h2>
+        </div>
+
+        <div class="about">
+          <p>
+            I've spent the last <strong>6+ years building software people actually use</strong> — Flutter apps on both the
+            App Store and Google Play, Laravel and Vue.js backends, and the CRMs, ERP, and multi-vendor platforms that keep
+            real businesses running. I've owned entire products from the first sketch to store release, led a team of three
+            developers, and shipped three apps that are live right now — including <strong>AutoLedge</strong>, an AI-powered
+            app that reads transaction screenshots and turns them into a searchable ledger.
+          </p>
+          <p>
+            What excites me most right now is the <strong class="grad">intersection of mobile and AI</strong>. I've deployed
+            self-hosted LLMs with Docker, Ollama, and Deepseek, built RAG systems over a 500-page knowledgebase, and automated
+            workflows with n8n and Make.com that saved teams 20 hours a week. My edge is that I don't just prototype AI — I
+            <strong>ship it into production</strong>, the same way I've always shipped mobile apps.
+          </p>
+          <p>
+            I'm looking for a team where I can build end-to-end: solid mobile and backend foundations, with AI and automation on top.
+          </p>
+        </div>
+
+        <!-- Experience timeline -->
+        <div class="timeline">
+          <div class="timeline__item">
+            <span class="timeline__dot"></span>
+            <div class="timeline__content">
+              <h4>AI Integration Specialist</h4>
+              <span class="timeline__meta">SociallyIn · 2025 – 2026</span>
+              <p>LLM deployment (Docker/Ollama/Deepseek), RAG, n8n &amp; Make.com automation, AI tool evaluation and proof-of-concepts.</p>
+            </div>
+          </div>
+          <div class="timeline__item">
+            <span class="timeline__dot"></span>
+            <div class="timeline__content">
+              <h4>Full Stack Developer</h4>
+              <span class="timeline__meta">ExpaDigital · 2021 – 2025</span>
+              <p>Built 5 CRMs, 1 ERP, 2 geo-location apps, and a multi-vendor platform. Led 3 developers. Published apps to both stores.</p>
+            </div>
+          </div>
+          <div class="timeline__item">
+            <span class="timeline__dot"></span>
+            <div class="timeline__content">
+              <h4>Junior App Developer</h4>
+              <span class="timeline__meta">DearWolves Studio · 2019 – 2021</span>
+              <p>Built mobile apps in Java, Swift, and Flutter; translated native apps to hybrid Flutter.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= CONTACT ============================= -->
+    <section class="section" id="contact">
+      <div class="container container--narrow contact">
+        <h2>Let's build something <span class="grad">end-to-end.</span></h2>
+        <p>Open to full-stack mobile roles and AI-focused engineering work. Get in touch.</p>
+        <div class="contact__cta">
+          <a id="contact-email" href="#" class="btn btn--primary">Send Email</a>
+          <a href="https://github.com/aljonleynes11" target="_blank" rel="noopener" class="btn btn--ghost">GitHub ↗</a>
+        </div>
+        <p class="contact__loc">📍 Sta. Maria, Bulacan, Philippines</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span>© <span x-data x-text="new Date().getFullYear()"></span> Aljon B. Leynes</span>
     </div>
-  </div>
+  </footer>
+
+  <script>
+    // Obfuscated email — decoded at runtime so scrapers don't pick it up.
+    (function () {
+      var link = document.getElementById('contact-email');
+      if (link) link.href = atob('bWFpbHRvOmFsam9ubGV5bmVzMTFAZ21haWwuY29t');
+    })();
+  </script>
+
 </body>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".web-project").forEach((button) => {
-      let hoverTimer;
-
-      button.addEventListener("mouseover", function () {
-        console.log("here");
-
-        // Get the `src` attribute of the hovered image
-        let href = button.getAttribute("link");
-
-        hoverTimer = setTimeout(() => {
-          Swal.fire({
-            html: `<iframe src="${href}" width="100%" height="90%" style="border:none;"></iframe>`,
-            showCloseButton: false,
-            showConfirmButton: false,
-            customClass: {
-              popup: "swal-wide", // Apply custom class
-            },
-          });
-        }, 1000);
-      });
-
-      button.addEventListener("mouseout", function () {
-        clearTimeout(hoverTimer); // Cancel if user moves away before 2 seconds
-      });
-    });
-
-
-    document.querySelectorAll(".mobile-project").forEach((button) => {
-      button.addEventListener("click", function () {
-        fetch("mobile.html") // Path to your HTML file
-          .then((response) => response.text()) // Convert the response to text
-          .then((htmlContent) => {
-            // Display the content in SweetAlert2
-            Swal.fire({
-              html: htmlContent, // Use the fetched HTML content
-              showCloseButton: true,
-              showConfirmButton: false,
-              customClass: {
-                popup: "swal-full", // Apply custom class
-              },
-            });
-          })
-          .catch((error) => {
-            console.error("Error loading the HTML file:", error);
-            Swal.fire({
-              title: "Error",
-              text: "Failed to load content.",
-              icon: "error",
-            });
-          });
-      }, 1000);
-    });
-  });
-</script>
-
 </html>
